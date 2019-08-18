@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0E570C">
+
+    <!--Header(profile photo & name) -->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl_header"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/account_circle"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/iv_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="박소이"
+            android:textColor="#ffffff"
+            android:textSize="21sp" />
+
+    </RelativeLayout>
+
+
+    <!--menu  -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/rl_header"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/menu_icon" />
+
+            <TextView
+                android:id="@+id/tv_payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="결제하기"
+                android:textColor="#ffffff"
+                android:textSize="21sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/menu_icon" />
+
+            <TextView
+                android:id="@+id/tv_sharing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공유하기"
+                android:layout_marginLeft="40dp"
+                android:textColor="#ffffff"
+                android:textSize="21sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/menu_icon" />
+
+            <TextView
+                android:id="@+id/tv_gift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선물하기"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="40dp"
+                android:textSize="21sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/menu_icon" />
+
+            <TextView
+                android:id="@+id/tv_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Support"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="40dp"
+                android:textSize="21sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--</ScrollView>-->
+
+</RelativeLayout>
