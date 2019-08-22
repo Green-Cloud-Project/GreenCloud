@@ -37,7 +37,8 @@ public class LayoutListFragment extends Fragment {
         MAP,
         NEWS,
         MACHINE,
-        NAVIGATION
+        NAVIGATION,
+        KAKAO_LOGIN,
     }
 
     public LayoutListFragment() {
