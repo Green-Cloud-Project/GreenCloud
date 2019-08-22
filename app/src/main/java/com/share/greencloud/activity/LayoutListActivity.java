@@ -1,5 +1,6 @@
 package com.share.greencloud.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.share.greencloud.fragment.InputCodeFragment;
 import com.share.greencloud.fragment.LayoutListFragment;
 import com.share.greencloud.fragment.LoginFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
+import com.share.greencloud.kakaologin.KakaoLoginActiviy;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
         GreenCloudInfoFragment.OnFragmentInteractionListener,
@@ -62,6 +64,10 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 break;
             case CODE:
                 vp.setCurrentItem(6);
+                break;
+            case KAKAO_LOGIN:
+                Intent intent = new Intent(LayoutListActivity.this, KakaoLoginActiviy.class);
+                startActivity(intent);
                 break;
         }
     }
