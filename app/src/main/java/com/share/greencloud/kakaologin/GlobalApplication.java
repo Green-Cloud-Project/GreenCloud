@@ -1,4 +1,4 @@
-package com.share.greencloud.kakaologin;
+package com.share.greencloud.AndroidTest;
 
 import android.app.Application;
 
