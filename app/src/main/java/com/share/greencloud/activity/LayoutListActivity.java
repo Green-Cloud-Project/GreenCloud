@@ -18,6 +18,7 @@ import com.share.greencloud.fragment.InputCodeFragment;
 import com.share.greencloud.fragment.LayoutListFragment;
 import com.share.greencloud.fragment.LoginFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
+import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
@@ -69,6 +70,11 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 Intent intent = new Intent(LayoutListActivity.this, KakaoLoginActiviy.class);
                 startActivity(intent);
                 break;
+            case GOOGLE_LOGIN:
+                Intent g_intent = new Intent(LayoutListActivity.this, GoogleLoginActivity.class);
+                startActivity(g_intent);
+                break;
+
         }
     }
 

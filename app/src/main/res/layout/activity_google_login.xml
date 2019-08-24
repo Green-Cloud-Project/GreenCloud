@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".googlelogin.GoogleLoginActivity">
+
+    <LinearLayout
+        android:id="@+id/top_linearLayout"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_google_login"
+        android:layout_width="250dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:background="#cf4333"
+        android:text="Google Login"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_below="@+id/top_linearLayout"
+        android:layout_marginTop="50dp"
+        android:padding="15dp"
+        android:drawableLeft="@drawable/google_icon"
+        android:drawableStart="@drawable/google_icon"
+        />
+
+
+    <Button
+        android:id="@+id/btn_google_logout"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="#ffff00"
+        android:gravity="center"
+        android:text="Google loginout"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:layout_below="@+id/top_linearLayout"
+        android:layout_marginTop="50dp"
+
+        />
+
+
+</RelativeLayout>

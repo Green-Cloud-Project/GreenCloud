@@ -39,6 +39,7 @@ public class LayoutListFragment extends Fragment {
         MACHINE,
         NAVIGATION,
         KAKAO_LOGIN,
+        GOOGLE_LOGIN,
     }
 
     public LayoutListFragment() {
