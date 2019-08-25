@@ -35,47 +35,62 @@
         app:srcCompat="@drawable/logo_small" />
 
     <Button
-        android:id="@+id/joinBtn"
+        android:id="@+id/btn_facebook"
         android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_color"
-        android:text="회원가입"
+        android:text="페이스북 로그인"
         android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/loginBtn"
+        android:id="@+id/btn_google"
         android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_color"
         android:onClick="login"
-        android:text="로그인"
+        android:text="구글 로그인"
         android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook" />
 
     <Button
-        android:id="@+id/loginBtn2"
+        android:id="@+id/btn_kakao"
         android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_color"
-        android:text="비회원 "
+        android:text="카카오 로그인"
         android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_google" />
+
+    <Button
+        android:id="@+id/btn_naver"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_button_color"
+        android:text="네이버 로그인"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kakao" />
 
 </android.support.constraint.ConstraintLayout>
