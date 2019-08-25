@@ -46,7 +46,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
 
     }
 
-    private class SessionCallback implements ISessionCallback {
+    public class SessionCallback implements ISessionCallback {
 
         @Override
         public void onSessionOpened() {

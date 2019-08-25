@@ -3,12 +3,17 @@ package com.share.greencloud.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 import com.share.greencloud.fragment.CameraFragment;
 import com.share.greencloud.fragment.DrawerFragment;
@@ -31,6 +36,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         InputCodeFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
+
+    LoginFragment loginFragment;
 
 
     @Override
@@ -96,7 +103,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 case 0:
                     return new LayoutListFragment();
                 case 1:
-                    return LoginFragment.newInstance();
+                    loginFragment = LoginFragment.newInstance();
+                    return loginFragment;
                 case 2:
                     return MyGreenFragment.newInstance("", "");
                 case 3:
@@ -122,5 +130,13 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
     @Override
     public void onBackPressed() {
         vp.setCurrentItem(0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(loginFragment != null)
+            loginFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
