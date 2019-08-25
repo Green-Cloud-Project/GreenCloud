@@ -96,7 +96,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 case 0:
                     return new LayoutListFragment();
                 case 1:
-                    return LoginFragment.newInstance("", "");
+                    return LoginFragment.newInstance();
                 case 2:
                     return MyGreenFragment.newInstance("", "");
                 case 3:
