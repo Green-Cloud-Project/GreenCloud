@@ -143,7 +143,8 @@ public class GoogleLoginActivity extends AppCompatActivity implements GoogleApiC
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            //account.getIdToken()
+            String token = account.getIdToken();
+            //TODO : send s token to server to validate
             updateUI(account);
         } catch (ApiException e) {
             Toast.makeText(this, "handleSignInResult= " + e.getStatusCode(), Toast.LENGTH_SHORT).show();

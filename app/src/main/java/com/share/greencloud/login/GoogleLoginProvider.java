@@ -28,7 +28,7 @@ public class GoogleLoginProvider {
 
         //Not sure whether need to send id token to server.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                // .requestIdToken("424239551614-a5uk8o5d1148bgb374jhjbphe7370n31.apps.googleusercontent.com")
+                .requestIdToken(context.getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
