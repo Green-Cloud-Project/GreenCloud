@@ -19,6 +19,7 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 import com.share.greencloud.R;
+import com.share.greencloud.login.SessionCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,23 +47,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
 
     }
 
-    public class SessionCallback implements ISessionCallback {
 
-        @Override
-        public void onSessionOpened() {
-            if (Session.getCurrentSession().isOpened()) { // 한 번더 세션을 체크해주었습니다.
-                requestMe();
-            }
-
-        }
-
-        @Override
-        public void onSessionOpenFailed(KakaoException exception) {
-            if (exception != null) {
-                Logger.e(exception);
-            }
-        }
-    }
 
     private void requestMe() {
         List<String> keys = new ArrayList<>();
