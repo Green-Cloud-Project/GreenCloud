@@ -85,7 +85,10 @@ public class KakaoLoginActiviy extends AppCompatActivity {
             @Override
             public void onSuccess(MeV2Response response) {
                 Log.e("onSuccess", response.toString());
+
                 Toast.makeText(KakaoLoginActiviy.this, response.getNickname()+ "님이 카카오 간편 로그인에 성공하였습니다!", Toast.LENGTH_SHORT).show();
+                // todo: Access Token 서버 전달
+                String accessToken = Session.getCurrentSession().getTokenInfo().getAccessToken();
                 saveShared(response.getNickname(),response.getKakaoAccount().getEmail(),response.getProfileImagePath());
             }
         });
