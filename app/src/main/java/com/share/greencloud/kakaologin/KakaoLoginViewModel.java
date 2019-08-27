@@ -8,8 +8,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 class KakaoLoginViewModel extends ViewModel {
     final private Context context;
+    private String accesToken = "";
 
-    public KakaoLoginViewModel(Context context) {
+    KakaoLoginViewModel(Context context) {
         this.context = context;
     }
 
@@ -21,5 +22,9 @@ class KakaoLoginViewModel extends ViewModel {
         editor.putString("email", emailAddress);
         editor.putString("profileImg", profileUrl);
         editor.apply();
+    }
+
+    void saveAccessToken(String accesToken){
+        //todo
     }
 }
