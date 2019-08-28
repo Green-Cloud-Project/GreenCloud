@@ -9,11 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 import com.share.greencloud.fragment.CameraFragment;
 import com.share.greencloud.fragment.DrawerFragment;
@@ -22,6 +18,7 @@ import com.share.greencloud.fragment.GreenCloudInfoFragment;
 import com.share.greencloud.fragment.InputCodeFragment;
 import com.share.greencloud.fragment.LayoutListFragment;
 import com.share.greencloud.fragment.LoginFragment;
+import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
 import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
@@ -33,7 +30,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         DrawerFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener,
         GetUmbrellaCompleteFragment.OnFragmentInteractionListener,
-        InputCodeFragment.OnFragmentInteractionListener {
+        InputCodeFragment.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
 
@@ -81,7 +79,9 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 Intent g_intent = new Intent(LayoutListActivity.this, GoogleLoginActivity.class);
                 startActivity(g_intent);
                 break;
-
+            case MAP:
+                vp.setCurrentItem(7);
+                break;
         }
     }
 
@@ -116,7 +116,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 case 6:
                     return GetUmbrellaCompleteFragment.newInstance("", "");
                 case 7:
-                    return InputCodeFragment.newInstance("", "");
+                    return MapFragment.newInstance();
             }
             return null;
         }
@@ -136,7 +136,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(loginFragment != null)
+        if (loginFragment != null)
             loginFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
