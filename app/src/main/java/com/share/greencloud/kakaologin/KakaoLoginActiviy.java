@@ -1,5 +1,6 @@
 package com.share.greencloud.kakaologin;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
     private LoginButton btn_kakao_login;
     private SessionCallback callback;
     private KakaoLoginViewModel viewModel;
+    private KakaoLoginVeiwModelFactory veiwModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,8 @@ public class KakaoLoginActiviy extends AppCompatActivity {
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
 
-        viewModel = new KakaoLoginViewModel(getApplicationContext());
+        veiwModelFactory = new KakaoLoginVeiwModelFactory();
+        viewModel = ViewModelProviders.of(this, veiwModelFactory).get(KakaoLoginViewModel.class);
 
         btn_kakao_login = findViewById(R.id.com_kakao_login);
         btn_kakao_login.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +95,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
                 // todo: Access Token 서버 전달
                 String accessToken = Session.getCurrentSession().getTokenInfo().getAccessToken();
                 viewModel.saveAccessToken(accessToken);
-                viewModel.saveShared(response.getNickname(), response.getKakaoAccount().getEmail(), response.getProfileImagePath());
+                //viewModel.saveShared(response.getNickname(), response.getKakaoAccount().getEmail(), response.getProfileImagePath());
             }
         });
 
