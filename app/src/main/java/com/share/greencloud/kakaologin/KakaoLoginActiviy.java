@@ -2,6 +2,7 @@ package com.share.greencloud.kakaologin;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,12 +12,12 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 import com.share.greencloud.R;
+import com.share.greencloud.databinding.ActivityKakaoLoginActiviyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,15 @@ import java.util.List;
 import timber.log.Timber;
 
 public class KakaoLoginActiviy extends AppCompatActivity {
-    private LoginButton btn_kakao_login;
     private SessionCallback callback;
     private KakaoLoginViewModel viewModel;
     private KakaoLoginVeiwModelFactory veiwModelFactory;
+    private ActivityKakaoLoginActiviyBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kakao_login_activiy);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_kakao_login_activiy);
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
@@ -41,8 +42,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
         veiwModelFactory = new KakaoLoginVeiwModelFactory();
         viewModel = ViewModelProviders.of(this, veiwModelFactory).get(KakaoLoginViewModel.class);
 
-        btn_kakao_login = findViewById(R.id.com_kakao_login);
-        btn_kakao_login.setOnClickListener(new View.OnClickListener() {
+        binding.comKakaoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, KakaoLoginActiviy.this);
@@ -100,7 +100,6 @@ public class KakaoLoginActiviy extends AppCompatActivity {
         });
 
     }
-
 
 
     @Override
