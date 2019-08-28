@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".kakaologin.KakaoLoginActiviy">
 
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/com_kakao_login"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:layout_centerInParent="true"
-         />
+    <data>
+        <variable
+            name="kakaoLogin"
+            type="com.share.greencloud.kakaologin.KakaoLoginActiviy" />
+    </data>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/com_kakao_login"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+</layout>
