@@ -3,6 +3,8 @@ package com.share.greencloud.kakaologin;
 import android.app.Application;
 
 import com.kakao.auth.KakaoSDK;
+import com.squareup.leakcanary.LeakCanary;
+
 
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
@@ -22,6 +24,13 @@ public class GlobalApplication extends Application {
 
         // Kakao Sdk 초기화
         KakaoSDK.init(new KakaoSDKAdapter());
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     @Override

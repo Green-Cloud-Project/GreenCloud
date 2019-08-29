@@ -1,18 +1,24 @@
 package com.share.greencloud.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.api.internal.LifecycleCallback;
+import com.google.android.gms.common.api.internal.LifecycleFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,10 +26,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.share.greencloud.R;
 import com.share.greencloud.databinding.FragmentMapBinding;
+import com.share.greencloud.lifecycleobserver.MyObserver;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+import timber.log.Timber;
+
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
+
+public class MapFragment extends Fragment implements OnMapReadyCallback, LifecycleFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -35,10 +46,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FragmentMapBinding binding;
 
     private GoogleMap mMap;
-    private final LatLng mDefaultLocation = new LatLng(-37.56, 126.97);
+    LocationManager locationManager;
+
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
+
+    private MyObserver observer;
 
     public MapFragment() {
         // Required empty public constructor
@@ -63,18 +77,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
 
+        observer = new MyObserver(this, getContext());
+
         if (mMap == null) {
+            Timber.d("getMapAsync is called");
             binding.map.getMapAsync(this);
         }
 
-        binding.ivCurrentLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo
-            }
-        });
-
-        // Inflate the layout for this fragment
         return binding.getRoot();
     }
 
@@ -140,9 +149,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-//액티비티가 처음 생성될 때 실행되는 함수
-
+        //액티비티가 처음 생성될 때 실행되는 함수
         if (binding.map != null) {
             binding.map.onCreate(savedInstanceState);
         }
@@ -150,41 +157,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Timber.i("onMapReady() is called");
+
         mMap = googleMap;
+        LatLng myPosition = getPosition(); // 현재 위치 정보 가져옴.
 
-        // 기본 표시 지역은 서울시청으로 지정
-        LatLng seoul = new LatLng(37.56, 126.97);
-        mMap.addMarker(new MarkerOptions().position(seoul).title("Marker in Seoul"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul));
-
-        // Enable the zoom controls for the map
+        mMap.addMarker(new MarkerOptions().position(myPosition).title("Marker in my current Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
-        // Prompt the user for permission.
-        getLocationPermission();
     }
 
-    private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        mLocationPermissionGranted = false;
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    private LatLng getPosition() {
+        Location location = providerInfo();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        return new LatLng(latitude, longitude);
+    }
+
+    private Location providerInfo() {
+        Criteria criteria = new Criteria();
+        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.getBestProvider(criteria, true);
+        final Location location = new Location("");
+        if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (!mLocationPermissionGranted) {
+                // 기본 표시 지역은 서울으로 지정
+                location.setLatitude(37.56);
+                location.setLongitude(126.97);
+                return location;
+            }
         }
+        return locationManager.getLastKnownLocation(provider);
+    }
+
+    @Override
+    public <T extends LifecycleCallback> T getCallbackOrNull(String s, Class<T> aClass) {
+        return null;
+    }
+
+    @Override
+    public void addCallback(String s, @NonNull LifecycleCallback lifecycleCallback) {
+
+    }
+
+    @Override
+    public Activity getLifecycleActivity() {
+        return null;
+    }
+
+    @Override
+    public boolean isCreated() {
+        return false;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return false;
     }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }
