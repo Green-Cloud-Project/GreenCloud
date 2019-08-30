@@ -1,7 +1,6 @@
 package com.share.greencloud.fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -10,15 +9,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.api.internal.LifecycleCallback;
-import com.google.android.gms.common.api.internal.LifecycleFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,7 +30,7 @@ import timber.log.Timber;
 
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, LifecycleFragment {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -126,12 +122,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Lifecyc
     public void onResume() {
         super.onResume();
         binding.map.onResume();
+        Timber.i("onResume() is called");
+        if (mMap != null) {
+            Timber.d("getMapAsync is called again");
+            binding.map.getMapAsync(this);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         binding.map.onPause();
+        Timber.i("onPause() is called");
     }
 
     @Override
@@ -189,31 +191,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Lifecyc
             }
         }
         return locationManager.getLastKnownLocation(provider);
-    }
-
-    @Override
-    public <T extends LifecycleCallback> T getCallbackOrNull(String s, Class<T> aClass) {
-        return null;
-    }
-
-    @Override
-    public void addCallback(String s, @NonNull LifecycleCallback lifecycleCallback) {
-
-    }
-
-    @Override
-    public Activity getLifecycleActivity() {
-        return null;
-    }
-
-    @Override
-    public boolean isCreated() {
-        return false;
-    }
-
-    @Override
-    public boolean isStarted() {
-        return false;
     }
 
     public interface OnFragmentInteractionListener {

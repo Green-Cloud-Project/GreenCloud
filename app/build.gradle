@@ -48,11 +48,13 @@ dependencies {
     // 구글맵 라이브러리
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.libraries.places:places:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
 
     // 메모리릭 검출 라이브러리
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     testImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
+    // 서치뷰 라이브러리
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 }
