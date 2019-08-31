@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".activity.LayoutListActivity" />
         <activity android:name=".googlelogin.GoogleLoginActivity" />
+        <activity android:name=".activity.MyGreenActivity"></activity>
+
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
