@@ -16,9 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
 import com.share.greencloud.fragment.CameraFragment;
@@ -44,7 +41,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         GetUmbrellaCompleteFragment.OnFragmentInteractionListener,
         InputCodeFragment.OnFragmentInteractionListener,
         JkAppFragment.OnFragmentInteractionListener,
-		        MapFragment.OnFragmentInteractionListener {
+        MapFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
 
@@ -102,15 +99,14 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 Intent g_intent = new Intent(LayoutListActivity.this, GoogleLoginActivity.class);
                 startActivity(g_intent);
                 break;
-				
-				            case MAP:
-                vp.setCurrentItem(7);
-                break;
 
             case MyApp:
                 vp.setCurrentItem(8);       //
                 break;
 
+            case MAP:
+                vp.setCurrentItem(7);
+                break;
         }
     }
 
@@ -150,8 +146,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 case 8:    // add
                     facebookSNSFragment = JkAppFragment.newInstance("", "");
                     return facebookSNSFragment;
-					
-					                case 9:
+
+                case 9:
                     return MapFragment.newInstance();
             }
             return null;
@@ -171,8 +167,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // return
-        if(facebookSNSFragment != null)
-        facebookSNSFragment.onActivityResult(requestCode, resultCode, data);
+        if (facebookSNSFragment != null)
+            facebookSNSFragment.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         if (loginFragment != null)
@@ -195,7 +191,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
-        } else {
+        }
+        else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);

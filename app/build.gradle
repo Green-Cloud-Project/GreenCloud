@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -39,7 +39,9 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui:1.0.0'
 
     // 카카오 로그인 sdk를 사용하기 위해 필요.
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version:
+
+    project.KAKAO_SDK_VERSION
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
     //네이버 로그인
@@ -47,7 +49,6 @@ dependencies {
 
     //페이스북 로그인
     implementation 'com.facebook.android:facebook-login:[5,6)'
-
 
     // 로그 출력
     implementation 'com.jakewharton.timber:timber:4.7.1'
