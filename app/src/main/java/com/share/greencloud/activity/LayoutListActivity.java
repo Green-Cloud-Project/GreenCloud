@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
+import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
 import com.share.greencloud.fragment.CameraFragment;
 import com.share.greencloud.fragment.DrawerFragment;
 import com.share.greencloud.fragment.GetUmbrellaCompleteFragment;
@@ -33,11 +34,13 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         DrawerFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener,
         GetUmbrellaCompleteFragment.OnFragmentInteractionListener,
-        InputCodeFragment.OnFragmentInteractionListener {
+        InputCodeFragment.OnFragmentInteractionListener,
+        JkAppFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
 
     LoginFragment loginFragment;
+    JkAppFragment facebookSNSFragment;
 
 
     @Override
@@ -82,6 +85,10 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 startActivity(g_intent);
                 break;
 
+            case MyApp:
+                vp.setCurrentItem(8);       //
+                break;
+
         }
     }
 
@@ -117,14 +124,18 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                     return GetUmbrellaCompleteFragment.newInstance("", "");
                 case 7:
                     return InputCodeFragment.newInstance("", "");
+
+                case 8:    // add
+                    facebookSNSFragment = JkAppFragment.newInstance("", "");
+                    return facebookSNSFragment;
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 8;
-        }
+            return 9;
+        }   // count
     }
 
     @Override
@@ -134,9 +145,12 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // return
+        if(facebookSNSFragment != null)
+        facebookSNSFragment.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(loginFragment != null)
+        if (loginFragment != null)
             loginFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

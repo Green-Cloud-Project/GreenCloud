@@ -9,6 +9,7 @@ public class LoginManager {
     private GoogleLoginProvider googleLoginProvider;
     private KakaoLoginProvider kakaoLoginProvider;
     private NaverLoginProvider naverLoginProvider;
+    private FacebookLoginProvider facebookLoginProvider;
     private LoginType currentLoginType;
 
     public static LoginManager getInstance() {
@@ -21,6 +22,7 @@ public class LoginManager {
         googleLoginProvider = new GoogleLoginProvider();
         kakaoLoginProvider = new KakaoLoginProvider();
         naverLoginProvider = new NaverLoginProvider();
+        facebookLoginProvider = new FacebookLoginProvider();
 
     }
 
@@ -37,6 +39,7 @@ public class LoginManager {
                 naverLoginProvider.signIn(activity);
                 break;
             case FACEBOOK:
+                facebookLoginProvider.signIn(activity);
                 break;
         }
     }
@@ -53,6 +56,7 @@ public class LoginManager {
             case NAVER:
                 break;
             case FACEBOOK:
+                facebookLoginProvider.onActivityResult(requestCode, resultCode, data);
                 break;
         }
 

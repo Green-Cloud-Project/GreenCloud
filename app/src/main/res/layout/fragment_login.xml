@@ -22,6 +22,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/background_button_color"
             android:text="페이스북 로그인"
+            android:onClick="@{(v)->LoginManager.instance.signIn(LoginType.FACEBOOK, activity)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

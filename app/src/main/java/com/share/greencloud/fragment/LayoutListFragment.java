@@ -40,6 +40,7 @@ public class LayoutListFragment extends Fragment {
         NAVIGATION,
         KAKAO_LOGIN,
         GOOGLE_LOGIN,
+		MyApp
     }
 
     public LayoutListFragment() {
