@@ -33,6 +33,30 @@ public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
         Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, activity);
     }
 
+    /**
+     로그아웃을 한다.
+     */
+    @Override
+    public void signOut() {
+
+    }
+
+    /**
+     현재 로그인 상태인지?
+     */
+    @Override
+    public boolean isSignIn() {
+        return false;
+    }
+
+    /**
+     로그인 성공 실패여부@param isSuccess
+     */
+    @Override
+    public void signInResult(boolean isSuccess) {
+
+    }
+
     private void requestMe(final Context context) {
         List<String> keys = new ArrayList<>();
         keys.add("properties.nickname");

@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 
-public class GoogleLoginProvider implements ILoginProvider{
+public class GoogleLoginProvider implements ILoginProvider {
 
     public static final int RC_SIGN_IN = 9001;
 
@@ -42,6 +42,32 @@ public class GoogleLoginProvider implements ILoginProvider{
             initGoogleSettings(activity);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         activity.startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    /**
+     로그아웃을 한다.
+     */
+    @Override
+    public void signOut() {
+
+    }
+
+    /**
+     현재 로그인 상태인지?
+     */
+    @Override
+    public boolean isSignIn() {
+        return false;
+    }
+
+    /**
+     로그인 성공 실패여부
+
+     @param isSuccess
+     */
+    @Override
+    public void signInResult(boolean isSuccess) {
+
     }
 
     public void signOut(AppCompatActivity activity) {
