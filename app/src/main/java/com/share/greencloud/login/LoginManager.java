@@ -3,16 +3,12 @@ package com.share.greencloud.login;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.Task;
 
 public class LoginManager {
     private static LoginManager loginManager;
     private GoogleLoginProvider googleLoginProvider;
     private KakaoLoginProvider kakaoLoginProvider;
+    private NaverLoginProvider naverLoginProvider;
     private LoginType currentLoginType;
 
     public static LoginManager getInstance() {
@@ -24,6 +20,7 @@ public class LoginManager {
     public LoginManager() {
         googleLoginProvider = new GoogleLoginProvider();
         kakaoLoginProvider = new KakaoLoginProvider();
+        naverLoginProvider = new NaverLoginProvider();
 
     }
 
@@ -37,6 +34,7 @@ public class LoginManager {
                 kakaoLoginProvider.signIn(activity);
                 break;
             case NAVER:
+                naverLoginProvider.signIn(activity);
                 break;
             case FACEBOOK:
                 break;
@@ -47,16 +45,10 @@ public class LoginManager {
 
         switch (currentLoginType) {
             case GOOGLE:
-                googleLoginProvider.hideProgressDialog();
-                if (requestCode == GoogleLoginProvider.RC_SIGN_IN) {
-                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                    googleLoginProvider.handleSignInResult(context, task);
-                }
-                else {
-                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show();
-                }
+                googleLoginProvider.onActivityResult(context, requestCode, resultCode, data);
                 break;
             case KAKAO:
+                kakaoLoginProvider.onActivityResult(requestCode, resultCode, data);
                 break;
             case NAVER:
                 break;

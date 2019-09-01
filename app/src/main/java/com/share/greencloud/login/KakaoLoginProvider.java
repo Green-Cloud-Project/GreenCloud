@@ -1,6 +1,7 @@
 package com.share.greencloud.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,12 +16,11 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
-import com.share.greencloud.kakaologin.KakaoLoginActiviy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KakaoLoginProvider implements ISessionCallback {
+public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
     Context context;
 
     public KakaoLoginProvider() {
@@ -79,5 +79,9 @@ public class KakaoLoginProvider implements ISessionCallback {
     @Override
     public void onSessionOpenFailed(KakaoException e) {
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data);
     }
 }

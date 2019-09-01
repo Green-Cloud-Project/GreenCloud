@@ -42,4 +42,7 @@ dependencies {
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
+    //네이버 로그인
+    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.5'   // import from jcenter
+
 }

@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 
-public class GoogleLoginProvider {
+public class GoogleLoginProvider implements ILoginProvider{
 
     public static final int RC_SIGN_IN = 9001;
 
@@ -80,6 +80,17 @@ public class GoogleLoginProvider {
         } catch (ApiException e) {
             Toast.makeText(context, "handleSignInResult= " + e.getStatusCode(), Toast.LENGTH_SHORT).show();
             //updateUI(null);
+        }
+    }
+
+    public void onActivityResult(Context context, int requestCode, int resultCode, Intent data) {
+        hideProgressDialog();
+        if (requestCode == GoogleLoginProvider.RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(context, task);
+        }
+        else {
+            Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show();
         }
     }
 }
