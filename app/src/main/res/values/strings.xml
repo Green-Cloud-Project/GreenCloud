@@ -5,7 +5,9 @@
     <string name="fb_login_protocol_scheme">464836024356605</string>
     <string name="kakao_app_key">1e07abd3fd7c96d4af93bdfb175a0a2f</string>
     <string name="loading">Loading…</string>
+    <string name="server_client_id">981551544069-h5pganvjib52l178oriknhmvhuobgflb.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Facebook SNS Test</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>

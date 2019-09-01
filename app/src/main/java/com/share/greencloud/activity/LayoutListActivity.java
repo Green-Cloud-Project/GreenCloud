@@ -1,12 +1,17 @@
 package com.share.greencloud.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -23,9 +28,12 @@ import com.share.greencloud.fragment.GreenCloudInfoFragment;
 import com.share.greencloud.fragment.InputCodeFragment;
 import com.share.greencloud.fragment.LayoutListFragment;
 import com.share.greencloud.fragment.LoginFragment;
+import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
 import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
+
+import timber.log.Timber;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
         GreenCloudInfoFragment.OnFragmentInteractionListener,
@@ -35,12 +43,16 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         LoginFragment.OnFragmentInteractionListener,
         GetUmbrellaCompleteFragment.OnFragmentInteractionListener,
         InputCodeFragment.OnFragmentInteractionListener,
-        JkAppFragment.OnFragmentInteractionListener {
+        JkAppFragment.OnFragmentInteractionListener,
+		        MapFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
 
     LoginFragment loginFragment;
     JkAppFragment facebookSNSFragment;
+
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean mLocationPermissionGranted;
 
 
     @Override
@@ -50,6 +62,11 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
 
         vp = findViewById(R.id.vp);
         vp.setAdapter(new VpAdt(getSupportFragmentManager()));
+
+        if (!checkPermissions()) {
+            getLocationPermission();
+        }
+
     }
 
     @Override
@@ -59,7 +76,8 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 vp.setCurrentItem(1);
                 break;
             case MYGREEN:
-                vp.setCurrentItem(2);
+                Intent myGreenIntent = new Intent(LayoutListActivity.this, MyGreenActivity.class);
+                startActivity(myGreenIntent);
                 break;
             case GREEN_CLOUD_INFO:
                 vp.setCurrentItem(3);
@@ -83,6 +101,10 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
             case GOOGLE_LOGIN:
                 Intent g_intent = new Intent(LayoutListActivity.this, GoogleLoginActivity.class);
                 startActivity(g_intent);
+                break;
+				
+				            case MAP:
+                vp.setCurrentItem(7);
                 break;
 
             case MyApp:
@@ -128,13 +150,16 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 case 8:    // add
                     facebookSNSFragment = JkAppFragment.newInstance("", "");
                     return facebookSNSFragment;
+					
+					                case 9:
+                    return MapFragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 9;
+            return 10;
         }   // count
     }
 
@@ -152,5 +177,56 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
 
         if (loginFragment != null)
             loginFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        Timber.d("onRequestPermissionsResult() is called");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+                else {
+                    Toast.makeText(this, "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
