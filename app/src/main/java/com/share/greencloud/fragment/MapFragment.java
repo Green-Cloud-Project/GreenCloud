@@ -21,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.share.greencloud.R;
+import com.share.greencloud.common.LastLocationInfo;
 import com.share.greencloud.databinding.FragmentMapBinding;
 import com.share.greencloud.lifecycleobserver.MyObserver;
 
@@ -43,6 +44,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     LocationManager locationManager;
+    private LastLocationInfo lastLocationInfo;
 
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -74,10 +76,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
 
         observer = new MyObserver(this, getContext());
+        lastLocationInfo = new LastLocationInfo(getContext());
 
         if (mMap == null) {
             Timber.d("getMapAsync is called");
             binding.map.getMapAsync(this);
+            mLocationPermissionGranted = false;
         }
 
         return binding.getRoot();
@@ -170,7 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private LatLng getPosition() {
-        Location location = providerInfo();
+        Location location = lastLocationInfo.getLastLocation();
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
@@ -183,12 +187,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String provider = locationManager.getBestProvider(criteria, true);
         final Location location = new Location("");
         if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (!mLocationPermissionGranted) {
-                // 기본 표시 지역은 서울으로 지정
-                location.setLatitude(37.56);
-                location.setLongitude(126.97);
-                return location;
-            }
+            location.setLatitude(37.56);
+            location.setLongitude(126.97);
+            return location;
         }
         return locationManager.getLastKnownLocation(provider);
     }
