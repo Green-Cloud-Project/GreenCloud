@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import timber.log.Timber;
 
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static com.share.greencloud.common.Constants.LATITUE_SEOUL;
 import static com.share.greencloud.common.Constants.LONGITUTE_SEOUL;
 

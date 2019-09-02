@@ -1,6 +1,6 @@
 package com.share.greencloud.kakaologin;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 public class KakaoLoginViewModel extends ViewModel {
     //    final private Context context;

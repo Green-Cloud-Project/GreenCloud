@@ -7,9 +7,9 @@
         <import type="com.share.greencloud.login.LoginType"/>
         <variable
             name="activity"
-            type="android.support.v7.app.AppCompatActivity" />
+            type="androidx.appcompat.app.AppCompatActivity" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -99,5 +99,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
