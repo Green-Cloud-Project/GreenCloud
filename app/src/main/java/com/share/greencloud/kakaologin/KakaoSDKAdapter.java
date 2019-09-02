@@ -7,8 +7,9 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
+import com.share.greencloud.common.BaseApplication;
 
-class KakaoSDKAdapter extends KakaoAdapter {
+public class KakaoSDKAdapter extends KakaoAdapter {
 
     // 로그인 시 사용 될, Session의 옵션 설정을 위한 인터페이스 입니다.
     @Override
@@ -62,7 +63,7 @@ class KakaoSDKAdapter extends KakaoAdapter {
         return new IApplicationConfig() {
             @Override
             public Context getApplicationContext() {
-                return GlobalApplication.getGlobalApplicationContext();
+                return BaseApplication.getGlobalApplicationContext();
             }
         };
     }

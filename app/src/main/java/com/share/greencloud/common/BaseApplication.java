@@ -1,17 +1,18 @@
-package com.share.greencloud.kakaologin;
+package com.share.greencloud.common;
 
 import android.app.Application;
 
 import com.kakao.auth.KakaoSDK;
+import com.share.greencloud.kakaologin.KakaoSDKAdapter;
 import com.squareup.leakcanary.LeakCanary;
 
 
-public class GlobalApplication extends Application {
-    private static GlobalApplication instance;
+public class BaseApplication extends Application {
+    private static BaseApplication instance;
 
-    public static GlobalApplication getGlobalApplicationContext() {
+    public static BaseApplication getGlobalApplicationContext() {
         if (instance == null) {
-            throw new IllegalStateException("This Application does not inherit com.kakao.GlobalApplication");
+            throw new IllegalStateException("This Application does not inherit com.kakao.BaseApplication");
         }
 
         return instance;

@@ -6,8 +6,6 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 
-import com.share.greencloud.kakaologin.GlobalApplication;
-
 import timber.log.Timber;
 
 public class MyObserver implements LifecycleObserver {
