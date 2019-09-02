@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import timber.log.Timber;
 
@@ -38,6 +39,9 @@ public class LastLocationInfo {
 
         @Override
         public void onProviderDisabled(String provider) {
+            //todo 위치정보 갱신을 해제하는 로직 적용해야함
+            //locationManager.removeUpdates(locationListener); // GPS, Network Provider으로 사용이 불가할때 위치 갱신 해제
+            //Toast.makeText(mContext, "위치정보 갱신을 중지합니다.", Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -66,11 +70,14 @@ public class LastLocationInfo {
                 checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             location.setLatitude(LATITUE_SEOUL); // 기본 표시 지역은 서울으로 지정
             location.setLongitude(LONGITUTE_SEOUL);
+            Toast.makeText(mContext, "기본 설정 위치정보를 사용합니다.", Toast.LENGTH_SHORT).show();
             return location;
         }
         //todo  mintim, minDistance  변경 후 테스트 부탁드립니다.
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        // Default Setting: 시간 1초/ 거리 1m 위치 갱신
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, locationListener);
+        Toast.makeText(mContext, "GPS, Network Provider를 활용하여, 위치정보를 주기적으로 갱신합니다.", Toast.LENGTH_SHORT).show();
         return userLocation;
     }
 }
