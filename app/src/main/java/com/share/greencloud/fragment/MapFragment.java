@@ -3,14 +3,14 @@ package com.share.greencloud.fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import timber.log.Timber;
 
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM1 = "param1";
