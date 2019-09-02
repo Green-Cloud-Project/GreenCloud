@@ -1,6 +1,6 @@
 package com.share.greencloud.login;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  로그인을 하기위한 공통기능 정의

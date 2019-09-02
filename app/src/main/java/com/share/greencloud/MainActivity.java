@@ -2,7 +2,7 @@ package com.share.greencloud;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.share.greencloud.activity.LayoutListActivity;
 import com.share.greencloud.common.Constants;
