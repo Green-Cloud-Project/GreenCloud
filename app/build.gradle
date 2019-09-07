@@ -39,8 +39,11 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'
 
     // 카카오 로그인 sdk를 사용하기 위해 필요.
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version:project.KAKAO_SDK_VERSION
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    //카메라 
+    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+
 
     //네이버 로그인
     implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.5'   // import from jcenter

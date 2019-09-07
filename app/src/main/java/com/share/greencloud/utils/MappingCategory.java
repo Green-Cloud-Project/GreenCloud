@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class MappingCategory {
 
-  public enum CATEGORY {SKY, PTY};
+  public enum CATEGORY {SKY, PTY, POP, T1H};  //하늘상태, PTY 강수형태, POP: 강수확율, T1H: 온도
 
     //PCLOUDY : Partly cloudy, MCLOUDY:Mostly cloudy
   public enum IMG {SUNNY,PCLOUDY,MCLOUDY,CLOUDY,RAIN,RAINSNOW,SNOW}

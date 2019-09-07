@@ -1,111 +1,137 @@
 package com.share.greencloud.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.share.greencloud.R;
+import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
+
+import java.io.IOException;
 
 
-/**
- A simple {@link Fragment} subclass.
- Activities that contain this fragment must implement the
- {@link CameraFragment.OnFragmentInteractionListener} interface
- to handle interaction events.
- Use the {@link CameraFragment#newInstance} factory method to
- create an instance of this fragment.
- */
 public class CameraFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Context context;
+    View        view;
 
-    private OnFragmentInteractionListener mListener;
+    private SurfaceView mCamera_preview;
+    private BarcodeDetector mBarcodeDetector;
+    private CameraSource mCameraSource;
+    private ImageButton mScanButton;
 
-    public CameraFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     Use this factory method to create a new instance of
-     this fragment using the provided parameters.
 
-     @param param1 Parameter 1.
-     @param param2 Parameter 2.
-     @return A new instance of fragment CameraFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CameraFragment newInstance(String param1, String param2) {
         CameraFragment fragment = new CameraFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_camera, container, false);
+
+        context  = container.getContext();
+        view =  inflater.inflate(R.layout.activity_scan, container, false);
+        bindView();
+        setupScanner();
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void bindView()  {
+
+        mScanButton    =  view.findViewById(R.id.ib_qrcodescan);
+        mCamera_preview = view.findViewById(R.id.camera_preview);
+        mCamera_preview.setVisibility(View.INVISIBLE);
+
+        mScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCamera_preview.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        }
-        else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    private void setupScanner() {
+
+        //context = view.getContext().getApplicationContext();
+        mBarcodeDetector = new BarcodeDetector.Builder(context)
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+        mCameraSource = new CameraSource.Builder(context, mBarcodeDetector)
+                .setRequestedPreviewSize(1024, 768)
+                .setAutoFocusEnabled(true)
+                .build();
+
+
+        mCamera_preview.getHolder().addCallback(new SurfaceHolder.Callback() {
+
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                try {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                        mCameraSource.start(mCamera_preview.getHolder());
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 1024);
+                    }
+                } catch (IOException e) {
+                    Log.e("Camera   error-->> ", e.getMessage().toString());
+                }
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                mCameraSource.stop();
+            }
+        });
+
+
+        mBarcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+
+                SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if (barcodes.size() > 0){
+                    mBarcodeDetector.release();
+                    //result..
+                }
+
+            }
+        });
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     This interface must be implemented by activities that contain this
-     fragment to allow an interaction in this fragment to be communicated
-     to the activity and potentially other fragments contained in that
-     activity.
-     <p>
-     See the Android Training lesson <a href=
-     "http://developer.android.com/training/basics/fragments/communicating.html"
-     >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

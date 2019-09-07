@@ -64,5 +64,14 @@ public class BaseTime {
 
     }
 
+    public String minus30Minutes()  {
+
+
+        int time = Integer.parseInt(getBaseTime());
+        int   minus30s =  time - 70;
+        return  String.valueOf(minus30s);
+    }
+
+
 }
 

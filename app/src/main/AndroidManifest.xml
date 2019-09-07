@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.share.greencloud">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- permission 외부로 만들기 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".common.BaseApplication"
         android:allowBackup="true"
@@ -15,9 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".com.jk.app.JkAppActivity"/>
-
+        <activity android:name=".com.jk.app.JkAppActivity" />
         <activity
             android:name=".kakaologin.KakaoLoginActiviy"
             android:launchMode="singleTop">
@@ -28,15 +21,6 @@
             </intent-filter>
         </activity>
 
-
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,24 +30,36 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LayoutListActivity" />
-        <activity android:name=".googlelogin.GoogleLoginActivity"/>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-            <activity android:name="com.facebook.FacebookActivity"
-                    android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-                android:label="@string/app_name" />
+        <activity android:name=".googlelogin.GoogleLoginActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-            <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
-                <intent-filter>
-                    <action android:name="android.intent.action.VIEW" />
-                    <category android:name="android.intent.category.DEFAULT" />
-                    <category android:name="android.intent.category.BROWSABLE" />
-                    <data android:scheme="@string/fb_login_protocol_scheme" />
-                </intent-filter>
-            </activity>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-        <activity android:name=".activity.MyGreenActivity"/>
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
 
+        <activity android:name=".activity.MyGreenActivity" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -79,5 +75,10 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- permission 외부로 만들기 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

@@ -1,13 +1,32 @@
 package com.share.greencloud.common;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 public class ApiFactory {
 
 
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
     public static <T> T createRetrofitApi(final Class<T> clazz, final String endPoint, Converter.Factory convertFactory) {
-        final Retrofit retrofit = new Retrofit.Builder().baseUrl(endPoint).addConverterFactory(convertFactory).build();
+
+        //if (Constants.MODE == Constants.MODE.DEBUG) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(logging);
+        //}
+
+
+        final Retrofit retrofit =
+                new Retrofit.Builder()
+                        .baseUrl(endPoint)
+                        .addConverterFactory(convertFactory)
+                        .client(httpClient.build())
+                        .build();
+
+
         return retrofit.create(clazz);
     }
 

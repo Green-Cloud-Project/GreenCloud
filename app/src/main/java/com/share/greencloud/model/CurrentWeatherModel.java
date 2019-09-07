@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 
-public class WeatherForecastModel {
+public class CurrentWeatherModel {
 
     @SerializedName("response")
     @Expose
@@ -71,55 +71,22 @@ public class WeatherForecastModel {
             return items;
         }
     }
-
     public class Item {
-
-        @SerializedName("baseDate")
-        @Expose
-        private String  baseDate;
-
-        @SerializedName("baseTime")
-        @Expose
-        private String baseTime;
 
         @SerializedName("category")
         @Expose
         private String category;
 
-        @SerializedName("fcstDate")
+        @SerializedName("obsrValue")
         @Expose
-        private String fcstDate;
-
-        @SerializedName("fcstTime")
-        @Expose
-        private String fcstTime;
-
-        @SerializedName("fcstValue")
-        @Expose
-        private String  fcstValue;
-
-        public String getBaseDate() {
-            return baseDate;
-        }
-
-        public String getBaseTime() {
-            return baseTime;
-        }
+        private String  obsrValue;
 
         public String getCategory() {
             return category;
         }
 
-        public String getFcstDate() {
-            return fcstDate;
-        }
-
-        public String getFcstTime() {
-            return fcstTime;
-        }
-
-        public String  getFcstValue() {
-            return fcstValue;
+        public String  getObsrValue() {
+            return obsrValue;
         }
     }
 
