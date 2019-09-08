@@ -14,6 +14,7 @@ GoogleLoginProvider
  - 로그인
  - 로그아웃
  - 현재 해당 플렛폼에 대한 로그인 상태인지?
+ - 해당 플렛폼에서 쓰일 키값
 
 ```
 /**
@@ -39,6 +40,23 @@ public interface ILoginProvider {
      로그인 성공 실패여부
      */
     void signInResult(boolean isSuccess);
+    
+    /**
+     각 플렛폼에서 서버를 통해 본인을 정보에 접근할 수 있는 키값
+     @return 키값(엑세스토큰, authkey...)
+     */
+    String getKey();
 }
 
 ```
+
+## 각 플렛폼에서의 키값 정보
+
+### 페이스북
+엑세스토큰 제공
+```
+AccessToken accessToken = AccessToken.getCurrentAccessToken();
+boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+```
+
+### 구글

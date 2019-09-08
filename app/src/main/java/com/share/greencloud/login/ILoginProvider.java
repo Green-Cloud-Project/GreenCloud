@@ -25,4 +25,10 @@ public interface ILoginProvider {
      로그인 성공 실패여부
      */
     void signInResult(boolean isSuccess);
+
+    /**
+     각 플렛폼에서 서버를 통해 본인을 정보에 접근할 수 있는 키값
+     @return 키값(엑세스토큰, authkey...)
+     */
+    String getKey();
 }

@@ -70,6 +70,16 @@ public class GoogleLoginProvider implements ILoginProvider {
 
     }
 
+    /**
+     각 플렛폼에서 서버를 통해 본인을 정보에 접근할 수 있는 키값
+
+     @return 키값(엑세스토큰, authkey...)
+     */
+    @Override
+    public String getKey() {
+        return null;
+    }
+
     public void signOut(AppCompatActivity activity) {
         if (mGoogleSignInClient == null)
             initGoogleSettings(activity);
