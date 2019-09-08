@@ -60,3 +60,31 @@ boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 ```
 
 ### 구글
+백엔드 연동 문서
+https://developers.google.com/identity/sign-in/android/backend-auth
+
+GoogleSignInAccount 클래스에 getIdToken()값으로 토큰을 가져 올 수 있다.
+```
+private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+    try {
+        GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+        String idToken = account.getIdToken();
+
+        // TODO(developer): send ID Token to server and validate
+
+        updateUI(account);
+    } catch (ApiException e) {
+        Log.w(TAG, "handleSignInResult:error", e);
+        updateUI(null);
+    }
+}
+```
+
+### 카카오톡
+
+REST API 사이트
+https://developers.kakao.com/docs/restapi/kakaotalk-api
+Session 클래스에서 토큰을 가져올 수 있다. depricated가 되었으니 다른방법 업데이트 필요
+
+
+### 네이버
