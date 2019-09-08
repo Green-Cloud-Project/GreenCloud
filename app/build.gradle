@@ -10,14 +10,30 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        releaseWithSignedKey {
+            storeFile file(SIGNED_STORE_FILE)
+            storePassword SIGNED_STORE_PASSWORD
+            keyAlias SIGNED_KEY_ALIAS
+            keyPassword SIGNED_KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseWithSignedKey
+        }
+        debug {
+            signingConfig signingConfigs.releaseWithSignedKey
         }
     }
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
@@ -74,4 +90,10 @@ dependencies {
 
     //서버통신간 데이타 디버깅
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+    // 안드로이드 디버깅 툴
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
+
 }
