@@ -8,7 +8,10 @@ import java.util.Map;
 
 public class GridxyConverter {
 
-    public static Map<String, Object> getGridxy(double v1, double v2) {
+    Map map = new HashMap<String, Double>();
+
+    //public static Map<String, Object> getGridxy(double v1, double v2) {
+    public static String[] calculateGridxy(double v1, double v2) {
 
         double RE = 6371.00877; // 지구 반경(km)
         double GRID = 5.0; // 격자 간격(km)
@@ -42,11 +45,17 @@ public class GridxyConverter {
         if (theta < -Math.PI)
             theta += 2.0 * Math.PI;
         theta *= sn;
+
         map.put("lat", v1);
         map.put("lng", v2);
         map.put("x", (int)Math.floor(ra * Math.sin(theta) + XO + 0.5));
         map.put("y", (int)Math.floor(ro - ra * Math.cos(theta) + YO + 0.5));
-        return map;
+
+        String lat = String.valueOf(map.get("x"));
+        String lng = String.valueOf(map.get("y"));
+
+        return new String[] {lat,lng};
+
     }
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_help"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="바코드를 스켄해 주세요"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_camera"
+        android:layout_width="240dp"
+        android:layout_height="290dp"
+        android:layout_centerInParent="true">
+
+        <SurfaceView
+            android:id="@+id/camera_preview"
+            android:layout_width="220dp"
+            android:layout_height="270dp"
+            android:layout_centerInParent="true">
+        </SurfaceView>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/rl_camera"
+        android:layout_alignTop="@+id/rl_camera"
+        android:src="@drawable/top_left_line" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/rl_camera"
+        android:layout_alignRight="@+id/rl_camera"
+        android:src="@drawable/top_right_line" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/rl_camera"
+        android:layout_alignBottom="@+id/rl_camera"
+        android:src="@drawable/bottom_left_line" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/rl_camera"
+        android:layout_alignBottom="@+id/rl_camera"
+        android:src="@drawable/bottom_right_line" />
+
+
+
+    <ImageButton
+        android:id="@+id/ib_qrcodescan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rl_camera"
+        android:src="@drawable/camera"/>
+
+
+
+</RelativeLayout>
