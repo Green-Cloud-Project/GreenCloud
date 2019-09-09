@@ -9,85 +9,167 @@ import java.util.List;
 
 
 public class CurrentWeatherModel {
+    @SerializedName("weather")
+    public Weather weather;
+    @SerializedName("result")
+    public Result result;
 
-    @SerializedName("response")
-    @Expose
-    public Response response;
 
-    public Response getResonse() {
-        return response;
+    public Weather getWeather() {
+        return weather;
     }
 
+    public Result getResult() {
+        return result;
+    }
 
-    public class Response  {
+    public class Weather {
 
-        @SerializedName("header")
-        @Expose
-        public Header header;
+        @SerializedName("hourly")
+        public List<Hourly> hourly = null;
 
-        public Header getHeader() {
-            return header;
-        }
-
-        @SerializedName("body")
-        @Expose
-        public Body body;
-
-        public Body getBody() {
-            return body;
+        public List<Hourly> getHourly() {
+            return hourly;
         }
     }
 
-    public class Header {
+    //현재 날씨 상태
+    public class Hourly {
 
-        @SerializedName("resultCode")
-        @Expose
-        private String resultCode;
-        public String getResultCode() {
-            return resultCode;
+        @SerializedName("grid")
+        private Grid grid;
+        @SerializedName("precipitation")
+        public Precipitation precipitation;
+        @SerializedName("sky")
+        public Sky sky;
+        @SerializedName("temperature")
+        public Temperature temperature;
+        @SerializedName("humidity")
+        public String humidity;
+
+
+        public Grid getGrid() {
+            return grid;
+        }
+
+        public Precipitation getPrecipitation() {
+            return precipitation;
+        }
+
+        public Sky getSky() {
+            return sky;
+        }
+
+        public Temperature getTemperature() {
+            return temperature;
+        }
+
+        public String getHumidity() {
+            return humidity;
         }
     }
 
-    public class Body {
+    //동네정보(위도,경도,지명)
+    public class Grid {
 
-        @SerializedName("items")
-        //@Expose
-        //private Item  item;
-        @Expose
-        private Items items = null;
+        @SerializedName("latitude")
+        private String latitude;
+        @SerializedName("longitude")
+        private String longitude;
+        @SerializedName("city")
+        private String city;
+        @SerializedName("county")
+        private String county;
+        @SerializedName("village")
+        private String village;
 
-        public Items getItem() {
-            return items;
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public String getLongitude() {
+            return longitude;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getCounty() {
+            return county;
+        }
+
+        public String getVillage() {
+            return village;
         }
     }
 
-    public class Items {
+    //강수형태 0 :없음 1:비 2: 비/눈 3: 눈
+    public class Precipitation {
 
-        @SerializedName("item")
-        @Expose
-        private List<Item> items = null;
+        @SerializedName("sinceOntime")
+        public String sinceOntime;
+        @SerializedName("type")
+        public String type;
 
-        public List<Item> getItems() {
-            return items;
-        }
-    }
-    public class Item {
-
-        @SerializedName("category")
-        @Expose
-        private String category;
-
-        @SerializedName("obsrValue")
-        @Expose
-        private String  obsrValue;
-
-        public String getCategory() {
-            return category;
+        public String getSinceOntime() {
+            return sinceOntime;
         }
 
-        public String  getObsrValue() {
-            return obsrValue;
+        public String getType() {
+            return type;
         }
     }
 
+    //하늘상태
+    public class Sky {
+
+        @SerializedName("code")
+        public String code;
+        @SerializedName("name")
+        public String name;
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    //온도
+    public class Temperature {
+
+        @SerializedName("tc")     String tc;
+        @SerializedName("tmax")   String tmax;
+        @SerializedName("tmin")   String tmin;
+
+        public String getTc() {
+            return tc;
+        }
+
+        public String getTmax() {
+            return tmax;
+        }
+
+        public String getTmin() {
+            return tmin;
+        }
+    }
+
+    //Query 결과 코드(OK or Fail)
+    public class Result {
+
+        @SerializedName("message") String message;
+        @SerializedName("code")    String code;
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getCode() {
+            return code;
+        }
+    }
 }

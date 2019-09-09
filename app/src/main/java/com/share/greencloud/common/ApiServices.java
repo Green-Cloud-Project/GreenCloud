@@ -22,30 +22,14 @@ public interface ApiServices {
                                                            @Query("pageNo") int pageNo,
                                                            @Query("_type") String _type);
 
-    //현재날씨
-    @GET("ForecastGrib")
-    Call <CurrentWeatherModel> getCurrentWeather(@Query(value = "serviceKey", encoded = true) String serviceKey,
-                                                 @Query("base_date") String base_date,
-                                                 @Query("base_time") String base_time,
-                                                 @Query("nx") String nx,
-                                                 @Query("ny") String ny,
-                                                 @Query("numOfRows") int numOfRows,
-                                                 @Query("pageNo") int pageNo,
-                                                 @Query("_type") String _type);
 
 
-
-    //초단기 예보
-    @GET("ForecastTimeData")
-    Call <HourlyWeatherForecastModel> getShortForecastWeather(@Query(value = "serviceKey", encoded = true) String serviceKey,
-                                                              @Query("base_date") String base_date,
-                                                              @Query("base_time") String base_time,
-                                                              @Query("nx") String nx,
-                                                              @Query("ny") String ny,
-                                                              @Query("numOfRows") int numOfRows,
-                                                              @Query("pageNo") int pageNo,
-                                                              @Query("_type") String _type);
-
+    @GET("weather/current/hourly")
+    Call<CurrentWeatherModel> getCurrentWeatherData(@Query(value = "appKey") String serviceKey,
+                                                    @Query("version") int version,
+                                                    @Query("lat") String lat,
+                                                    @Query("lon") String lon,
+                                                    @Query("_returnType") String _type);
 
 }
 

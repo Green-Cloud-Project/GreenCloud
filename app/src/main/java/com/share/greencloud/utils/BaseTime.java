@@ -72,6 +72,9 @@ public class BaseTime {
         return  String.valueOf(minus30s);
     }
 
+    public String addAMPM(String time) {
+        return  (Integer.parseInt(time) < 1200 ) ? "AM" : "PM";
+    }
 
 }
 

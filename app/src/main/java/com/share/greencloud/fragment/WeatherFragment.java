@@ -21,6 +21,8 @@ import com.share.greencloud.common.Constants;
 import com.share.greencloud.common.LastLocationInfo;
 import com.share.greencloud.model.CurrentWeatherModel;
 import com.share.greencloud.model.HourlyWeatherForecastModel;
+import com.share.greencloud.model.WeatherCallbackListener;
+import com.share.greencloud.model.WeatherCondition;
 import com.share.greencloud.utils.BaseTime;
 import com.share.greencloud.utils.GridxyConverter;
 import com.share.greencloud.utils.MappingCategory;
@@ -34,12 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WeatherFragment extends Fragment  implements View.OnClickListener {
+public class WeatherFragment extends Fragment  implements View.OnClickListener, WeatherCallbackListener {
 
-
-
-
-    String   mRainStatus;
     Location mLastLocation;
 
     Context     context;
@@ -109,7 +107,7 @@ public class WeatherFragment extends Fragment  implements View.OnClickListener {
         tv_chance4 = (TextView)view.findViewById(R.id.tv_chance4);
         tv_chance5 = (TextView)view.findViewById(R.id.tv_chance5);
 
-        tv_name    = (TextView)view.findViewById(R.id.tv_name);
+        //tv_name    = (TextView)view.findViewById(R.id.tv_name);
         // tv_mileage = (TextView)view.findViewById(R.id.tv_mileage);
 
         tv_sky_state1 = (TextView)view.findViewById(R.id.tv_sky_state1);
@@ -136,38 +134,11 @@ public class WeatherFragment extends Fragment  implements View.OnClickListener {
         tv_current_degree = (TextView)view.findViewById(R.id.tv_current_degree);
         tv_current_sky    = (TextView)view.findViewById(R.id.tv_current_sky);
 
-
     }
 
-
-
-    public void getWeatherData()  {
-
-        String[]  gridXy = GridxyConverter.calculateGridxy(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        String lat  = gridXy[0];
-        String lon  = gridXy[1];
-
-        ApiServices apiServices = ApiFactory.createRetrofitApi(ApiServices.class,Constants.BASE_URL,GsonConverterFactory.create());
-        BaseTime bt = new BaseTime();
-
-        Call<HourlyWeatherForecastModel> call = apiServices.getHourlyWeatherData(Constants.SERVICE_KEY,bt.getToday(),bt.getBaseTime(),lat,lon,50,
-                1,"json");
-
-        Call<CurrentWeatherModel> call2 = apiServices.getCurrentWeather(Constants.SERVICE_KEY,bt.getToday(),bt.minus30Minutes(),lat,lon,10,
-                1,"json");
-
-        Call<HourlyWeatherForecastModel> call3 = apiServices.getShortForecastWeather(Constants.SERVICE_KEY,bt.getToday(),bt.getBaseTime(),lat,lon,10,
-                1,"json");
-
-
-        if (Constants.MODE == Constants.MODE.DEBUG)  {
-            HttpUrl httpUrl = call.request().url();
-        }
-
-        call.enqueue(getHourlyForecastCallback());
-        call2.enqueue(getCurrentWeatherCallback());
-//       call3.enqueue(getShortForecastWeather());
-
+    public void initGettingWeatherData()  {
+        new WeatherCondition().getHourlyForecastData(mLastLocation, WeatherFragment.this);
+        new WeatherCondition().getCurrentWeatherData(mLastLocation, WeatherFragment.this);
     }
 
     @Override
@@ -175,196 +146,93 @@ public class WeatherFragment extends Fragment  implements View.OnClickListener {
         super.onResume();
 
         mLastLocation = new LastLocationInfo(getActivity()).getLastLocation();
-        getWeatherData();
+        initGettingWeatherData();
 
     }
 
 
-    public Callback<HourlyWeatherForecastModel> getHourlyForecastCallback() {
+    @Override
+    public void getWeatherData(Object weatherModel, Boolean success, String errorMsg) {
 
+        if (success) {
 
-        return new Callback<HourlyWeatherForecastModel>() {
+            if (weatherModel instanceof HourlyWeatherForecastModel.Body) {
 
-            @Override
-            public void onResponse(@NonNull Call<HourlyWeatherForecastModel> call, @NonNull Response<HourlyWeatherForecastModel> response) {
+                int index = 0;
+                String prevForecastTime = "9999";
+                boolean isFirstLoopDone = false;
+                boolean isRaining = false;
+                List<HourlyWeatherForecastModel.Item> weathers = ((HourlyWeatherForecastModel.Body) weatherModel).getItem().getItems();
 
-                if (response.isSuccessful()) {
+                for (HourlyWeatherForecastModel.Item item : weathers) {
 
-                    int index = 0;
-                    String prevForecastTime = "9999";
-                    boolean isFirstLoopDone = false;
-                    boolean isRaining = false;
-
-                    String resultCode = response.body().getResonse().getHeader().getResultCode();
-
-                    if (resultCode.equals("0000")) {
-
-                        List<HourlyWeatherForecastModel.Item> weathers = response.body().getResonse().getBody().getItem().getItems();
-
-                        for (HourlyWeatherForecastModel.Item item : weathers) {
-
-                            if (index == 5) {
-                                break;
-                            }
-
-                            String category = item.getCategory();
-                            String forecastTime = item.getFcstTime();
-                            String forecastValue = item.getFcstValue();
-
-
-                            if ((category.equals(String.valueOf(MappingCategory.CATEGORY.PTY))) && (!forecastValue.equals("0"))) {
-
-                                isRaining = true;
-                                mHashMap = MappingCategory.mapPTY(Integer.parseInt(forecastValue));
-                                for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
-                                    tv_hours[index].setText(forecastTime.substring(0, 2));
-                                    iv_weathers[index].setImageResource((int) entry.getValue());
-                                    tv_sky_state[index].setText(entry.getKey());
-                                }
-                            }
-
-                            else if (category.equals(String.valueOf(MappingCategory.CATEGORY.SKY)) && !isRaining) {
-                                mHashMap = MappingCategory.mapSKY(Integer.parseInt(forecastValue));
-                                for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
-
-                                    tv_hours[index].setText(forecastTime.substring(0, 2));
-                                    iv_weathers[index].setImageResource((int) entry.getValue());
-                                    tv_sky_state[index].setText(entry.getKey());
-                                }
-                            } else if (category.equals(String.valueOf(MappingCategory.CATEGORY.POP))) {
-                                tv_chances[index].setText(forecastValue+"%");
-                            }
-
-                            if ((index == 0) && (!prevForecastTime.equals(forecastTime)) && !isFirstLoopDone) {
-                                prevForecastTime = forecastTime;
-                                isFirstLoopDone = true;
-                            } else {
-                                if (!prevForecastTime.equals(forecastTime)) {
-                                    index++;
-                                    isRaining = false;
-                                    prevForecastTime = forecastTime;
-                                }
-                            }
-                        }
-
-                    } else { //handling logical error
-                        //Dialog..
+                    if (index == 5) {
+                        break;
                     }
 
-                }
-            }
+                    String category = item.getCategory();
+                    String forecastTime = item.getFcstTime();
+                    String forecastValue = item.getFcstValue();
 
-            @Override
-            public void onFailure(@NonNull Call<HourlyWeatherForecastModel> call, @NonNull Throwable t) {
-                Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show();
-                call.cancel();
+                    if ((category.equals(String.valueOf(MappingCategory.CATEGORY.PTY))) && (!forecastValue.equals("0"))) {
 
-            }
-        };
-    }
+                        isRaining = true;
+                        mHashMap = MappingCategory.mapPTY(Integer.parseInt(forecastValue));
+                        for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
 
-
-    public Callback<CurrentWeatherModel> getCurrentWeatherCallback() {
-
-        return new Callback<CurrentWeatherModel>() {
-
-            @Override
-            public void onResponse(@NonNull Call<CurrentWeatherModel> call, @NonNull Response<CurrentWeatherModel> response) {
-
-                if (response.isSuccessful()) {
-
-                    String resultCode = response.body().getResonse().getHeader().getResultCode();
-
-                    if (resultCode.equals("0000")) {
-
-                        List<CurrentWeatherModel.Item> weathers = response.body().getResonse().getBody().getItem().getItems();
-
-                        for (CurrentWeatherModel.Item item : weathers) {
-
-                            String category     =     item.getCategory();
-                            String obsrValueValue  =    item.getObsrValue();
-
-                            if (category.equals(String.valueOf(MappingCategory.CATEGORY.T1H))) {
-                                tv_current_degree.setText(obsrValueValue+"℃");
-                            }else if (category.equals(String.valueOf(MappingCategory.CATEGORY.PTY))) {
-                                mRainStatus =  obsrValueValue;
-
-                                if (!mRainStatus.equals("0")) {
-                                    mHashMap = MappingCategory.mapPTY(Integer.parseInt(obsrValueValue));
-                                    for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
-                                        iv_current_sky.setImageResource((int) entry.getValue());
-                                        tv_current_sky.setText(entry.getKey());
-                                    }
-                                }
-
-                            }
+                            String ampm = new BaseTime().addAMPM(forecastTime);
+                            tv_hours[index].setText(forecastTime.substring(0, 2) + ampm);
+                            iv_weathers[index].setImageResource((int) entry.getValue());
+                            tv_sky_state[index].setText(entry.getKey());
                         }
+                    }
 
-                    } else { //handling logical error
-                        //Dialog..
+                    else if (category.equals(String.valueOf(MappingCategory.CATEGORY.SKY)) && !isRaining) {
+                        mHashMap = MappingCategory.mapSKY(Integer.parseInt(forecastValue));
+                        for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
+
+                            String ampm = new BaseTime().addAMPM(forecastTime);
+                            tv_hours[index].setText(forecastTime.substring(0, 2)+ampm);
+                            iv_weathers[index].setImageResource((int) entry.getValue());
+                            tv_sky_state[index].setText(entry.getKey());
+                        }
+                    } else if (category.equals(String.valueOf(MappingCategory.CATEGORY.POP))) {
+                        tv_chances[index].setText(forecastValue+"%");
+                    }
+
+                    if ((index == 0) && (!prevForecastTime.equals(forecastTime)) && !isFirstLoopDone) {
+                        prevForecastTime = forecastTime;
+                        isFirstLoopDone = true;
+                    } else {
+                        if (!prevForecastTime.equals(forecastTime)) {
+                            index++;
+                            isRaining = false;
+                            prevForecastTime = forecastTime;
+                        }
                     }
                 }
+
+            } else if (weatherModel instanceof CurrentWeatherModel.Weather) {
+
+
+                CurrentWeatherModel.Hourly weather = ((CurrentWeatherModel.Weather) weatherModel).getHourly().get(0);
+                String area = weather.getGrid().getCity()+" " + weather.getGrid().getCounty() + " " + weather.getGrid().getVillage();
+                tv_current_area.setText(area);
+
+                String degree = weather.getTemperature().getTc();
+                degree = degree.contains(".") ? degree.replaceAll("0*$","").replaceAll("\\.$","") : degree;
+                tv_current_degree.setText(degree + " \u2103");
+                tv_current_sky.setText(weather.getSky().getName());
+                iv_current_sky.setImageResource(MappingCategory.mapSKYCode(weather.getSky().getCode()));
+
+                //Calendar now = Calendar.getInstance();
+                //System.out.println(now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE));
             }
 
-            @Override
-            public void onFailure(@NonNull Call<CurrentWeatherModel> call, @NonNull Throwable t) {
-                Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show();
-                call.cancel();
+        }else { //logical error
 
-            }
-        };
+        }
     }
-
-
-    public Callback<HourlyWeatherForecastModel> getShortForecastWeather() {
-
-        return new Callback<HourlyWeatherForecastModel>() {
-
-            @Override
-            public void onResponse(@NonNull Call<HourlyWeatherForecastModel> call, @NonNull Response<HourlyWeatherForecastModel> response) {
-
-                if (response.isSuccessful()) {
-
-                    String resultCode = response.body().getResonse().getHeader().getResultCode();
-
-                    if (resultCode.equals("0000")) {
-
-                        List<HourlyWeatherForecastModel.Item> weathers = response.body().getResonse().getBody().getItem().getItems();
-
-                        for (HourlyWeatherForecastModel.Item item : weathers) {
-
-                            String category       =    item.getCategory();
-                            String forecastValue  =    item.getFcstValue();
-
-                            if (mRainStatus.equals("0")) {
-
-                                if (category.equals(String.valueOf(MappingCategory.CATEGORY.SKY))) {
-                                    mHashMap = MappingCategory.mapSKY(Integer.parseInt(forecastValue));
-                                    for (Map.Entry<String, Integer> entry : mHashMap.entrySet()) {
-                                        iv_current_sky.setImageResource((int) entry.getValue());
-                                        tv_current_sky.setText(entry.getKey());
-                                    }
-                                }
-                            }
-                        }
-
-                    } else { //handling logical error
-                        //Dialog..
-                        //{"response":{"header":{"resultCode":"99","resultMsg":"파라미터가 잘못되엇습니다."}}}
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<HourlyWeatherForecastModel> call, @NonNull Throwable t) {
-                Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show();
-                call.cancel();
-
-            }
-        };
-    }
-
-
 
     @Override
     public void onClick(View v) {
