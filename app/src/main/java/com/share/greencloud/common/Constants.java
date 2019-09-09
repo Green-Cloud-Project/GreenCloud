@@ -1,5 +1,7 @@
 package com.share.greencloud.common;
 
+import android.location.Location;
+
 public class Constants {
 
     public enum MODE {
@@ -19,7 +21,15 @@ public class Constants {
     public static final String CURRENT_WEATHER_BASE_URL = "https://apis.openapi.sk.com/";
     public static final String CURRENT_WEATHER_API_KEY  = "905ce29f-9b43-46b0-a9e6-3be0cbbc0252";
 
+    public static final String SEOUL_NAME = "Seoul";
     public static final double LATITUE_SEOUL = 37.56;
     public static final double LONGITUTE_SEOUL = 126.97;
+
+    public static Location setDefaultLocation() {
+        Location defaultLocation = new Location(SEOUL_NAME);
+        defaultLocation.setLatitude(LATITUE_SEOUL);
+        defaultLocation.setLongitude(LONGITUTE_SEOUL);
+        return defaultLocation;
+    }
 
 }
