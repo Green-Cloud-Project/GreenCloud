@@ -71,9 +71,9 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // 구글맵 라이브러리
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
-    implementation 'com.google.android.libraries.places:places:1.0.0'
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // 메모리릭 검출 라이브러리
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
@@ -95,5 +95,10 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
+
+    //rx java & android & location
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'com.patloew.rxlocation:rxlocation:1.0.5'
 
 }

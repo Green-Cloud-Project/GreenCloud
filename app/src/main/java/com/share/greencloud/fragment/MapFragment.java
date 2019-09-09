@@ -1,37 +1,40 @@
 package com.share.greencloud.fragment;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import androidx.databinding.DataBindingUtil;
-import android.location.Criteria;
+import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
-import com.share.greencloud.common.LastLocationInfo;
+import com.share.greencloud.common.location.LocationInfo;
+import com.share.greencloud.common.location.LocationPresenter;
 import com.share.greencloud.databinding.FragmentMapBinding;
-import com.share.greencloud.lifecycleobserver.MyObserver;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.TimeUnit;
+
 import timber.log.Timber;
 
-import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static com.share.greencloud.common.Constants.setDefaultLocation;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfo.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -43,14 +46,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FragmentMapBinding binding;
 
     private GoogleMap mMap;
-    LocationManager locationManager;
-    private LastLocationInfo lastLocationInfo;
+    private LocationManager locationManager;
 
     private static final int DEFAULT_ZOOM = 15;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
 
-    private MyObserver observer;
+    private RxLocation rxLocation;
+    private LocationPresenter presenter;
+    private android.location.Location lastLocation;
 
     public MapFragment() {
         // Required empty public constructor
@@ -75,16 +77,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
 
-        observer = new MyObserver(this, getContext());
-        lastLocationInfo = new LastLocationInfo(getContext());
-
         if (mMap == null) {
             Timber.d("getMapAsync is called");
             binding.map.getMapAsync(this);
-            mLocationPermissionGranted = false;
         }
 
+        setupInitialLocationInfo();
+
         return binding.getRoot();
+    }
+
+    private void setupInitialLocationInfo() {
+        rxLocation = new RxLocation(getContext());
+        rxLocation.setDefaultTimeout(15, TimeUnit.SECONDS);
+        presenter = new LocationPresenter(rxLocation);
+        lastLocation = setDefaultLocation();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.attachView(this);
     }
 
     @Override
@@ -114,6 +127,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onStop() {
         super.onStop();
         binding.map.onStop();
+        presenter.detachView();
     }
 
     @Override
@@ -166,32 +180,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Timber.i("onMapReady() is called");
 
         mMap = googleMap;
-        LatLng myPosition = getPosition(); // 현재 위치 정보 가져옴.
+        LatLng myPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()); // 현재 위치 정보 가져옴.
 
         mMap.addMarker(new MarkerOptions().position(myPosition).title("Marker in my current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
-    private LatLng getPosition() {
-        Location location = lastLocationInfo.getLastLocation();
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+    @Override
+    public void onLocationUpdate(Location location) {
+        Timber.d("onLocationUpdate is Called");
+        if (location != null) {
+            lastLocation = location;
+            Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
+        }
 
-        return new LatLng(latitude, longitude);
+        if (mMap != null) {
+            Timber.d("getMapAsync is called again");
+            binding.map.getMapAsync(this);
+        }
     }
 
-    private Location providerInfo() {
-        Criteria criteria = new Criteria();
-        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(criteria, true);
-        final Location location = new Location("");
-        if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            location.setLatitude(37.56);
-            location.setLongitude(126.97);
-            return location;
-        }
-        return locationManager.getLastKnownLocation(provider);
+    @Override
+    public void onLocationSettingsUnsuccessful() {
+
+    }
+
+    @Override
+    public void onAddressUpdate(Address address) {
+
     }
 
     public interface OnFragmentInteractionListener {
