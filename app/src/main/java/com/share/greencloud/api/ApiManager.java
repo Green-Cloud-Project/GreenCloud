@@ -2,6 +2,7 @@ package com.share.greencloud.api;
 
 import com.share.greencloud.common.ApiServices;
 import com.share.greencloud.common.Constants;
+import com.share.greencloud.model.UserBody;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,7 +35,7 @@ public class ApiManager {
 
         httpClient.addInterceptor(chain -> {
             Request request = chain.request().newBuilder()
-                    .header("User-Agent", "android")
+                    .header("UserBody-Agent", "android")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("token", "")
                     //.method(original.method(), original.body())
@@ -59,14 +60,14 @@ public class ApiManager {
         return service;
     }
 
-    public void join(String planform, String token, CallbackListener callbackListener) {
+    public void join(String planform, String token, CallbackListener<UserBody> callbackListener) {
         callbackListener.startApi();
-        getService().join(planform, token).enqueue(new Callback<BookingRestResponse<String>>() {
+        getService().join(planform, token).enqueue(new Callback<BookingRestResponse<UserBody>>() {
             @Override
-            public void onResponse(Call<BookingRestResponse<String>> call, Response<BookingRestResponse<String>> response) {
+            public void onResponse(Call<BookingRestResponse<UserBody>> call, Response<BookingRestResponse<UserBody>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getResult() == 0) {
-                        callbackListener.callback(response.body().getModel());
+                    if (response.body().getResponse() == 0) {
+                        callbackListener.callback(response.body().getData());
                     }
                 }
                 else {
@@ -76,7 +77,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(Call<BookingRestResponse<String>> call, Throwable t) {
+            public void onFailure(Call<BookingRestResponse<UserBody>> call, Throwable t) {
                 callbackListener.endApi();
             }
         });

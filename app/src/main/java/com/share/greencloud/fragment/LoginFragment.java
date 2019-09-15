@@ -13,18 +13,26 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.facebook.login.Login;
 import com.share.greencloud.R;
+import com.share.greencloud.api.ApiManager;
+import com.share.greencloud.api.CallbackListener;
 import com.share.greencloud.databinding.FragmentLoginBinding;
+import com.share.greencloud.login.KakaoLoginProvider;
 import com.share.greencloud.login.LoginEventListener;
 import com.share.greencloud.login.LoginManager;
 import com.share.greencloud.login.LoginType;
+import com.share.greencloud.model.UserBody;
 
 public class LoginFragment extends Fragment {
+
+    private final String TAG = LoginFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
     private FragmentLoginBinding fragmentLoginBinding;
@@ -59,14 +67,33 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LoginManager.getInstance().setLoginEventListener(new LoginEventListener() {
-            @Override
-            public void onLogin(LoginType loginType) {
-                Toast.makeText(getContext(), loginType.name(), Toast.LENGTH_SHORT).show();
-                //서버에 던지기
+        LoginManager.getInstance().setLoginEventListener(loginType -> {
+            Toast.makeText(getContext(), loginType.name(), Toast.LENGTH_SHORT).show();
+            //서버에 던지기
+            if (loginType == LoginType.KAKAO)
+                ApiManager.getInstance().join("KAKAO", LoginManager.getInstance().getKakaoKey()
+                        , new CallbackListener<UserBody>() {
+                            @Override
+                            public void callback(UserBody userBody) {
+                                Log.d(TAG, userBody.getToken());
+                            }
 
+                            @Override
+                            public void failed(String msg) {
+                                Log.d(TAG, msg);
+                            }
 
-            }
+                            @Override
+                            public void startApi() {
+
+                            }
+
+                            @Override
+                            public void endApi() {
+
+                            }
+                        });
+
         });
     }
 

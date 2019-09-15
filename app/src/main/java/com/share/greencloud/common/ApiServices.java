@@ -3,6 +3,7 @@ package com.share.greencloud.common;
 import com.share.greencloud.api.BookingRestResponse;
 import com.share.greencloud.model.CurrentWeatherModel;
 import com.share.greencloud.model.HourlyWeatherForecastModel;
+import com.share.greencloud.model.UserBody;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -41,7 +42,7 @@ public interface ApiServices {
     //회원가입
     @FormUrlEncoded
     @POST("join")
-    Call<BookingRestResponse<String>> join(@Field("platform") String platform, @Field("token") String token);
+    Call<BookingRestResponse<UserBody>> join(@Field("platform") String platform, @Field("token") String token);
 }
 
 

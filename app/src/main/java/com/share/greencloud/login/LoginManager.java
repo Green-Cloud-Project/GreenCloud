@@ -71,4 +71,8 @@ public class LoginManager {
         if (loginEventListener != null)
             loginEventListener.onLogin(loginType);
     }
+
+    public String getKakaoKey() {
+        return kakaoLoginProvider.getKey();
+    }
 }
