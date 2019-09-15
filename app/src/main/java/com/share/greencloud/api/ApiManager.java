@@ -37,7 +37,7 @@ public class ApiManager {
             Request request = chain.request().newBuilder()
                     .header("UserBody-Agent", "android")
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("token", "")
+                    .addHeader("token", Constants.token)
                     //.method(original.method(), original.body())
                     .build();
 

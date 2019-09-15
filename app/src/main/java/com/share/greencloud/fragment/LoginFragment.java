@@ -23,12 +23,14 @@ import com.facebook.login.Login;
 import com.share.greencloud.R;
 import com.share.greencloud.api.ApiManager;
 import com.share.greencloud.api.CallbackListener;
+import com.share.greencloud.common.Constants;
 import com.share.greencloud.databinding.FragmentLoginBinding;
 import com.share.greencloud.login.KakaoLoginProvider;
 import com.share.greencloud.login.LoginEventListener;
 import com.share.greencloud.login.LoginManager;
 import com.share.greencloud.login.LoginType;
 import com.share.greencloud.model.UserBody;
+import com.share.greencloud.utils.GreenCloudPreferences;
 
 public class LoginFragment extends Fragment {
 
@@ -76,6 +78,8 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void callback(UserBody userBody) {
                                 Log.d(TAG, userBody.getToken());
+                                Constants.token = userBody.getToken();
+                                GreenCloudPreferences.setToken(getContext(), Constants.token);
                             }
 
                             @Override

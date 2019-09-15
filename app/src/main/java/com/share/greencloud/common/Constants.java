@@ -5,6 +5,7 @@ import android.location.Location;
 public class Constants {
 
     public static final String API_URL = "http://sarang628.iptime.org:9500/";
+    public static String token = "";
 
     public enum MODE {
         DEBUG,

@@ -5,6 +5,7 @@ import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
 import com.share.greencloud.kakaologin.KakaoSDKAdapter;
+import com.share.greencloud.utils.GreenCloudPreferences;
 import com.squareup.leakcanary.LeakCanary;
 
 
@@ -35,6 +36,9 @@ public class BaseApplication extends Application {
         LeakCanary.install(this);
 
         Stetho.initializeWithDefaults(this);
+
+        //토큰 셋팅
+        Constants.token = GreenCloudPreferences.getToken(getBaseContext());
     }
 
     @Override
