@@ -2,6 +2,7 @@ package com.share.greencloud.common;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
 import com.share.greencloud.kakaologin.KakaoSDKAdapter;
 import com.squareup.leakcanary.LeakCanary;
@@ -32,6 +33,8 @@ public class BaseApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

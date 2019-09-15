@@ -8,64 +8,60 @@
 
 
     <!--오늘 날씨-->
-    <LinearLayout
-        android:id="@+id/rl_current_weather"
+
+    <!--오늘 날씨-->
+    <RelativeLayout
+        android:id="@+id/rl_current_weather_subpanel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:layout_height="100dp">
 
-        <!--오늘날씨-->
-        <RelativeLayout
-            android:id="@+id/rl_current_weather_subpanel"
+
+        <ImageView
+            android:id="@+id/iv_current_sky"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/sunny" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/bg_rounded">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_current_sky"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:src="@drawable/sunny" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_current_area"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="90dp"
-                android:orientation="vertical">
+                android:textSize="16sp"
+                android:text="서울시 역삼동" />
 
-                <TextView
-                    android:id="@+id/tv_current_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="서울시 역삼동" />
+            <TextView
+                android:id="@+id/tv_current_degree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="21" />
 
-                <TextView
-                    android:id="@+id/tv_current_degree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="21" />
+            <TextView
+                android:id="@+id/tv_current_sky"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="구름많음" />
 
-                <TextView
-                    android:id="@+id/tv_current_sky"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="구름많음" />
+        </LinearLayout>
 
-            </LinearLayout>
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </LinearLayout>
 
 
     <!--일일 날씨예보(3시간 간격) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_current_weather"
+        android:layout_below="@id/rl_current_weather_subpanel"
         android:weightSum="1">
 
         <RelativeLayout

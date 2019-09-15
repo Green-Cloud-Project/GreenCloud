@@ -1,16 +1,20 @@
 package com.share.greencloud.kakaologin;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.kakao.auth.ApiResponseCallback;
+import com.kakao.auth.AuthService;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
+import com.kakao.auth.network.response.AccessTokenInfoResponse;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
@@ -57,6 +61,7 @@ public class KakaoLoginActiviy extends AppCompatActivity {
         public void onSessionOpened() {
             if (Session.getCurrentSession().isOpened()) { // 한 번더 세션을 체크해주었습니다.
                 requestMe();
+                requestAccessTokenInfo();
             }
 
         }
@@ -91,14 +96,51 @@ public class KakaoLoginActiviy extends AppCompatActivity {
             public void onSuccess(MeV2Response response) {
                 Timber.i("KaKaLogin Success: %s", response.toString());
 
+                // 토큰 만료시 갱신을 시켜준다
+                if (Session.getCurrentSession().isOpenable()) {
+                    Session.getCurrentSession().checkAndImplicitOpen();
+                }
+
                 Toast.makeText(KakaoLoginActiviy.this, response.getNickname() + "님이 카카오 간편 로그인에 성공하였습니다!", Toast.LENGTH_SHORT).show();
                 // todo: Access Token 서버 전달
                 String accessToken = Session.getCurrentSession().getTokenInfo().getAccessToken();
+                String refeshToken = Session.getCurrentSession().getTokenInfo().getRefreshToken();
+
                 viewModel.saveAccessToken(accessToken);
                 //viewModel.saveShared(response.getNickname(), response.getKakaoAccount().getEmail(), response.getProfileImagePath());
             }
         });
 
+    }
+
+    private void requestAccessTokenInfo() {
+        AuthService.getInstance().requestAccessTokenInfo(new ApiResponseCallback<AccessTokenInfoResponse>() {
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+
+            }
+
+            @Override
+            public void onNotSignedUp() {
+                // not happened
+            }
+
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Timber.e("failed to get access token info. msg=" + errorResult);
+            }
+
+            @Override
+            public void onSuccess(AccessTokenInfoResponse accessTokenInfoResponse) {
+                // todo: Access Token를 발급 받기 위해서 필요한 값을 서버에 전달
+                long userId = accessTokenInfoResponse.getUserId();
+                Timber.d(accessTokenInfoResponse.toString());
+                Timber.d("this access token is for userId=" + userId);
+
+                long expiresInMilis = accessTokenInfoResponse.getExpiresInMillis();
+                Timber.d("this access token expires after " + expiresInMilis + " milliseconds.");
+            }
+        });
     }
 
 

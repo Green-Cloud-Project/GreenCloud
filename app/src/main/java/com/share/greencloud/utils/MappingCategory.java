@@ -38,6 +38,7 @@ public class MappingCategory {
         }
     }
 
+    //일일 예보 하늘 상태
     public static Map<String,Integer> mapSKY(int value) {
 
         String skyState = null;
@@ -98,6 +99,37 @@ public class MappingCategory {
         }
         hm.put(chance,imgResource);
         return hm;
+    }
+
+    //현재 날씨 하늘상태
+    public static int mapSKYCode(String value) {
+
+        switch (value) {
+
+            case "SKY_O01":
+                return R.drawable.sunny;
+            case "SKY_O02":
+                return R.drawable.pcloudy;
+            case "SKY_O03":
+                return R.drawable.mcloudy;
+            case "SKY_O07":
+                return R.drawable.cloudy;
+            case "SKY_O11":   //흐리고 놕뢰 ----
+                return R.drawable.cloudylightning;
+            case "SKY_O04":case "SKY_O06":case "SKY_O08":
+                return R.drawable.rain;
+            case "SKY_O10":
+                return R.drawable.snowrain;
+            case "SKY_O05": case "SKY_O09": case "SKY_O13":
+                return R.drawable.snow;
+            case "SKY_O12":
+                return R.drawable.rainlightning;
+            case "SKY_O14":
+                return R.drawable.snow;  //눈 뇌우
+            default:
+                return R.drawable.sunny;
+
+        }
     }
 
 }

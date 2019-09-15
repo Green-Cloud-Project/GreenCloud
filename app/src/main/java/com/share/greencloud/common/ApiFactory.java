@@ -1,5 +1,7 @@
 package com.share.greencloud.common;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
@@ -16,6 +18,7 @@ public class ApiFactory {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient.addInterceptor(logging);
+        httpClient.addNetworkInterceptor(new StethoInterceptor());
         //}
 
 
