@@ -3,7 +3,9 @@ package com.share.greencloud.login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,16 +22,17 @@ import com.kakao.util.helper.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
-    Context context;
+public class KakaoLoginProvider extends LoginProvider implements ISessionCallback, ILoginProvider {
 
-    public KakaoLoginProvider() {
+    private final String TAG = getClass().getSimpleName();
+
+    public KakaoLoginProvider(LoginManager loginManager) {
+        super(loginManager);
         Session.getCurrentSession().addCallback(this);
         Session.getCurrentSession().checkAndImplicitOpen();
     }
 
     public void signIn(AppCompatActivity activity) {
-        context = activity;
         Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, activity);
     }
 
@@ -64,10 +67,10 @@ public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
      */
     @Override
     public String getKey() {
-        return null;
+        return Session.getCurrentSession().getTokenInfo().getAccessToken();
     }
 
-    private void requestMe(final Context context) {
+    private void requestMe() {
         List<String> keys = new ArrayList<>();
         keys.add("properties.nickname");
         keys.add("properties.profile_image");
@@ -77,19 +80,19 @@ public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
             @Override
             public void onFailure(ErrorResult errorResult) {
                 String message = "failed to get user info. msg=" + errorResult;
-                Logger.d(message);
+                Log.d(TAG, message);
             }
 
             @Override
             public void onSessionClosed(ErrorResult errorResult) {
-                Log.d("onSessionClosed", errorResult + "");
+                Log.d(TAG, errorResult + "");
             }
 
             @Override
             public void onSuccess(MeV2Response response) {
-                Log.e("onSuccess", response.toString());
-                Toast.makeText(context, response.getNickname() + "님이 카카오 간편 로그인에 성공하였습니다!", Toast.LENGTH_SHORT).show();
-                saveShared(context, response.getNickname(), response.getKakaoAccount().getEmail(), response.getProfileImagePath());
+                Log.d(TAG, response.toString());
+                //Toast.makeText(context, response.getNickname() + "님이 카카오 간편 로그인에 성공하였습니다!", Toast.LENGTH_SHORT).show();
+                //saveShared(context, response.getNickname(), response.getKakaoAccount().getEmail(), response.getProfileImagePath());
             }
         });
 
@@ -107,7 +110,7 @@ public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
 
     @Override
     public void onSessionOpened() {
-        requestMe(context);
+        parent.onLogin(LoginType.KAKAO);
     }
 
     @Override
@@ -118,4 +121,5 @@ public class KakaoLoginProvider implements ISessionCallback, ILoginProvider {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data);
     }
+
 }
