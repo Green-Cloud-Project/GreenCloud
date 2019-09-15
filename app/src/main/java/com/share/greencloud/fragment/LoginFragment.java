@@ -2,18 +2,27 @@ package com.share.greencloud.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.share.greencloud.R;
 import com.share.greencloud.databinding.FragmentLoginBinding;
+import com.share.greencloud.login.LoginEventListener;
 import com.share.greencloud.login.LoginManager;
+import com.share.greencloud.login.LoginType;
 
 public class LoginFragment extends Fragment {
 
@@ -45,6 +54,20 @@ public class LoginFragment extends Fragment {
         fragmentLoginBinding.setLifecycleOwner(this);
         fragmentLoginBinding.setActivity((AppCompatActivity) getActivity());
         return fragmentLoginBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LoginManager.getInstance().setLoginEventListener(new LoginEventListener() {
+            @Override
+            public void onLogin(LoginType loginType) {
+                Toast.makeText(getContext(), loginType.name(), Toast.LENGTH_SHORT).show();
+                //서버에 던지기
+
+
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {

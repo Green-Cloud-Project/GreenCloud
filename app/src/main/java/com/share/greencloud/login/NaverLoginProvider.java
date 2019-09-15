@@ -1,19 +1,21 @@
 package com.share.greencloud.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 
-public class NaverLoginProvider implements ILoginProvider {
+public class NaverLoginProvider extends LoginProvider implements ILoginProvider {
     private static final String OAUTH_CLIENT_ID = "4hYhfZvOSM6dBqpzxqSV";
     private static final String OAUTH_CLIENT_SECRET = "SjuqtEIoRk";
     private static final String OAUTH_CLIENT_NAME = "그린클라우드";
     private static OAuthLogin mOAuthLoginInstance;
     private boolean isInit = false;
 
-    public NaverLoginProvider() {
+    public NaverLoginProvider(LoginManager loginManager) {
+        super(loginManager);
         mOAuthLoginInstance = OAuthLogin.getInstance();
         mOAuthLoginInstance.showDevelopersLog(true);
     }

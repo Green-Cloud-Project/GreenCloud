@@ -16,13 +16,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.share.greencloud.R;
 
-public class GoogleLoginProvider implements ILoginProvider {
+public class GoogleLoginProvider extends LoginProvider implements ILoginProvider {
 
     public static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mGoogleSignInClient;
 
     private ProgressDialog mProgressDialog;
+
+    public GoogleLoginProvider(LoginManager loginManager) {
+        super(loginManager);
+    }
 
     private void initGoogleSettings(Context context) {
 
