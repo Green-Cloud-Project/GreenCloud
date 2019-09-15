@@ -2,6 +2,7 @@ package com.share.greencloud.login;
 
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginManager {
@@ -11,6 +12,7 @@ public class LoginManager {
     private NaverLoginProvider naverLoginProvider;
     private FacebookLoginProvider facebookLoginProvider;
     private LoginType currentLoginType;
+    private LoginEventListener loginEventListener;
 
     public static LoginManager getInstance() {
         if (loginManager == null)
@@ -19,10 +21,10 @@ public class LoginManager {
     }
 
     public LoginManager() {
-        googleLoginProvider = new GoogleLoginProvider();
-        kakaoLoginProvider = new KakaoLoginProvider();
-        naverLoginProvider = new NaverLoginProvider();
-        facebookLoginProvider = new FacebookLoginProvider();
+        googleLoginProvider = new GoogleLoginProvider(this);
+        kakaoLoginProvider = new KakaoLoginProvider(this);
+        naverLoginProvider = new NaverLoginProvider(this);
+        facebookLoginProvider = new FacebookLoginProvider(this);
 
     }
 
@@ -59,6 +61,14 @@ public class LoginManager {
                 facebookLoginProvider.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
 
+    public void setLoginEventListener(LoginEventListener loginEventListener) {
+        this.loginEventListener = loginEventListener;
+    }
+
+    protected void onLogin(LoginType loginType) {
+        if (loginEventListener != null)
+            loginEventListener.onLogin(loginType);
     }
 }
