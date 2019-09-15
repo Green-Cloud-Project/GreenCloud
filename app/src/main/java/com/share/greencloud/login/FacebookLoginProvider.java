@@ -1,6 +1,7 @@
 package com.share.greencloud.login;
 
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
@@ -11,11 +12,12 @@ import com.facebook.login.LoginResult;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class FacebookLoginProvider implements ILoginProvider {
+public class FacebookLoginProvider extends LoginProvider implements ILoginProvider {
 
     private CallbackManager callbackManager;
 
-    public FacebookLoginProvider() {
+    public FacebookLoginProvider(LoginManager loginManager) {
+        super(loginManager);
         callbackManager = CallbackManager.Factory.create();
 
         com.facebook.login.LoginManager.getInstance().registerCallback(callbackManager,
