@@ -11,7 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".com.jk.app.JkAppActivity" />
+        <activity
+            android:name=".activity.BottomNavActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/BottomNavTheme">
+            <intent-filter>
+<!--                <action android:name="android.intent.action.MAIN" />-->
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEARCH" />
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>        <activity android:name=".com.jk.app.JkAppActivity" />
         <activity
             android:name=".kakaologin.KakaoLoginActiviy"
             android:launchMode="singleTop">
@@ -72,7 +87,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <uses-library
+
+        <provider
+            android:name=".common.location.SuggestionProvider"
+            android:authorities="com.share.greencloud.common.location.SuggestionProvider"
+            android:exported="false" />        <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>

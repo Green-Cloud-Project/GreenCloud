@@ -1,19 +1,22 @@
 package com.share.greencloud.fragment;
 
-import android.content.Context;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,11 +35,15 @@ import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
+import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static com.share.greencloud.common.Constants.setDefaultLocation;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfo.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int DEFAULT_ZOOM = 15;
 
     private String mParam1;
     private String mParam2;
@@ -46,13 +53,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private FragmentMapBinding binding;
 
     private GoogleMap mMap;
-    private LocationManager locationManager;
-
-    private static final int DEFAULT_ZOOM = 15;
-
     private RxLocation rxLocation;
     private LocationPresenter presenter;
     private android.location.Location lastLocation;
+
+    private MapViewModel mapViewModel;
 
     public MapFragment() {
         // Required empty public constructor
@@ -82,7 +87,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             binding.map.getMapAsync(this);
         }
 
+        mapViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
+
         setupInitialLocationInfo();
+
+        if (!checkPermissions()) {
+            getLocationPermission();
+        }
 
         return binding.getRoot();
     }
@@ -92,6 +103,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         rxLocation.setDefaultTimeout(15, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
         lastLocation = setDefaultLocation();
+
+        if (mapViewModel.userLocation == null) {
+            mapViewModel.userLocation = setDefaultLocation();
+        }
+    }
+
+    private void refresh() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.detach(this).attach(this).commit();
+    }
+
+    private boolean checkPermissions() {
+        int permissionState = checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+        } else {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        Timber.d("onRequestPermissionsResult() is called");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    refresh(); // Fragment 화면 갱신
+
+                } else {
+                    Toast.makeText(getContext(), "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+        }
     }
 
     @Override
@@ -100,16 +163,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         presenter.attachView(this);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MapFragment.OnFragmentInteractionListener) {
-            mListener = (MapFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof MapFragment.OnFragmentInteractionListener) {
+//            mListener = (MapFragment.OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
 
     @Override
     public void onDetach() {
@@ -131,6 +194,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
     @Override
+    public void onDestroyView() {
+        mMap.clear();
+        binding.map.onDestroy();
+        super.onDestroyView();
+        Timber.d("onDestroyView is called");
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         binding.map.onSaveInstanceState(outState);
@@ -140,10 +211,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onResume() {
         super.onResume();
         binding.map.onResume();
+
+
         Timber.i("onResume() is called");
         if (mMap != null) {
             Timber.d("getMapAsync is called again");
             binding.map.getMapAsync(this);
+
+
         }
     }
 
@@ -151,19 +226,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onPause() {
         super.onPause();
         binding.map.onPause();
+
         Timber.i("onPause() is called");
     }
 
     @Override
     public void onLowMemory() {
+        Timber.d("onLowMemory is called again");
         super.onLowMemory();
         binding.map.onLowMemory();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        binding.map.onDestroy();
     }
 
     @Override
@@ -180,9 +251,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.i("onMapReady() is called");
 
         mMap = googleMap;
-        LatLng myPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()); // 현재 위치 정보 가져옴.
+        LatLng myPosition = new LatLng(mapViewModel.userLocation.getLatitude(), mapViewModel.userLocation.getLongitude()); // 현재 위치 정보 가져옴.
 
-        mMap.addMarker(new MarkerOptions().position(myPosition).title("Marker in my current Location"));
+        mMap.addMarker(new MarkerOptions().position(myPosition).title("현재 위치")).showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
@@ -192,6 +263,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.d("onLocationUpdate is Called");
         if (location != null) {
             lastLocation = location;
+            mapViewModel.userLocation = location;
             Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
         }
 
@@ -215,4 +287,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
