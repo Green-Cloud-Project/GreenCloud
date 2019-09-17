@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import timber.log.Timber;
+
 import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class WeatherFragment extends Fragment implements View.OnClickListener, WeatherCallbackListener, LocationInfo.View, OnMapReadyCallback {
@@ -269,9 +271,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
     @Override
     public void onLocationUpdate(Location location) {
+        Timber.d("onLocationUpdate is called");
         if (location != null) {
             presenter.updateUserLocation(location, this);
         }
+
+        initGettingWeatherData();
     }
 
     @Override
