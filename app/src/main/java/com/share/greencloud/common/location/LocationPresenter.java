@@ -1,15 +1,21 @@
 package com.share.greencloud.common.location;
 
 import android.location.Address;
+import android.location.Location;
 
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
+import com.share.greencloud.model.UserLocation;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
+
+import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
+import static com.share.greencloud.common.Constants.setDefaultLocation;
 
 public class LocationPresenter implements LocationInfo.Presenter {
 
@@ -20,12 +26,15 @@ public class LocationPresenter implements LocationInfo.Presenter {
 
     private LocationInfo.View view;
 
+    private UserLocation userLocation;
+
     public LocationPresenter(RxLocation rxLocation) {
 
         this.rxLocation = rxLocation;
         this.locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_LOW_POWER)
-                .setInterval(15000);
+                .setInterval(REQEUST_TIME_INTERVAL);
+        userLocation = new UserLocation(setDefaultLocation());
     }
 
     public void attachView(LocationInfo.View view) {
@@ -38,6 +47,17 @@ public class LocationPresenter implements LocationInfo.Presenter {
         Timber.d("detachView is Called");
         this.view = null;
         disposable.clear();
+    }
+
+    @Override
+    public void updateUserLocation(Location updatedLocation, OnMapReadyCallback callback){
+        userLocation.updateCurrentLocation(updatedLocation);
+        view.onMapUpdate(callback);
+    }
+
+    @Override
+    public Location getUserLocation(){
+        return userLocation.getCurrentLocation();
     }
 
     private void startLocationRefresh() {

@@ -16,12 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
@@ -37,13 +37,13 @@ import java.util.concurrent.TimeUnit;
 import timber.log.Timber;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
-import static com.share.greencloud.common.Constants.setDefaultLocation;
+import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfo.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    //    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int DEFAULT_ZOOM = 15;
 
     private String mParam1;
@@ -54,13 +54,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private FragmentMapBinding binding;
 
     private GoogleMap mMap;
+    private Marker marker;
     private RxLocation rxLocation;
     private LocationPresenter presenter;
-    private android.location.Location lastLocation;
-
-    private MapViewModel mapViewModel;
-
-
 
     public MapFragment() {
         // Required empty public constructor
@@ -90,9 +86,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             binding.map.getMapAsync(this);
         }
 
-        mapViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
-
-
         setupInitialLocationInfo();
 
         if (!checkPermissions()) {
@@ -104,13 +97,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private void setupInitialLocationInfo() {
         rxLocation = new RxLocation(getContext());
-        rxLocation.setDefaultTimeout(15, TimeUnit.SECONDS);
+        rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
-        lastLocation = setDefaultLocation();
-
-        if (mapViewModel.userLocation == null) {
-            mapViewModel.userLocation = setDefaultLocation();
-        }
     }
 
     private void refresh() {
@@ -229,13 +217,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onResume();
         binding.map.onResume();
 
-
         Timber.i("onResume() is called");
         if (mMap != null) {
-            Timber.d("getMapAsync is called again");
-            binding.map.getMapAsync(this);
-
-
+            onMapUpdate(this);
         }
     }
 
@@ -243,7 +227,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onPause() {
         super.onPause();
         binding.map.onPause();
-
         Timber.i("onPause() is called");
     }
 
@@ -268,9 +251,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.i("onMapReady() is called");
 
         mMap = googleMap;
-        LatLng myPosition = new LatLng(mapViewModel.userLocation.getLatitude(), mapViewModel.userLocation.getLongitude()); // 현재 위치 정보 가져옴.
+        LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
 
-        mMap.addMarker(new MarkerOptions().position(myPosition).title("현재 위치")).showInfoWindow();
+
+        marker = mMap.addMarker(new MarkerOptions().position(myPosition).title("현재 위치"));
+        marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
@@ -279,15 +264,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onLocationUpdate(Location location) {
         Timber.d("onLocationUpdate is Called");
         if (location != null) {
-            lastLocation = location;
-            mapViewModel.userLocation = location;
+            presenter.updateUserLocation(location, this);
             Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
         }
+    }
 
-        if (mMap != null) {
-            Timber.d("getMapAsync is called again");
-            binding.map.getMapAsync(this);
-        }
+    @Override
+    public void onMapUpdate(OnMapReadyCallback callback) {
+        Timber.d("getMapAsync is called again");
+        marker.remove();
+        binding.map.getMapAsync(callback);
     }
 
     @Override

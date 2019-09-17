@@ -27,6 +27,7 @@ public class Constants {
     public static final String SEOUL_NAME = "Seoul";
     public static final double LATITUE_SEOUL = 37.56;
     public static final double LONGITUTE_SEOUL = 126.97;
+    public static final long REQEUST_TIME_INTERVAL = 15000;
 
     public static Location setDefaultLocation() {
         Location defaultLocation = new Location(SEOUL_NAME);

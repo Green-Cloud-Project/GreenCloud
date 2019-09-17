@@ -29,6 +29,7 @@ import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
+import com.share.greencloud.presenter.BottomNavPresenter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
@@ -37,18 +38,21 @@ public class BottomNavActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
-        NewsFragment.OnFragmentInteractionListener {
+        NewsFragment.OnFragmentInteractionListener,
+        BottomNavPresenter.View {
 
     private ActionBar toolbar;
     private ActivityBottomNavBinding binding;
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
+//    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+//    private boolean mLocationPermissionGranted;
 
     private SearchManager searchManager;
     private SearchView searchView;
 
     private Boolean hideSearchMenu;
+
+    private BottomNavPresenter presenter;
 
     private final Fragment[] PAGES = new Fragment[]{
             new MapFragment(),
@@ -75,6 +79,8 @@ public class BottomNavActivity extends AppCompatActivity implements
 
         hideSearchMenu = false;
         loadFragment(PAGES[0]);
+
+        presenter = new BottomNavPresenter(this);
 
         if (!checkPermissions()) {
             getLocationPermission();
@@ -138,9 +144,9 @@ public class BottomNavActivity extends AppCompatActivity implements
         Timber.d("onPrepareOptionsMenu is called");
 
         if (hideSearchMenu) {
-            menu.findItem(R.id.menu_search).setVisible(false);
+            updateMenuItemVisible(menu, false);
         } else {
-            menu.findItem(R.id.menu_search).setVisible(true);
+            updateMenuItemVisible(menu, true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -184,5 +190,10 @@ public class BottomNavActivity extends AppCompatActivity implements
         super.onDestroy();
         searchManager = null;
         searchView = null;
+    }
+
+    @Override
+    public void updateMenuItemVisible(Menu menu, Boolean status) {
+        menu.findItem(R.id.menu_search).setVisible(status);
     }
 }

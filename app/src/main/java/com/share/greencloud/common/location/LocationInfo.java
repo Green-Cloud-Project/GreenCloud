@@ -1,6 +1,9 @@
 package com.share.greencloud.common.location;
 
 import android.location.Address;
+import android.location.Location;
+
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 public interface LocationInfo {
 
@@ -10,8 +13,13 @@ public interface LocationInfo {
         void onLocationSettingsUnsuccessful();
 
         void onAddressUpdate(Address address);
+
+        void onMapUpdate(OnMapReadyCallback callback);
     }
 
     interface Presenter {
+        Location getUserLocation();
+
+        void updateUserLocation(Location updatedLocation, OnMapReadyCallback callback);
     }
 }

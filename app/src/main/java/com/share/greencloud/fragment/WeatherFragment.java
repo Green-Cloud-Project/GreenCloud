@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
 import com.share.greencloud.common.location.LocationInfo;
@@ -30,11 +32,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.share.greencloud.common.Constants.setDefaultLocation;
+import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
-public class WeatherFragment extends Fragment implements View.OnClickListener, WeatherCallbackListener, LocationInfo.View {
+public class WeatherFragment extends Fragment implements View.OnClickListener, WeatherCallbackListener, LocationInfo.View, OnMapReadyCallback {
 
-    Location mLastLocation;
+//    Location mLastLocation;
 
     Context context;
     View view;
@@ -137,13 +139,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
     private void initalizeLocation() {
         rxLocation = new RxLocation(getContext());
-        rxLocation.setDefaultTimeout(15, TimeUnit.SECONDS);
+        rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
     }
 
     public void initGettingWeatherData() {
-        new WeatherCondition().getHourlyForecastData(mLastLocation, WeatherFragment.this);
-        new WeatherCondition().getCurrentWeatherData(mLastLocation, WeatherFragment.this);
+        new WeatherCondition().getHourlyForecastData(presenter.getUserLocation(), WeatherFragment.this);
+        new WeatherCondition().getCurrentWeatherData(presenter.getUserLocation(), WeatherFragment.this);
     }
 
     @Override
@@ -155,8 +157,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     @Override
     public void onResume() {
         super.onResume();
-
-        mLastLocation = setDefaultLocation();
         initGettingWeatherData();
     }
 
@@ -270,7 +270,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     @Override
     public void onLocationUpdate(Location location) {
         if (location != null) {
-            mLastLocation = location;
+            presenter.updateUserLocation(location, this);
         }
     }
 
@@ -281,6 +281,16 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
     @Override
     public void onAddressUpdate(Address address) {
+
+    }
+
+    @Override
+    public void onMapUpdate(OnMapReadyCallback callback) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
 
     }
 
