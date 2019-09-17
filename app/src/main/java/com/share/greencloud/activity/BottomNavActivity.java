@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,6 +29,7 @@ import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
 
@@ -99,46 +99,16 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        Timber.d("onRequestPermissionsResult() is called");
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Timber.d("PERMISSION_GRANTED is called");
-                    mLocationPermissionGranted = true;
-                    reloadActivity(); // 액티비티를 다시 로딩해줘야 새로운 위치 정보가 반영된다.
-                } else {
-                    Toast.makeText(this, "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-
-                default:
-                    Timber.d("This is called from fragment");
-                    loadFragment(PAGES[0]);
-        }
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .request(Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(granted -> {
+                    if (granted) {
+                        reloadActivity();
+                    } else {
+                        Toast.makeText(this, "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void reloadActivity() {
@@ -147,11 +117,6 @@ public class BottomNavActivity extends AppCompatActivity implements
         finish();
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
         startActivity(intent);
-
-//        finish();
-//        overridePendingTransition(0, 0);
-//        startActivity(getIntent());
-//        overridePendingTransition(0, 0);
     }
 
     @Override
