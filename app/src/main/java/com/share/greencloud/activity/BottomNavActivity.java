@@ -44,9 +44,6 @@ public class BottomNavActivity extends AppCompatActivity implements
     private ActionBar toolbar;
     private ActivityBottomNavBinding binding;
 
-//    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-//    private boolean mLocationPermissionGranted;
-
     private SearchManager searchManager;
     private SearchView searchView;
 
@@ -54,7 +51,7 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     private BottomNavPresenter presenter;
 
-    private final Fragment[] PAGES = new Fragment[]{
+    private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
             new NewsFragment(),
             new WeatherFragment()
@@ -64,13 +61,22 @@ public class BottomNavActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate is called");
+
+        setupintialView();
+
+        if (!checkPermissions()) {
+            getLocationPermission();
+        }
+    }
+
+    private void setupintialView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
 
         toolbar = getSupportActionBar();
         toolbar.setDisplayShowHomeEnabled(true);
-//        toolbar.setLogo(R.drawable.beach_access);
+//        toolbar.setLogo(R.drawable.beach_access); //  추후 툴바에 로고 추가할때 필요한 코드
         toolbar.setDisplayUseLogoEnabled(true);
-//        toolbar.setDisplayShowTitleEnabled(false);
+//        toolbar.setDisplayShowTitleEnabled(false); // 툴바에 타이틀 제거할때 필요한 코드
 
         binding.bottomNavView.setOnNavigationItemSelectedListener(this);
 
@@ -78,20 +84,15 @@ public class BottomNavActivity extends AppCompatActivity implements
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
         hideSearchMenu = false;
-        loadFragment(PAGES[0]);
+        loadFragment(childFragment[0]);
 
         presenter = new BottomNavPresenter(this);
-
-        if (!checkPermissions()) {
-            getLocationPermission();
-        }
     }
 
     private void loadFragment(Fragment fragment) {
-        // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-//        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null); // 프레그먼트 백스택 설정:  addToBackStack을 호출하지 않으면 백스택이 생성되지 않음
         transaction.disallowAddToBackStack();
         transaction.commit();
 
@@ -144,9 +145,9 @@ public class BottomNavActivity extends AppCompatActivity implements
         Timber.d("onPrepareOptionsMenu is called");
 
         if (hideSearchMenu) {
-            updateMenuItemVisible(menu, false);
+            presenter.updateMenuItemVisible(menu, false);
         } else {
-            updateMenuItemVisible(menu, true);
+            presenter.updateMenuItemVisible(menu, true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -156,31 +157,26 @@ public class BottomNavActivity extends AppCompatActivity implements
         switch (menuItem.getItemId()) {
             case R.id.navigation_places:
                 hideSearchMenu = false;
-                loadFragment(PAGES[0]);
+                loadFragment(childFragment[0]);
                 return true;
 
             case R.id.navigation_dashboard:
                 hideSearchMenu = true;
-                loadFragment(PAGES[1]);
+                loadFragment(childFragment[1]);
                 return true;
 
             case R.id.navigation_mygreen:
                 hideSearchMenu = true;
-                loadFragment(PAGES[2]);
+                loadFragment(childFragment[2]);
                 return true;
         }
         return false;
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        loadFragment(PAGES[0]);
+        loadFragment(childFragment[0]);
         Timber.d("onResume is called");
 
     }
@@ -193,7 +189,12 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void updateMenuItemVisible(Menu menu, Boolean status) {
-        menu.findItem(R.id.menu_search).setVisible(status);
+    public void updateMenuItemVisible(Menu menu, Boolean visibility) {
+        menu.findItem(R.id.menu_search).setVisible(visibility);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

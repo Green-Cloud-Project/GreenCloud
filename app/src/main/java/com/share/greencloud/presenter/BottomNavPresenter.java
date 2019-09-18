@@ -10,7 +10,11 @@ public class BottomNavPresenter {
         this.view = view;
     }
 
-    public interface View{
-        void updateMenuItemVisible(Menu menu,Boolean status);
+    public void updateMenuItemVisible(Menu menu, Boolean visibility) {
+        view.updateMenuItemVisible(menu, visibility);
+    }
+
+    public interface View {
+        void updateMenuItemVisible(Menu menu, Boolean visibility);
     }
 }

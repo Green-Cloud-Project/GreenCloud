@@ -273,6 +273,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     public void onLocationUpdate(Location location) {
         Timber.d("onLocationUpdate is called");
         if (location != null) {
+            Timber.d("updated location is " + location.getLatitude() + " , " + location.getLongitude());
             presenter.updateUserLocation(location, this);
         }
 
@@ -302,6 +303,5 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
-
 
 }
