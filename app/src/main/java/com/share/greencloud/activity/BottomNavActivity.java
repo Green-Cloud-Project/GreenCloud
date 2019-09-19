@@ -84,9 +84,15 @@ public class BottomNavActivity extends AppCompatActivity implements
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
         hideSearchMenu = false;
-        loadFragment(childFragment[0]);
+
+        loadDefaultFragment();
 
         presenter = new BottomNavPresenter(this);
+    }
+
+    private void loadDefaultFragment() {
+        binding.bottomNavView.setSelectedItemId(R.id.navigation_places);
+        loadFragment(childFragment[0]);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -176,7 +182,7 @@ public class BottomNavActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        loadFragment(childFragment[0]);
+        loadDefaultFragment();
         Timber.d("onResume is called");
 
     }

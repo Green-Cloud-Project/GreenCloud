@@ -21,7 +21,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-<!--        <com.arlib.floatingsearchview.FloatingSearchView-->
+        <ImageView
+            android:id="@+id/currentLocation"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_gps" />
+
+
+        <!--        <com.arlib.floatingsearchview.FloatingSearchView-->
 <!--            android:id="@+id/search_view"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="50dp"-->

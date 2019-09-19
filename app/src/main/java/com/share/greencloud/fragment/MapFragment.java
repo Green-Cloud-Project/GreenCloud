@@ -99,6 +99,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         rxLocation = new RxLocation(getContext());
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
+
+        binding.currentLocation.setOnClickListener(v -> refresh());
     }
 
     private void refresh() {
@@ -200,7 +202,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     @Override
     public void onDestroyView() {
-        mMap.clear();
+        if(mMap != null) {
+            mMap.clear();
+        }
         binding.map.onDestroy();
         super.onDestroyView();
         Timber.d("onDestroyView is called");
@@ -252,7 +256,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         mMap = googleMap;
         LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
-
 
         marker = mMap.addMarker(new MarkerOptions().position(myPosition).title("현재 위치"));
         marker.showInfoWindow();
