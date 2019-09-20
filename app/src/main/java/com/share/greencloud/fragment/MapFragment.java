@@ -168,6 +168,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.attachView(this);
+        postponeEnterTransition();
     }
 
 //    @Override
@@ -277,6 +278,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.d("getMapAsync is called again");
         marker.remove();
         binding.map.getMapAsync(callback);
+	startPostponedEnterTransition();
     }
 
     @Override

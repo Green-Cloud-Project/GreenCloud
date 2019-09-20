@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.share.greencloud.R;
@@ -29,7 +30,7 @@ import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
-import com.share.greencloud.presenter.BottomNavPresenter;
+import com.share.greencloud.presenter.BottomNavVIewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
@@ -38,8 +39,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
-        NewsFragment.OnFragmentInteractionListener,
-        BottomNavPresenter.View {
+        NewsFragment.OnFragmentInteractionListener{
 
     private ActionBar toolbar;
     private ActivityBottomNavBinding binding;
@@ -47,9 +47,7 @@ public class BottomNavActivity extends AppCompatActivity implements
     private SearchManager searchManager;
     private SearchView searchView;
 
-    private Boolean hideSearchMenu;
-
-    private BottomNavPresenter presenter;
+    private BottomNavVIewModel viewModel;
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
@@ -71,6 +69,7 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     private void setupintialView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
+        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
 
         toolbar = getSupportActionBar();
         toolbar.setDisplayShowHomeEnabled(true);
@@ -78,16 +77,14 @@ public class BottomNavActivity extends AppCompatActivity implements
         toolbar.setDisplayUseLogoEnabled(true);
 //        toolbar.setDisplayShowTitleEnabled(false); // 툴바에 타이틀 제거할때 필요한 코드
 
-        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
-
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
-        hideSearchMenu = false;
+        binding.setLifecycleOwner(this);
+//        binding.setViewmodel(ViewModelProviders.of(this).get(BottomNavVIewModel.class));
+        viewModel = ViewModelProviders.of(this).get(BottomNavVIewModel.class);
 
         loadDefaultFragment();
-
-        presenter = new BottomNavPresenter(this);
     }
 
     private void loadDefaultFragment() {
@@ -100,6 +97,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         transaction.replace(R.id.frame_container, fragment);
 //        transaction.addToBackStack(null); // 프레그먼트 백스택 설정:  addToBackStack을 호출하지 않으면 백스택이 생성되지 않음
         transaction.disallowAddToBackStack();
+        transaction.setReorderingAllowed(true);
         transaction.commit();
 
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
@@ -143,36 +141,40 @@ public class BottomNavActivity extends AppCompatActivity implements
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setQueryHint("대여소 검색...");
 
+        observeSearchMenu(menu);
+
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(final Menu menu) {
-        Timber.d("onPrepareOptionsMenu is called");
+    private void observeSearchMenu(Menu menu) {
+        viewModel.getHideSearchMenu().observe(this, (hideSearchMenu) -> {
+            if (hideSearchMenu) {
+                changeMenuItemVisible(menu, false);
+            } else {
+                changeMenuItemVisible(menu, true);
+            }
+        });
+    }
 
-        if (hideSearchMenu) {
-            presenter.updateMenuItemVisible(menu, false);
-        } else {
-            presenter.updateMenuItemVisible(menu, true);
-        }
-        return super.onPrepareOptionsMenu(menu);
+    private void changeMenuItemVisible(Menu menu, Boolean visibility) {
+        menu.findItem(R.id.menu_search).setVisible(visibility);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.navigation_places:
-                hideSearchMenu = false;
+                viewModel.showSearchMenu();
                 loadFragment(childFragment[0]);
                 return true;
 
             case R.id.navigation_dashboard:
-                hideSearchMenu = true;
+                viewModel.hideSearchMenu();
                 loadFragment(childFragment[1]);
                 return true;
 
             case R.id.navigation_mygreen:
-                hideSearchMenu = true;
+                viewModel.hideSearchMenu();
                 loadFragment(childFragment[2]);
                 return true;
         }
@@ -192,11 +194,6 @@ public class BottomNavActivity extends AppCompatActivity implements
         super.onDestroy();
         searchManager = null;
         searchView = null;
-    }
-
-    @Override
-    public void updateMenuItemVisible(Menu menu, Boolean visibility) {
-        menu.findItem(R.id.menu_search).setVisible(visibility);
     }
 
     @Override
