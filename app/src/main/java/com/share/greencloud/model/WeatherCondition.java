@@ -10,6 +10,7 @@ import com.share.greencloud.common.ApiServices;
 import com.share.greencloud.common.Constants;
 import com.share.greencloud.utils.BaseTime;
 import com.share.greencloud.utils.GridxyConverter;
+import com.share.greencloud.utils.LoadingIndicator;
 import com.share.greencloud.utils.MappingCategory;
 
 import java.util.List;
@@ -32,7 +33,6 @@ public class WeatherCondition {
         String lon  = gridXy[1];
 
         ApiServices apiServices = ApiFactory.createRetrofitApi(ApiServices.class, Constants.BASE_URL, GsonConverterFactory.create());
-
         Call<HourlyWeatherForecastModel> call = apiServices.getHourlyWeatherData(Constants.SERVICE_KEY,bt.getToday(),bt.getBaseTime(),lat,lon,50,
                 1,"json");
 

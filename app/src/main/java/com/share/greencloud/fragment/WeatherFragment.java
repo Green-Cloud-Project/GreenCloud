@@ -26,6 +26,8 @@ import com.share.greencloud.model.HourlyWeatherForecastModel;
 import com.share.greencloud.model.WeatherCallbackListener;
 import com.share.greencloud.model.WeatherCondition;
 import com.share.greencloud.utils.BaseTime;
+import com.share.greencloud.utils.Geocoding;
+import com.share.greencloud.utils.LoadingIndicator;
 import com.share.greencloud.utils.MappingCategory;
 
 import java.util.List;
@@ -78,6 +80,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
         context = container.getContext();
         view = inflater.inflate(R.layout.fragment_weather, container, false);
+        view.setVisibility(View.GONE);
         initalizeView();
         initalizeLocation();
         return view;
@@ -140,14 +143,19 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     }
 
     private void initalizeLocation() {
+
+        LoadingIndicator.getInstance().showProgress(getActivity());
+
         rxLocation = new RxLocation(getContext());
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
     }
 
     public void initGettingWeatherData() {
+
         new WeatherCondition().getHourlyForecastData(presenter.getUserLocation(), WeatherFragment.this);
         new WeatherCondition().getCurrentWeatherData(presenter.getUserLocation(), WeatherFragment.this);
+
     }
 
     @Override
@@ -218,6 +226,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
                     if ((index == 0) && (!prevForecastTime.equals(forecastTime)) && !isFirstLoopDone) {
                         prevForecastTime = forecastTime;
                         isFirstLoopDone = true;
+                        index++;
                     } else {
                         if (!prevForecastTime.equals(forecastTime)) {
                             index++;
@@ -229,9 +238,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
             } else if (weatherModel instanceof CurrentWeatherModel.Weather) {
 
-
+                String area = Geocoding.getAddress(getActivity(),presenter.getUserLocation().getLatitude(),presenter.getUserLocation().getLongitude());
                 CurrentWeatherModel.Hourly weather = ((CurrentWeatherModel.Weather) weatherModel).getHourly().get(0);
-                String area = weather.getGrid().getCity() + " " + weather.getGrid().getCounty() + " " + weather.getGrid().getVillage();
+                //String area = weather.getGrid().getCity() + " " + weather.getGrid().getCounty() + " " + weather.getGrid().getVillage();
                 tv_current_area.setText(area);
 
                 String degree = weather.getTemperature().getTc();
@@ -242,11 +251,21 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
                 //Calendar now = Calendar.getInstance();
                 //System.out.println(now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE));
+
+                view.postDelayed(new Runnable() {
+                    public void run() {
+                        view.setVisibility(View.VISIBLE);
+                        LoadingIndicator.getInstance().dismiss();
+                    }
+                }, 0005);
+
+
             }
 
         } else { //logical error
 
         }
+
     }
 
     @Override

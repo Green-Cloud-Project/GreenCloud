@@ -298,7 +298,7 @@
         android:layout_height="170dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="50dp"
         android:scaleType="fitXY"
         android:src="@drawable/background_bottom" />
 
@@ -306,7 +306,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="65dp">
 
         <RelativeLayout
             android:layout_width="0dp"
