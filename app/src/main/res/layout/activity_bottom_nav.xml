@@ -41,5 +41,15 @@
             app:itemTextColor="@android:color/white"
             app:menu="@menu/bottom_nav_menu"/>
 
+        <RelativeLayout
+            android:id="@+id/rl_rental_info"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:behavior_peekHeight="300dp"
+            app:behavior_hideable="true"
+            android:background="#FFFFFF"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        </RelativeLayout>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

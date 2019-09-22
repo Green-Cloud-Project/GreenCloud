@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.share.greencloud.R;
 import com.share.greencloud.common.BottomNavigationBehavior;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
@@ -65,6 +66,9 @@ public class BottomNavActivity extends AppCompatActivity implements
         if (!checkPermissions()) {
             getLocationPermission();
         }
+
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     private void setupintialView() {
@@ -199,5 +203,11 @@ public class BottomNavActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void showBottomSlide(){
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
+
+        bottomSheetBehavior.setState(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? BottomSheetBehavior.STATE_HIDDEN : BottomSheetBehavior.STATE_EXPANDED);
     }
 }

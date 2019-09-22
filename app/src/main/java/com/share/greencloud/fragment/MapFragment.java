@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
+import com.share.greencloud.activity.BottomNavActivity;
+import com.share.greencloud.activity.MyGreenActivity;
 import com.share.greencloud.common.location.LocationInfo;
 import com.share.greencloud.common.location.LocationPresenter;
 import com.share.greencloud.databinding.FragmentMapBinding;
@@ -262,6 +264,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        //sryang 마커 클릭 이벤트 추가
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                ((BottomNavActivity)getActivity()).showBottomSlide();
+                return false;
+            }
+        });
     }
 
     @Override
