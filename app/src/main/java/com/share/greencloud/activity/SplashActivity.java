@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Handler().postDelayed(() -> startActivity(new Intent(SplashActivity.this, MyGreenActivity.class)), 1000);
+        new Handler().postDelayed(() -> startActivity(new Intent(SplashActivity.this, BottomNavActivity.class)), 1000);
     }
 
     public static void go(AppCompatActivity activity) {
