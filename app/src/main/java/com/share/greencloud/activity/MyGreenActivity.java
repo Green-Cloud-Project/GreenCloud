@@ -66,12 +66,6 @@ public class MyGreenActivity extends AppCompatActivity implements
             getLocationPermission();
         }
 
-        findViewById(R.id.iv_menu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DrawerLayout)findViewById(R.id.dl_menu)).openDrawer(GravityCompat.START);
-            }
-        });
     }
 
     private boolean checkPermissions() {

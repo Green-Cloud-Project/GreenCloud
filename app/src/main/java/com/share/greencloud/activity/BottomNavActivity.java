@@ -28,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.share.greencloud.R;
 import com.share.greencloud.common.BottomNavigationBehavior;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
+import com.share.greencloud.fragment.AlarmFragment;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
@@ -40,7 +41,8 @@ public class BottomNavActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
-        NewsFragment.OnFragmentInteractionListener{
+        NewsFragment.OnFragmentInteractionListener,
+        AlarmFragment.OnFragmentInteractionListener {
 
     private ActionBar toolbar;
     private ActivityBottomNavBinding binding;
@@ -53,7 +55,8 @@ public class BottomNavActivity extends AppCompatActivity implements
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
             new NewsFragment(),
-            new WeatherFragment()
+            new WeatherFragment(),
+            new AlarmFragment()
     };
 
     @Override
@@ -180,6 +183,11 @@ public class BottomNavActivity extends AppCompatActivity implements
             case R.id.navigation_mygreen:
                 viewModel.hideSearchMenu();
                 loadFragment(childFragment[2]);
+                return true;
+
+            case R.id.navigation_notifications:
+                viewModel.hideSearchMenu();
+                loadFragment(childFragment[3]);
                 return true;
         }
         return false;
