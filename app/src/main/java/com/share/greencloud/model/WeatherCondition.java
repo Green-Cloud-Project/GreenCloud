@@ -44,12 +44,17 @@ public class WeatherCondition {
             @Override
             public void onResponse(Call<HourlyWeatherForecastModel> call, Response<HourlyWeatherForecastModel> response) {
 
-                String resultCode = response.body().getResonse().getHeader().getResultCode();
-                if (resultCode.equals("0000")) {
-                    if (listener != null)
-                        listener.getWeatherData(response.body().getResonse().getBody(), true, "");
+                if (response.isSuccessful()) {
+
+                    String resultCode = response.body().getResonse().getHeader().getResultCode();
+                    if (resultCode.equals("0000")) {
+                        if (listener != null)
+                            listener.getWeatherData(response.body().getResonse().getBody(), true, "");
+                    } else {
+                        //listener.getWeatherData(response.body().getResonse().getBody(), true, "");
+                    }
                 }else {
-                    //listener.getWeatherData(response.body().getResonse().getBody(), true, "");
+                    listener.getWeatherData(null, false, response.message());
                 }
             }
 
@@ -63,6 +68,8 @@ public class WeatherCondition {
 
 
     public void getCurrentWeatherData(Location location, final WeatherCallbackListener listener) {
+
+
 
         String lat = String.valueOf(location.getLatitude());
         String lon = String.valueOf(location.getLongitude());
@@ -79,14 +86,18 @@ public class WeatherCondition {
             @Override
             public void onResponse(Call<CurrentWeatherModel> call, Response<CurrentWeatherModel> response) {
 
-                String resultCode = response.body().getResult().getCode();
-                String resultMsg  = response.body().getResult().getMessage();
+                if (response.isSuccessful()) {
+                    String resultCode = response.body().getResult().getCode();
+                    String resultMsg = response.body().getResult().getMessage();
 
-                if (resultCode.equals("9200")) {
-                    if (listener != null)
-                        listener.getWeatherData(response.body().getWeather(), true, "");
+                    if (resultCode.equals("9200")) {
+                        if (listener != null)
+                            listener.getWeatherData(response.body().getWeather(), true, "");
+                    } else {
+                        listener.getWeatherData(null, false, resultMsg);
+                    }
                 }else {
-                    listener.getWeatherData(null, false, resultMsg);
+                    listener.getWeatherData(null, false, response.message());
                 }
             }
             @Override

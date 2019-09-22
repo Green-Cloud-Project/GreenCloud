@@ -26,6 +26,7 @@ import com.share.greencloud.model.HourlyWeatherForecastModel;
 import com.share.greencloud.model.WeatherCallbackListener;
 import com.share.greencloud.model.WeatherCondition;
 import com.share.greencloud.utils.BaseTime;
+import com.share.greencloud.utils.CustomDialog;
 import com.share.greencloud.utils.Geocoding;
 import com.share.greencloud.utils.LoadingIndicator;
 import com.share.greencloud.utils.MappingCategory;
@@ -268,6 +269,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
             }
 
         } else { //logical error
+
+            LoadingIndicator.getInstance().dismiss();
+            new CustomDialog().showDialog(getActivity(),errorMsg);
 
         }
 
