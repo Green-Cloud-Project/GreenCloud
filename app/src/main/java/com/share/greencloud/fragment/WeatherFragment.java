@@ -239,6 +239,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
             } else if (weatherModel instanceof CurrentWeatherModel.Weather) {
 
                 String area = Geocoding.getAddress(getActivity(),presenter.getUserLocation().getLatitude(),presenter.getUserLocation().getLongitude());
+                //sryang 널체크
+                if (((CurrentWeatherModel.Weather) weatherModel).getHourly() == null
+                        || ((CurrentWeatherModel.Weather) weatherModel).getHourly().size() <= 0)
+                    return;
+
                 CurrentWeatherModel.Hourly weather = ((CurrentWeatherModel.Weather) weatherModel).getHourly().get(0);
                 //String area = weather.getGrid().getCity() + " " + weather.getGrid().getCounty() + " " + weather.getGrid().getVillage();
                 tv_current_area.setText(area);

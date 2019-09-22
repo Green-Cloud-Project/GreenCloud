@@ -3,6 +3,7 @@ package com.share.greencloud.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.share.greencloud.MainActivity;
 import com.share.greencloud.R;
 import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
 import com.share.greencloud.fragment.CameraFragment;
@@ -48,6 +50,24 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
 
         vp = findViewById(R.id.vp);
         vp.setAdapter(new VpAdt(getSupportFragmentManager()));
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.rl_start).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        findViewById(R.id.rl_start).setOnClickListener(v -> SplashActivity.go(LayoutListActivity.this));
     }
 
     @Override

@@ -7,26 +7,29 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.SplashActivity"></activity>
         <activity
             android:name=".activity.BottomNavActivity"
             android:launchMode="singleTop"
             android:theme="@style/BottomNavTheme">
             <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN" />-->
+
+                <!-- <action android:name="android.intent.action.MAIN" /> -->
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEARCH" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-        </activity>        <activity android:name=".com.jk.app.JkAppActivity" />
+        </activity>
+        <activity android:name=".com.jk.app.JkAppActivity" />
         <activity
             android:name=".kakaologin.KakaoLoginActiviy"
             android:launchMode="singleTop">
@@ -36,7 +39,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +48,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LayoutListActivity" />
-
         <activity android:name=".googlelogin.GoogleLoginActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -64,7 +65,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.MyGreenActivity" />
 
         <meta-data
@@ -76,7 +76,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
@@ -87,18 +86,19 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
         <provider
             android:name=".common.location.SuggestionProvider"
             android:authorities="com.share.greencloud.common.location.SuggestionProvider"
-            android:exported="false" />        <uses-library
+            android:exported="false" />
+
+        <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-    </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- permission 외부로 만들기 -->
+    </application> <!-- permission 외부로 만들기 -->
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -61,6 +65,13 @@ public class MyGreenActivity extends AppCompatActivity implements
         if (!checkPermissions()) {
             getLocationPermission();
         }
+
+        findViewById(R.id.iv_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout)findViewById(R.id.dl_menu)).openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     private boolean checkPermissions() {
