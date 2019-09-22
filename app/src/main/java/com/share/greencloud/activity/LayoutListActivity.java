@@ -26,6 +26,7 @@ import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
 import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
+import com.share.greencloud.utils.GreenCloudNotificationUtil;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
         GreenCloudInfoFragment.OnFragmentInteractionListener,
@@ -110,6 +111,10 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
 
             case MAP:
                 vp.setCurrentItem(7);
+                break;
+
+            case NOTI_TEST:
+                GreenCloudNotificationUtil.createNotificationChannel(LayoutListActivity.this);
                 break;
         }
     }
