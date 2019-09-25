@@ -19,7 +19,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar" />

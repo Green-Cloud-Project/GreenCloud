@@ -13,11 +13,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.navigation.NavigationView;
 import com.share.greencloud.R;
 import com.share.greencloud.common.BottomNavigationBehavior;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
@@ -42,9 +44,9 @@ public class BottomNavActivity extends AppCompatActivity implements
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
-        AlarmFragment.OnFragmentInteractionListener {
+        AlarmFragment.OnFragmentInteractionListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
-    private ActionBar toolbar;
     private ActivityBottomNavBinding binding;
 
     private SearchManager searchManager;
@@ -69,27 +71,29 @@ public class BottomNavActivity extends AppCompatActivity implements
         if (!checkPermissions()) {
             getLocationPermission();
         }
-
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     private void setupintialView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
         binding.bottomNavView.setOnNavigationItemSelectedListener(this);
 
-        toolbar = getSupportActionBar();
-        toolbar.setDisplayShowHomeEnabled(true);
-//        toolbar.setLogo(R.drawable.beach_access); //  추후 툴바에 로고 추가할때 필요한 코드
-        toolbar.setDisplayUseLogoEnabled(true);
-//        toolbar.setDisplayShowTitleEnabled(false); // 툴바에 타이틀 제거할때 필요한 코드
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
         binding.setLifecycleOwner(this);
-//        binding.setViewmodel(ViewModelProviders.of(this).get(BottomNavVIewModel.class));
         viewModel = ViewModelProviders.of(this).get(BottomNavVIewModel.class);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        binding.navView.setNavigationItemSelectedListener(this);
+
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         loadDefaultFragment();
     }
@@ -106,6 +110,8 @@ public class BottomNavActivity extends AppCompatActivity implements
         transaction.disallowAddToBackStack();
         transaction.setReorderingAllowed(true);
         transaction.commit();
+
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }
@@ -209,13 +215,21 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    public void showBottomSlide(){
+    public void showBottomSlide() {
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
-
         bottomSheetBehavior.setState(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? BottomSheetBehavior.STATE_HIDDEN : BottomSheetBehavior.STATE_EXPANDED);
     }
 }
