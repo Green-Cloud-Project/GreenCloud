@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,7 +46,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         NewsFragment.OnFragmentInteractionListener,
         AlarmFragment.OnFragmentInteractionListener {
 
-    private ActionBar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private ActivityBottomNavBinding binding;
 
     private SearchManager searchManager;
@@ -58,6 +60,7 @@ public class BottomNavActivity extends AppCompatActivity implements
             new WeatherFragment(),
             new AlarmFragment()
     };
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +81,22 @@ public class BottomNavActivity extends AppCompatActivity implements
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
         binding.bottomNavView.setOnNavigationItemSelectedListener(this);
 
-        toolbar = getSupportActionBar();
-        toolbar.setDisplayShowHomeEnabled(true);
+        toolbar = binding.atcToolbar;
+        //toolbar.setDisplayShowHomeEnabled(true);
 //        toolbar.setLogo(R.drawable.beach_access); //  추후 툴바에 로고 추가할때 필요한 코드
-        toolbar.setDisplayUseLogoEnabled(true);
+        //toolbar.setDisplayUseLogoEnabled(true);
 //        toolbar.setDisplayShowTitleEnabled(false); // 툴바에 타이틀 제거할때 필요한 코드
+        // Initialize ActionBarDrawerToggle, which will control toggle of hamburger.
+        // You set the values of R.string.open and R.string.close accordingly.
+        // Also, you can implement drawer toggle listener if you want.
+        mDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.nav_app_bar_open_drawer_description, R.string.nav_app_bar_open_drawer_description);
+        // Setting the actionbarToggle to drawer layout
+        binding.drawerLayout.setDrawerListener(mDrawerToggle);
+        // Calling sync state is necessary to show your hamburger icon...
+        // or so I hear. Doesn't hurt including it even if you find it works
+        // without it on your test device(s)
+        mDrawerToggle.syncState();
+
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());

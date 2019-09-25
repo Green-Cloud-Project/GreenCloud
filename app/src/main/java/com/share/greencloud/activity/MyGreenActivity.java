@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.share.greencloud.R;
 import com.share.greencloud.fragment.MapFragment;
@@ -66,6 +67,8 @@ public class MyGreenActivity extends AppCompatActivity implements
             getLocationPermission();
         }
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
     }
 
     private boolean checkPermissions() {
