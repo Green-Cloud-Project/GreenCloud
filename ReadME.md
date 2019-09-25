@@ -1,11 +1,7 @@
-# 그린클라우드 (안드로이드 공유경제 프로젝트)
-
-[![CircleCI](https://circleci.com/gh/bentleypark/GreenCloud.svg?style=svg&circle-token=34bc81bee71a1083461cfbe6a3de74f859129110)](https://circleci.com/gh/bentleypark/GreenCloud)
-
+# 그린클라우드 (안드로이드 공유우산 프로젝트) [![CircleCI](https://circleci.com/gh/bentleypark/GreenCloud.svg?style=svg&circle-token=34bc81bee71a1083461cfbe6a3de74f859129110)](https://circleci.com/gh/bentleypark/GreenCloud)
 
 <img src="https://github.com/sarang628/GreenCloud/blob/master/Document/img/greencloud_logo.png">
 
-## GreenCloud
 
 우산쉐어링, 지구 환경을 살립니다.
 공유우산 프로젝트에 동참하시면 지속가능한 지구 환경과 공유가치의 소비 문화를 만들어갈 수 있습니다.
