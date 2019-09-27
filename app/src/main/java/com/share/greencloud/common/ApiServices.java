@@ -3,11 +3,12 @@ package com.share.greencloud.common;
 import com.share.greencloud.api.BookingRestResponse;
 import com.share.greencloud.model.CurrentWeatherModel;
 import com.share.greencloud.model.HourlyWeatherForecastModel;
+import com.share.greencloud.model.RentalOffice;
 import com.share.greencloud.model.UserBody;
 
-import okhttp3.ResponseBody;
+import java.util.List;
+
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -43,6 +44,9 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST("join")
     Call<BookingRestResponse<UserBody>> join(@Field("platform") String platform, @Field("token") String token);
+
+    @GET("findRentalOffice")
+    Call<List<RentalOffice>> getRentalOffices();
 }
 
 

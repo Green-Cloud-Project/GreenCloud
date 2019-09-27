@@ -1,4 +1,4 @@
-package com.share.greencloud.presenter;
+package com.share.greencloud.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

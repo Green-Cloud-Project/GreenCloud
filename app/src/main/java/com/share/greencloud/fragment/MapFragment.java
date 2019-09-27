@@ -16,29 +16,39 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
 import com.share.greencloud.activity.BottomNavActivity;
-import com.share.greencloud.activity.MyGreenActivity;
+import com.share.greencloud.common.Constants;
 import com.share.greencloud.common.location.LocationInfo;
 import com.share.greencloud.common.location.LocationPresenter;
 import com.share.greencloud.databinding.FragmentMapBinding;
+import com.share.greencloud.model.RentalOffice;
+import com.share.greencloud.utils.LoadingIndicator;
+import com.share.greencloud.viewmodel.MapFragmentViewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfo.View {
@@ -60,6 +70,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private RxLocation rxLocation;
     private LocationPresenter presenter;
 
+    private MapFragmentViewModel viewModel;
+    private List<MarkerOptions> rentalOfficeMarkersOptions = new ArrayList<>();
+
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -75,6 +89,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        MapsInitializer.initialize(getApplicationContext()); // 커스텀 마커에 아이콘 추가할때 필요
+
     }
 
     @Override
@@ -82,6 +98,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                              Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
+        viewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
+        LoadingIndicator.getInstance().showProgress(getActivity());
 
         if (mMap == null) {
             Timber.d("getMapAsync is called");
@@ -89,12 +107,89 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         }
 
         setupInitialLocationInfo();
+        getRentalOfficeData();
+
+        //                todo 서버측 코드 반영시 주석처리
+        makeRentalOfficeMarkers(new ArrayList<>());
 
         if (!checkPermissions()) {
             getLocationPermission();
         }
 
         return binding.getRoot();
+    }
+
+    private void getRentalOfficeData() {
+        Timber.d("대여소 목록 가져오기: getRentalOfficeData()");
+
+        viewModel.getRentalOfficeData().observe(this, new Observer<List<RentalOffice>>() {
+            @Override
+            public void onChanged(List<RentalOffice> rentalOffices) {
+                Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
+
+//                todo 서버측 코드 반영시 주석제거
+//                viewModel.makeRentalOfficeMarkers(rentalOffices);
+            }
+        });
+
+        viewModel.getLiveDataMarkerOptions().observe(this, new Observer<List<MarkerOptions>>() {
+            @Override
+            public void onChanged(List<MarkerOptions> markerOptions) {
+                rentalOfficeMarkersOptions = markerOptions;
+            }
+        });
+    }
+
+    //                todo 서버측 코드 반영시 주석처리
+    private void makeRentalOfficeMarkers(List<RentalOffice> rentalOffices) {
+        Timber.d("makeRentalOfficeMarkers");
+        LatLng myPosition;
+        MarkerOptions markerUnit = null;
+        rentalOffices.add(new RentalOffice("강남 대여소"));
+        rentalOffices.add(new RentalOffice("서초 대여소"));
+        rentalOffices.add(new RentalOffice("선릉 대여소"));
+        rentalOffices.add(new RentalOffice("삼성 대여소"));
+        rentalOffices.add(new RentalOffice("종로 대여소"));
+        Timber.d("rentalOffices 갯수: " + rentalOffices.size());
+
+
+        for (RentalOffice rentalOffice : rentalOffices) {
+
+            if (rentalOffice.getOffice_name().equals(Constants.GeoData.GANGNAM.getName())) {
+                myPosition = new LatLng(Constants.GeoData.GANGNAM.getLet(), Constants.GeoData.GANGNAM.getLon());
+                markerUnit = new MarkerOptions().position(myPosition).title(rentalOffice.getOffice_name())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+            }
+
+            if (rentalOffice.getOffice_name().equals(Constants.GeoData.SEOCHO.getName())) {
+                myPosition = new LatLng(Constants.GeoData.SEOCHO.getLet(), Constants.GeoData.SEOCHO.getLon());
+                markerUnit = new MarkerOptions().position(myPosition).title(rentalOffice.getOffice_name())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+            }
+
+            if (rentalOffice.getOffice_name().equals(Constants.GeoData.SEONLEOUNG.getName())) {
+                myPosition = new LatLng(Constants.GeoData.SEONLEOUNG.getLet(), Constants.GeoData.SEONLEOUNG.getLon());
+                markerUnit = new MarkerOptions().position(myPosition).title(rentalOffice.getOffice_name())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+            }
+
+            if (rentalOffice.getOffice_name().equals(Constants.GeoData.SAMSEUNG.getName())) {
+                myPosition = new LatLng(Constants.GeoData.SAMSEUNG.getLet(), Constants.GeoData.SAMSEUNG.getLon());
+                markerUnit = new MarkerOptions().position(myPosition).title(rentalOffice.getOffice_name())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+            }
+
+            if (rentalOffice.getOffice_name().equals(Constants.GeoData.JONGLO.getName())) {
+                myPosition = new LatLng(Constants.GeoData.JONGLO.getLet(), Constants.GeoData.JONGLO.getLon());
+                markerUnit = new MarkerOptions().position(myPosition).title(rentalOffice.getOffice_name())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+            }
+
+            rentalOfficeMarkersOptions.add(markerUnit);
+        }
+
+        Timber.d("대여소 마커 목록 갯수: %s", rentalOfficeMarkersOptions.size());
+        Timber.d("대여소 마커 목록: %s", rentalOfficeMarkersOptions.get(0).getTitle());
     }
 
     private void setupInitialLocationInfo() {
@@ -171,6 +266,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onViewCreated(view, savedInstanceState);
         presenter.attachView(this);
         postponeEnterTransition();
+        Timber.d("onViewCreated is called");
+
     }
 
 //    @Override
@@ -205,7 +302,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     @Override
     public void onDestroyView() {
-        if(mMap != null) {
+        if (mMap != null) {
             mMap.clear();
         }
         binding.map.onDestroy();
@@ -234,6 +331,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onPause() {
         super.onPause();
         binding.map.onPause();
+        LoadingIndicator.getInstance().dismiss();
         Timber.i("onPause() is called");
     }
 
@@ -257,10 +355,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onMapReady(GoogleMap googleMap) {
         Timber.i("onMapReady() is called");
 
+
         mMap = googleMap;
         LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
 
         marker = mMap.addMarker(new MarkerOptions().position(myPosition).title("현재 위치"));
+
+
+        List<Marker> markers = new ArrayList<>();
+        for (int i = 0; i < rentalOfficeMarkersOptions.size(); ++i) {
+            Timber.d("대여소 위치: " + rentalOfficeMarkersOptions.get(i).getPosition());
+            markers.add(mMap.addMarker(rentalOfficeMarkersOptions.get(i)));
+        }
+
         marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -269,10 +376,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                ((BottomNavActivity)getActivity()).showBottomSlide();
+                ((BottomNavActivity) getActivity()).showBottomSlide();
                 return false;
             }
         });
+
+        LoadingIndicator.getInstance().dismiss();
+
     }
 
     @Override
@@ -289,7 +399,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.d("getMapAsync is called again");
         marker.remove();
         binding.map.getMapAsync(callback);
-	startPostponedEnterTransition();
+        startPostponedEnterTransition();
     }
 
     @Override
@@ -306,5 +416,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 
 }

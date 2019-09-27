@@ -27,7 +27,34 @@ public class Constants {
     public static final String SEOUL_NAME = "Seoul";
     public static final double LATITUE_SEOUL = 37.56;
     public static final double LONGITUTE_SEOUL = 126.97;
-    public static final long REQEUST_TIME_INTERVAL = 15000;
+    public static final long REQEUST_TIME_INTERVAL = 60000 * 3;
+
+    public static enum GeoData {
+        GANGNAM("강남 대여소", 37.4987548, 127.027777), SEOCHO("서초 대여소", 37.4910180, 127.006799),
+        SEONLEOUNG("선릉 대여소", 37.5052801, 127.049777), SAMSEUNG("삼성 대여소", 37.5100758, 127.063861),
+        JONGLO("종로 대여소", 37.5697375, 126.988660);
+
+        private String name;
+        private double let, lon;
+
+        GeoData(String name, double let, double lon) {
+            this.name = name;
+            this.let = let;
+            this.lon = lon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public double getLet() {
+            return let;
+        }
+
+        public double getLon() {
+            return lon;
+        }
+    }
 
     public static Location setDefaultLocation() {
         Location defaultLocation = new Location(SEOUL_NAME);
