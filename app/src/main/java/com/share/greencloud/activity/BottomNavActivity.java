@@ -34,7 +34,7 @@ import com.share.greencloud.fragment.AlarmFragment;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
-import com.share.greencloud.presenter.BottomNavVIewModel;
+import com.share.greencloud.viewmodel.BottomNavVIewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
