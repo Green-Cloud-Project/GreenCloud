@@ -43,7 +43,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
 //    Location mLastLocation;
 
-    Context context;
+    Context mContext;
     View view;
 
     TextView[] tv_hours;
@@ -79,9 +79,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        context = container.getContext();
+        mContext = container.getContext();
         view = inflater.inflate(R.layout.fragment_weather, container, false);
         view.setVisibility(View.GONE);
+        view.animate().alpha(0.0f);
+
         initalizeView();
         initalizeLocation();
         return view;
@@ -160,6 +162,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initGettingWeatherData();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.attachView(this);
@@ -168,13 +176,14 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     @Override
     public void onResume() {
         super.onResume();
-        initGettingWeatherData();
+       // initGettingWeatherData();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         presenter.detachView();
+        LoadingIndicator.getInstance().dismiss();
     }
 
     @Override
@@ -199,6 +208,19 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
                     String category = item.getCategory();
                     String forecastTime = item.getFcstTime();
                     String forecastValue = item.getFcstValue();
+
+
+                    if ((index == 0) && (!prevForecastTime.equals(forecastTime)) && !isFirstLoopDone) {
+                        prevForecastTime = forecastTime;
+                        isFirstLoopDone = true;
+                    } else {
+                        if (!prevForecastTime.equals(forecastTime)) {
+                            index++;
+                            isRaining = false;
+                            prevForecastTime = forecastTime;
+                        }
+                    }
+
 
                     if ((category.equals(String.valueOf(MappingCategory.CATEGORY.PTY))) && (!forecastValue.equals("0"))) {
 
@@ -239,7 +261,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
             } else if (weatherModel instanceof CurrentWeatherModel.Weather) {
 
-                String area = Geocoding.getAddress(getActivity(),presenter.getUserLocation().getLatitude(),presenter.getUserLocation().getLongitude());
+                String area = Geocoding.getAddress(mContext,presenter.getUserLocation().getLatitude(),presenter.getUserLocation().getLongitude());
                 //sryang 널체크
                 if (((CurrentWeatherModel.Weather) weatherModel).getHourly() == null
                         || ((CurrentWeatherModel.Weather) weatherModel).getHourly().size() <= 0)
@@ -260,6 +282,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
                 view.postDelayed(new Runnable() {
                     public void run() {
+                        view.animate().alpha(1.0f);
                         view.setVisibility(View.VISIBLE);
                         LoadingIndicator.getInstance().dismiss();
                     }
