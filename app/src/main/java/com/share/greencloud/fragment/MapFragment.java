@@ -110,7 +110,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         getRentalOfficeData();
 
         //                todo 서버측 코드 반영시 주석처리
-        makeRentalOfficeMarkers(new ArrayList<>());
+        //makeRentalOfficeMarkers(new ArrayList<>());
 
         if (!checkPermissions()) {
             getLocationPermission();
@@ -128,7 +128,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
 
 //                todo 서버측 코드 반영시 주석제거
-//                viewModel.makeRentalOfficeMarkers(rentalOffices);
+                viewModel.makeRentalOfficeMarkers(rentalOffices);
             }
         });
 

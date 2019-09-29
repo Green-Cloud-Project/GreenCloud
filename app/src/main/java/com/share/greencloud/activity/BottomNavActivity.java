@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -80,8 +82,8 @@ public class BottomNavActivity extends AppCompatActivity implements
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigationBehavior());
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
+        //layoutParams.setBehavior(new BottomNavigationBehavior());
 
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(this).get(BottomNavVIewModel.class);
@@ -111,7 +113,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         transaction.setReorderingAllowed(true);
         transaction.commit();
 
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        //binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }
