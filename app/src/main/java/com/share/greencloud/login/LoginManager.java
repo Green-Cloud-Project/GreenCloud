@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.share.greencloud.common.Constants;
+import com.share.greencloud.utils.GreenCloudPreferences;
+
 public class LoginManager {
     private static LoginManager loginManager;
     private GoogleLoginProvider googleLoginProvider;
@@ -74,5 +77,13 @@ public class LoginManager {
 
     public String getKakaoKey() {
         return kakaoLoginProvider.getKey();
+    }
+
+    public boolean isLogin() {
+        return !Constants.token.equals("");
+    }
+
+    public void logout(Context context) {
+        GreenCloudPreferences.setToken(context, "");
     }
 }

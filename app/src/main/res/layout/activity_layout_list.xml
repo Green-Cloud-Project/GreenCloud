@@ -6,24 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".activity.LayoutListActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
-        android:layout_above="@id/rl_start"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_start"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:background="#55DD55"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_start"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:textSize="20sp"
-            android:text="시작하기"/>
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#55DD55"
+            android:text="시작하기"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="#EEEEEE"
+            android:text="로그아웃"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_start" />
 
 </RelativeLayout>

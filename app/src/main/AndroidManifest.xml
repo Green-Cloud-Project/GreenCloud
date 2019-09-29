@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.share.greencloud">
-
+    <!-- permission 외부로 만들기 -->
     <application
         android:name=".common.BaseApplication"
         android:allowBackup="true"
@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.SplashActivity"></activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.SplashActivity" />
         <activity
             android:name=".activity.BottomNavActivity"
             android:launchMode="singleTop"
@@ -94,11 +95,11 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-    </application> <!-- permission 외부로 만들기 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

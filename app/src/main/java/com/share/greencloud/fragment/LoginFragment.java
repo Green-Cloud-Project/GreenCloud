@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.facebook.login.Login;
 import com.share.greencloud.R;
+import com.share.greencloud.activity.BottomNavActivity;
 import com.share.greencloud.api.ApiManager;
 import com.share.greencloud.api.CallbackListener;
 import com.share.greencloud.common.Constants;
@@ -80,6 +81,7 @@ public class LoginFragment extends Fragment {
                                 Log.d(TAG, userBody.getToken());
                                 Constants.token = userBody.getToken();
                                 GreenCloudPreferences.setToken(getContext(), Constants.token);
+                                getActivity().startActivity(new Intent(getContext(), BottomNavActivity.class));
                             }
 
                             @Override

@@ -20,9 +20,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Constants.MODE == Constants.MODE.DEBUG) {
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {
             startActivity(new Intent(this, LayoutListActivity.class));
             Timber.plant(new Timber.DebugTree());
+        }
+        else {
+            SplashActivity.go(this);
         }
 
     }

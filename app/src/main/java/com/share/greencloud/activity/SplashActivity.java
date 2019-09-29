@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.share.greencloud.R;
+import com.share.greencloud.fragment.LoginFragment;
+import com.share.greencloud.login.LoginManager;
+import com.share.greencloud.utils.GreenCloudPreferences;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,7 +18,18 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Handler().postDelayed(() -> startActivity(new Intent(SplashActivity.this, BottomNavActivity.class)), 1000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (LoginManager.getInstance().isLogin()) {
+                    startActivity(new Intent(SplashActivity.this, BottomNavActivity.class));
+                }
+                else {
+                    LoginActivity.go(SplashActivity.this);
+                }
+            }
+        }, 1000);
     }
 
     public static void go(AppCompatActivity activity) {

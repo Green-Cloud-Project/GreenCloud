@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.share.greencloud.MainActivity;
 import com.share.greencloud.R;
 import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
+import com.share.greencloud.common.Constants;
 import com.share.greencloud.fragment.CameraFragment;
 import com.share.greencloud.fragment.DrawerFragment;
 import com.share.greencloud.fragment.GetUmbrellaCompleteFragment;
@@ -26,6 +28,7 @@ import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.MyGreenFragment;
 import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
+import com.share.greencloud.login.LoginManager;
 import com.share.greencloud.utils.GreenCloudNotificationUtil;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
@@ -68,7 +71,13 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
             }
         });
 
-        findViewById(R.id.rl_start).setOnClickListener(v -> SplashActivity.go(LayoutListActivity.this));
+        findViewById(R.id.tv_start).setOnClickListener(v -> SplashActivity.go(LayoutListActivity.this));
+        findViewById(R.id.tv_logout).setOnClickListener(v ->
+        {
+            LoginManager.getInstance().logout(this);
+            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+            Constants.token = "";
+        });
     }
 
     @Override
