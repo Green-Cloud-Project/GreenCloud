@@ -101,6 +101,13 @@ public class LoginFragment extends Fragment {
                         });
 
         });
+
+        view.findViewById(R.id.btn_no_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getContext(), BottomNavActivity.class));
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {

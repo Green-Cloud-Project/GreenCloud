@@ -9,6 +9,17 @@ public class GreenCloudPreferences {
         return context.getSharedPreferences(GreenCloudPreferences.class.getName(), Context.MODE_PRIVATE);
     }
 
+    public static void setOnBoarding(Context context, boolean isOnBoarding){
+        SharedPreferences pref = getPref(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("onBoarding", isOnBoarding);
+        editor.apply();
+    }
+
+    public static boolean getOnBoarding(Context context){
+        return getPref(context).getBoolean("onBoarding", false);
+    }
+
     public static void setToken(Context context, String token) {
         SharedPreferences pref = getPref(context);
         SharedPreferences.Editor editor = pref.edit();

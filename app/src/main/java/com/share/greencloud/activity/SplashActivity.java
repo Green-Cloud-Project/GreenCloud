@@ -22,7 +22,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (LoginManager.getInstance().isLogin()) {
+                if (!GreenCloudPreferences.getOnBoarding(SplashActivity.this)) {
+                    GreenCloudPreferences.setOnBoarding(SplashActivity.this, true);
+                    startActivity(new Intent(SplashActivity.this, OnBoardingActivity.class));
+                }
+                else if (LoginManager.getInstance().isLogin()) {
                     startActivity(new Intent(SplashActivity.this, BottomNavActivity.class));
                 }
                 else {

@@ -33,6 +33,17 @@
             android:background="#EEEEEE"
             android:text="로그아웃"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_on_boarding"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="#EEEEEE"
+            android:text="온보딩 초기화"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

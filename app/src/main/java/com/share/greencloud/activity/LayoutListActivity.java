@@ -30,6 +30,7 @@ import com.share.greencloud.googlelogin.GoogleLoginActivity;
 import com.share.greencloud.kakaologin.KakaoLoginActiviy;
 import com.share.greencloud.login.LoginManager;
 import com.share.greencloud.utils.GreenCloudNotificationUtil;
+import com.share.greencloud.utils.GreenCloudPreferences;
 
 public class LayoutListActivity extends AppCompatActivity implements LayoutListFragment.CommunicateListener,
         GreenCloudInfoFragment.OnFragmentInteractionListener,
@@ -77,6 +78,14 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
             LoginManager.getInstance().logout(this);
             Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
             Constants.token = "";
+        });
+
+        findViewById(R.id.tv_on_boarding).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GreenCloudPreferences.setOnBoarding(LayoutListActivity.this, false);
+                Toast.makeText(LayoutListActivity.this, "온보딩이 초기화 되었습니다.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
