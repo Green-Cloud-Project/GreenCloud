@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.WindowManager;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -30,9 +29,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.share.greencloud.R;
-import com.share.greencloud.common.BottomNavigationBehavior;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.fragment.AlarmFragment;
+import com.share.greencloud.fragment.CameraFragment;
 import com.share.greencloud.fragment.MapFragment;
 import com.share.greencloud.fragment.NewsFragment;
 import com.share.greencloud.fragment.WeatherFragment;
@@ -56,11 +55,14 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     private BottomNavVIewModel viewModel;
 
+    private BottomSheetBehavior bottomSheetBehavior;
+
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
             new NewsFragment(),
             new WeatherFragment(),
-            new AlarmFragment()
+            new AlarmFragment(),
+            new CameraFragment()
     };
 
     @Override
@@ -83,7 +85,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
-        //layoutParams.setBehavior(new BottomNavigationBehavior());
+//        layoutParams.setBehavior(new BottomNavigationBehavior());
 
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(this).get(BottomNavVIewModel.class);
@@ -94,8 +96,10 @@ public class BottomNavActivity extends AppCompatActivity implements
         toggle.syncState();
         binding.navView.setNavigationItemSelectedListener(this);
 
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        binding.rentalInfo.setBottomNavActivity(this);
 
         loadDefaultFragment();
     }
@@ -108,12 +112,17 @@ public class BottomNavActivity extends AppCompatActivity implements
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-//        transaction.addToBackStack(null); // 프레그먼트 백스택 설정:  addToBackStack을 호출하지 않으면 백스택이 생성되지 않음
-        transaction.disallowAddToBackStack();
+
+        if(fragment.equals(childFragment[4])) { // CarmeraFragment 경우에만 BackStack 추가되도록 적용.
+            transaction.addToBackStack(null);   // 사용자가 다시 대여소를 선택하거나 스캔을 취소하는 경우를 대비하여
+
+        } else {
+            transaction.disallowAddToBackStack();
+        }
+
         transaction.setReorderingAllowed(true);
         transaction.commit();
 
-        //binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }
@@ -231,7 +240,15 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     public void showBottomSlide() {
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.rl_rental_info));
         bottomSheetBehavior.setState(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? BottomSheetBehavior.STATE_HIDDEN : BottomSheetBehavior.STATE_EXPANDED);
+    }
+     public void hideBottomSlide(View view) {
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    public void scanQRcode(View view) {
+        hideBottomSlide(view);
+        loadFragment(childFragment[4]);
     }
 }

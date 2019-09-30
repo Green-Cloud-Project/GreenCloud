@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -18,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.share.greencloud.R;
-import com.share.greencloud.com.jk.app.fragment.JkAppFragment;
 
 import java.io.IOException;
 
@@ -62,14 +60,15 @@ public class CameraFragment extends Fragment {
 
         mScanButton    =  view.findViewById(R.id.ib_qrcodescan);
         mCamera_preview = view.findViewById(R.id.camera_preview);
-        mCamera_preview.setVisibility(View.INVISIBLE);
+//        mCamera_preview.setVisibility(View.INVISIBLE);
 
-        mScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCamera_preview.setVisibility(View.VISIBLE);
-            }
-        });
+        mCamera_preview.setVisibility(View.VISIBLE); //  Fragment가 실행되면 카메라가 바로 실행되도록 수정함. -Bentley
+//        mScanButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCamera_preview.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     private void setupScanner() {

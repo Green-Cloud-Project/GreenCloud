@@ -4,11 +4,11 @@
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="toolbar_title_size">20sp</dimen>
 
-    <dimen name="bottomsheet_rental_info_height">300dp</dimen>
+    <dimen name="bottomsheet_rental_info_height">180dp</dimen>
 
     <dimen name="iv_currentLocation_layout_size">30dp</dimen>
-    <dimen name="iv_currentLocation_layout_marginEnd">20dp</dimen>
-    <dimen name="iv_currentLocation_layout_marginTop">30dp</dimen>
+    <dimen name="iv_currentLocation_layout_marginEnd">15dp</dimen>
+    <dimen name="iv_currentLocation_layout_marginBottom">100dp</dimen>
 
     <dimen name="nav_header_padding">16dp</dimen>
     <dimen name="nav_header_iv_profile_size">80dp</dimen>

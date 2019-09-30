@@ -32,7 +32,7 @@ public class RentalOfficeRepository {
             public void onResponse(Call<List<RentalOffice>> call, Response<List<RentalOffice>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Timber.d("대여소 데이터 로딩완료: %s", response.body().get(0).getOffice_name());
+                        Timber.d("대여소 데이터 로딩완료: %s", response.body().get(0).getOffice_location());
                         rentalOffices = response.body();
                         mutableLiveData.setValue(rentalOffices);
                     } else {

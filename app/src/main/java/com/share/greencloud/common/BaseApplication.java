@@ -8,6 +8,8 @@ import com.share.greencloud.kakaologin.KakaoSDKAdapter;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.squareup.leakcanary.LeakCanary;
 
+import timber.log.Timber;
+
 
 public class BaseApplication extends Application {
     private static BaseApplication instance;
@@ -39,6 +41,8 @@ public class BaseApplication extends Application {
 
         //토큰 셋팅
         Constants.token = GreenCloudPreferences.getToken(getBaseContext());
+
+        Timber.plant(new Timber.DebugTree());
     }
 
     @Override
