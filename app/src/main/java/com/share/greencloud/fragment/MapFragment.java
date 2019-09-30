@@ -364,9 +364,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 ((BottomNavActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLatitude(), rentalOffice.getLongitude()), DEFAULT_ZOOM));
+                marker.showInfoWindow();
             }
         }
-
 
         return true;
     }
