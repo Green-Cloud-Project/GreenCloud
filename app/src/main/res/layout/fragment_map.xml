@@ -8,6 +8,10 @@
         <variable
             name="MapFragment"
             type="com.share.greencloud.fragment.MapFragment" />
+
+        <variable
+            name="BottomNavActivity"
+            type="com.share.greencloud.activity.BottomNavActivity" />
     </data>
 
     <RelativeLayout
@@ -24,11 +28,29 @@
             android:id="@+id/currentLocation"
             android:layout_width="@dimen/iv_currentLocation_layout_size"
             android:layout_height="@dimen/iv_currentLocation_layout_size"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/iv_currentLocation_layout_marginEnd"
-            android:layout_marginTop="@dimen/iv_currentLocation_layout_marginTop"
+            android:layout_marginBottom="@dimen/iv_currentLocation_layout_marginBottom"
             android:src="@drawable/ic_gps" />
+
+        <Button
+            android:id="@+id/btn_scanQR"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="30dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="이용하기"
+            android:onClick="@{BottomNavActivity::scanQRcode}"
+            />
 
     </RelativeLayout>
 </layout>

@@ -86,18 +86,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star_yellow" />
 
-        <Button
-            android:id="@+id/btn_rental"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:text="대여하기"
-            android:onClick="@{bottomNavActivity::scanQRcode}"
-            android:background="@drawable/background_button_color"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+<!--        <Button-->
+<!--            android:id="@+id/btn_rental"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="대여하기"-->
+<!--            android:onClick="@{bottomNavActivity::scanQRcode}"-->
+<!--            android:background="@drawable/background_button_color"-->
+<!--            android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view" />-->
 
         <ImageView
             android:id="@+id/iv_close"

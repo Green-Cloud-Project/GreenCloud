@@ -85,7 +85,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.bottomNavView.getLayoutParams();
-        //layoutParams.setBehavior(new BottomNavigationBehavior());
+//        layoutParams.setBehavior(new BottomNavigationBehavior());
 
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(this).get(BottomNavVIewModel.class);
@@ -112,12 +112,17 @@ public class BottomNavActivity extends AppCompatActivity implements
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-//        transaction.addToBackStack(null); // 프레그먼트 백스택 설정:  addToBackStack을 호출하지 않으면 백스택이 생성되지 않음
-        transaction.disallowAddToBackStack();
+
+        if(fragment.equals(childFragment[4])) { // CarmeraFragment 경우에만 BackStack 추가되도록 적용.
+            transaction.addToBackStack(null);   // 사용자가 다시 대여소를 선택하거나 스캔을 취소하는 경우를 대비하여
+
+        } else {
+            transaction.disallowAddToBackStack();
+        }
+
         transaction.setReorderingAllowed(true);
         transaction.commit();
 
-        //binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }

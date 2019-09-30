@@ -98,6 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
         viewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
+        binding.setBottomNavActivity((BottomNavActivity) getActivity());
 
         if (!LoadingIndicator.getInstance().isShowing()) {
             LoadingIndicator.getInstance().showProgress(getApplicationContext());
@@ -362,6 +363,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_retal_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 ((BottomNavActivity) getActivity()).showBottomSlide();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLatitude(), rentalOffice.getLongitude()), DEFAULT_ZOOM));
             }
         }
 
