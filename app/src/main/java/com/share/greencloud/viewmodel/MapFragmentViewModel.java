@@ -42,7 +42,7 @@ public class MapFragmentViewModel extends AndroidViewModel {
         for (RentalOffice rentalOffice : rentalOffices) {
             position = new LatLng(rentalOffice.getLatitude(), rentalOffice.getLongitude());
             markerUnit = new MarkerOptions().position(position).title(rentalOffice.getOffice_name())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.umbrella_smallest));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green));
             markerOptions.add(markerUnit);
         }
         liveDataMarkerOptions.setValue(markerOptions);

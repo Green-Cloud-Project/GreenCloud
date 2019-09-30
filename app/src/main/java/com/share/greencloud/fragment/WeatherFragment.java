@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class WeatherFragment extends Fragment implements View.OnClickListener, WeatherCallbackListener, LocationInfo.View, OnMapReadyCallback {
@@ -147,8 +148,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
     private void initalizeLocation() {
 
-        LoadingIndicator.getInstance().showProgress(getActivity());
-
+//        LoadingIndicator.getInstance().showProgress(getActivity());
+        if (!LoadingIndicator.getInstance().isShowing()) {
+            LoadingIndicator.getInstance().showProgress(getApplicationContext());
+        }
+        
         rxLocation = new RxLocation(getContext());
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
@@ -183,7 +187,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     public void onStop() {
         super.onStop();
         presenter.detachView();
-        LoadingIndicator.getInstance().dismiss();
+        if (LoadingIndicator.getInstance().isShowing()) {
+            LoadingIndicator.getInstance().dismiss();
+        }
     }
 
     @Override
@@ -284,7 +290,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
                     public void run() {
                         view.animate().alpha(1.0f);
                         view.setVisibility(View.VISIBLE);
-                        LoadingIndicator.getInstance().dismiss();
+                        if (LoadingIndicator.getInstance().isShowing()) {
+                            LoadingIndicator.getInstance().dismiss();
+                        }
                     }
                 }, 0005);
 
@@ -293,7 +301,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
         } else { //logical error
 
-            LoadingIndicator.getInstance().dismiss();
+            if (LoadingIndicator.getInstance().isShowing()) {
+                LoadingIndicator.getInstance().dismiss();
+            }
             new CustomDialog().showDialog(getActivity(),errorMsg);
 
         }

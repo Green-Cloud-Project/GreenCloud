@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="바코드를 스켄해 주세요"
+        android:text="바코드를 스캔해 주세요"
         android:textColor="#000000"
         android:textSize="20sp" />
 

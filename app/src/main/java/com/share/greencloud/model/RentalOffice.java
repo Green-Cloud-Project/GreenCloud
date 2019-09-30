@@ -7,14 +7,14 @@ public class RentalOffice {
     private int office_id;
     @SerializedName("office_name")
     private String office_name;
-    private String office_des;
+    @SerializedName("office_location")
+    private String office_location;
     @SerializedName("lat")
     private double lat;
     @SerializedName("lon")
     private double lon;
     @SerializedName("umbrella_count")
     private int umbrella_count;
-
 
     public RentalOffice() {
     }
@@ -31,8 +31,8 @@ public class RentalOffice {
         return office_name;
     }
 
-    public String getOffice_des() {
-        return office_des;
+    public String getOffice_location() {
+        return office_location;
     }
 
     public double getLatitude() {
