@@ -125,8 +125,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         viewModel.getRentalOfficeData().observe(this, rentalOffices -> {
             Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
             viewModel.makeRentalOfficeMarkers(rentalOffices);
+
+            for(RentalOffice rentalOffice: rentalOffices) {
+                viewModel.insert(rentalOffice);
+            }
+
+        });
+
+        viewModel.getAllRentalOfficesFromDB().observe(this, rentalOffices -> {
+            Timber.d("대여소 데이터 로딩완료 from DB(Room): %s", rentalOffices.size());
             rentalOfficeArrayList = rentalOffices;
         });
+
 
         viewModel.getLiveDataMarkerOptions().observe(this, markerOptions -> rentalOfficeMarkersOptions = markerOptions);
     }
@@ -136,10 +146,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
         presenter = new LocationPresenter(rxLocation);
 
-        binding.currentLocation.setOnClickListener(v -> refresh());
+        binding.fabCurrentLocation.setOnClickListener(v -> refresh());
     }
 
-    private void refresh() {
+    public void refresh() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
     }
@@ -363,7 +373,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_retal_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 ((BottomNavActivity) getActivity()).showBottomSlide();
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLatitude(), rentalOffice.getLongitude()), DEFAULT_ZOOM));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
                 marker.showInfoWindow();
             }
         }
@@ -381,11 +391,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Timber.d("makeRentalOfficeMarkers");
         LatLng myPosition;
         MarkerOptions markerUnit = null;
-        rentalOffices.add(new RentalOffice("강남 대여소"));
-        rentalOffices.add(new RentalOffice("서초 대여소"));
-        rentalOffices.add(new RentalOffice("선릉 대여소"));
-        rentalOffices.add(new RentalOffice("삼성 대여소"));
-        rentalOffices.add(new RentalOffice("종로 대여소"));
+//        rentalOffices.add(new RentalOffice("강남 대여소"));
+//        rentalOffices.add(new RentalOffice("서초 대여소"));
+//        rentalOffices.add(new RentalOffice("선릉 대여소"));
+//        rentalOffices.add(new RentalOffice("삼성 대여소"));
+//        rentalOffices.add(new RentalOffice("종로 대여소"));
         Timber.d("rentalOffices 갯수: " + rentalOffices.size());
 
 

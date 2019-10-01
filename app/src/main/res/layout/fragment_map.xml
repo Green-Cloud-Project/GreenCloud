@@ -24,15 +24,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/currentLocation"
-            android:layout_width="@dimen/iv_currentLocation_layout_size"
-            android:layout_height="@dimen/iv_currentLocation_layout_size"
-            android:layout_alignParentBottom="true"
+<!--        <ImageView-->
+<!--            android:id="@+id/currentLocation"-->
+<!--            android:layout_width="@dimen/iv_currentLocation_layout_size"-->
+<!--            android:layout_height="@dimen/iv_currentLocation_layout_size"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="@dimen/iv_currentLocation_layout_marginEnd"-->
+<!--            android:layout_marginBottom="@dimen/iv_currentLocation_layout_marginBottom"-->
+<!--            android:src="@drawable/ic_gps" />-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/iv_currentLocation_layout_marginEnd"
-            android:layout_marginBottom="@dimen/iv_currentLocation_layout_marginBottom"
-            android:src="@drawable/ic_gps" />
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_gps"
+            app:backgroundTint="@android:color/white"
+            app:tint="#ff80cbc4"
+            app:fabSize="normal" />
 
         <Button
             android:id="@+id/btn_scanQR"
@@ -42,7 +54,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:drawablePadding="30dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="#ff80cbc4"
             android:textColor="@android:color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:padding="10dp"
