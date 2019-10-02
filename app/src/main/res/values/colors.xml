@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00c853</color>
     <color name="colorAccent">#D81B60</color>
     <color name="statusBarColor">#0E570C</color>
+    <color name="actionbar_opacity">@android:color/transparent</color>
 </resources>
