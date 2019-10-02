@@ -4,8 +4,8 @@
     android:background="@android:color/white"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.share.greencloud.login.LoginManager"/>
-        <import type="com.share.greencloud.login.LoginType"/>
+        <import type="com.share.greencloud.domain.login.LoginManager"/>
+        <import type="com.share.greencloud.domain.login.LoginType"/>
         <variable
             name="activity"
             type="androidx.appcompat.app.AppCompatActivity" />

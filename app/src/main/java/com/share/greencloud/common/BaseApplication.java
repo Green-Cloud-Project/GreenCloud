@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
-import com.share.greencloud.kakaologin.KakaoSDKAdapter;
+import com.share.greencloud.presentation.adapter.KakaoSDKAdapter;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.squareup.leakcanary.LeakCanary;
 

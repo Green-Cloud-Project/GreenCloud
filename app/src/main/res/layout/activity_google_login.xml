@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".googlelogin.GoogleLoginActivity">
+    tools:context=".presentation.activity.GoogleLoginActivity">
 
     <LinearLayout
         android:id="@+id/top_linearLayout"

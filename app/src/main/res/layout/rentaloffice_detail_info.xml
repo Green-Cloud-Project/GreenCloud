@@ -8,7 +8,7 @@
 
         <variable
             name="bottomNavActivity"
-            type="com.share.greencloud.activity.BottomNavActivity"/>
+            type="com.share.greencloud.presentation.activity.BottomNavActivity"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
