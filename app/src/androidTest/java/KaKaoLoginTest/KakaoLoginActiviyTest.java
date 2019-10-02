@@ -5,7 +5,7 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.share.greencloud.R;
-import com.share.greencloud.kakaologin.KakaoLoginActiviy;
+import com.share.greencloud.presentation.activity.KakaoLoginActiviy;
 
 import org.junit.Rule;
 import org.junit.Test;

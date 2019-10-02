@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".com.jk.app.fragment.JkAppFragment"
+    tools:context=".presentation.fragment.JkAppFragment"
     android:layout_centerVertical="true"
     android:orientation="vertical"
     >

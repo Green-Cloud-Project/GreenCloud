@@ -2,16 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.MapFragment">
+    tools:context=".presentation.fragment.MapFragment">
 
     <data>
         <variable
             name="MapFragment"
-            type="com.share.greencloud.fragment.MapFragment" />
+            type="com.share.greencloud.presentation.fragment.MapFragment" />
 
         <variable
             name="BottomNavActivity"
-            type="com.share.greencloud.activity.BottomNavActivity" />
+            type="com.share.greencloud.presentation.activity.BottomNavActivity" />
     </data>
 
     <RelativeLayout

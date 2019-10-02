@@ -2,13 +2,11 @@ package com.share.greencloud;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.share.greencloud.activity.LayoutListActivity;
-import com.share.greencloud.activity.SplashActivity;
-import com.share.greencloud.common.Constants;
+import com.share.greencloud.presentation.activity.LayoutListActivity;
+import com.share.greencloud.presentation.activity.SplashActivity;
 
 import timber.log.Timber;
 

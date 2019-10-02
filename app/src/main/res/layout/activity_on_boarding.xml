@@ -9,7 +9,7 @@
         android:id="@+id/vp_on_boarding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.OnBoardingActivity"/>
+        tools:context=".presentation.activity.OnBoardingActivity"/>
 
     <LinearLayout
         android:id="@+id/rl_start"
