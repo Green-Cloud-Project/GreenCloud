@@ -6,7 +6,7 @@ import android.location.Location;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
-import com.share.greencloud.domain.listener.LocationInfoMVP;
+import com.share.greencloud.domain.interator.LocationInfoMVP;
 import com.share.greencloud.domain.model.UserLocation;
 
 import io.reactivex.Observable;

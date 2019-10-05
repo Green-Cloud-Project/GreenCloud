@@ -19,7 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
-import com.share.greencloud.domain.listener.LocationInfoMVP;
+import com.share.greencloud.domain.interator.LocationInfoMVP;
 import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;

@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.king.zxing.CaptureActivity"/>
+        <activity android:name=".presentation.activity.QRScanActivity"/>
         <activity android:name=".presentation.activity.OnBoardingActivity"></activity>
         <activity android:name=".presentation.activity.LoginActivity" />
         <activity android:name=".presentation.activity.SplashActivity" />

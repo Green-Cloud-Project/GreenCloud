@@ -1,6 +1,6 @@
 package com.share.greencloud.data.api;
 
-import com.share.greencloud.domain.listener.BookingRestResponse;
+import com.share.greencloud.domain.interator.BookingRestResponse;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;
 import com.share.greencloud.domain.model.RentalOffice;

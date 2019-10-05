@@ -1,4 +1,4 @@
-package com.share.greencloud.domain.listener;
+package com.share.greencloud.domain.interator;
 
 public class BookingRestResponse<RespModel extends Object> {
     private int response;

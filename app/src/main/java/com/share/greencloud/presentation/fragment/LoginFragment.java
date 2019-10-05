@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.share.greencloud.R;
 import com.share.greencloud.presentation.activity.BottomNavActivity;
 import com.share.greencloud.data.api.ApiManager;
-import com.share.greencloud.domain.listener.CallbackListener;
+import com.share.greencloud.domain.interator.CallbackListener;
 import com.share.greencloud.common.Constants;
 import com.share.greencloud.databinding.FragmentLoginBinding;
 import com.share.greencloud.domain.login.LoginManager;

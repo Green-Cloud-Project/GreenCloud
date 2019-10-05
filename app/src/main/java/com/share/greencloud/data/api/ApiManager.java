@@ -1,7 +1,7 @@
 package com.share.greencloud.data.api;
 
-import com.share.greencloud.domain.listener.BookingRestResponse;
-import com.share.greencloud.domain.listener.CallbackListener;
+import com.share.greencloud.domain.interator.BookingRestResponse;
+import com.share.greencloud.domain.interator.CallbackListener;
 import com.share.greencloud.common.Constants;
 import com.share.greencloud.domain.model.UserBody;
 

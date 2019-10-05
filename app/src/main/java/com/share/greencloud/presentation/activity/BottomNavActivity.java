@@ -248,6 +248,7 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     public void scanQRcode(View view) {
         hideBottomSlide(view);
-        loadFragment(childFragment[4]);
+        Intent intent = new Intent(this, QRScanActivity.class);
+        startActivity(intent);
     }
 }
