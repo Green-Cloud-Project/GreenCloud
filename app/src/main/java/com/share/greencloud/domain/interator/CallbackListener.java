@@ -1,4 +1,4 @@
-package com.share.greencloud.domain.listener;
+package com.share.greencloud.domain.interator;
 
 public abstract class CallbackListener<T extends Object> {
     public abstract void callback(T result);

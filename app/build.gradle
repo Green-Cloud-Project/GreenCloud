@@ -113,4 +113,7 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // QR code Scan
+    implementation 'com.king.zxing:zxing-lite:1.1.3-androidx'
 }

@@ -1,4 +1,4 @@
-package com.share.greencloud.domain.listener;
+package com.share.greencloud.domain.interator;
 
 import android.location.Address;
 import android.location.Location;
