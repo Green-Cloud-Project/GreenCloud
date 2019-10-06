@@ -19,8 +19,7 @@
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
             android:name=".presentation.activity.BottomNavActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTop">
             <intent-filter>
 
                 <!-- <action android:name="android.intent.action.MAIN" /> -->

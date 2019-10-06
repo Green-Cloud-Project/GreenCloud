@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -100,6 +101,70 @@ public class BottomNavActivity extends AppCompatActivity implements
         binding.rentalInfo.setBottomNavActivity(this);
 
         loadDefaultFragment();
+
+        findViewById(R.id.ll_rent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFragment(childFragment[0]);
+                    }
+                },300);
+            }
+        });
+        findViewById(R.id.ll_rent_loc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFragment(childFragment[0]);
+                    }
+                },300);
+            }
+        });
+
+        // 네비게이션뷰 메뉴 클릭 시 이동 이벤트
+        findViewById(R.id.ll_history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFragment(childFragment[3]);
+                    }
+                },300);
+            }
+        });
+        findViewById(R.id.ll_news).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFragment(childFragment[1]);
+                    }
+                },300);
+            }
+        });
+        findViewById(R.id.ll_weather).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFragment(childFragment[2]);
+                    }
+                },300);
+            }
+        });
+
     }
 
     private void loadDefaultFragment() {

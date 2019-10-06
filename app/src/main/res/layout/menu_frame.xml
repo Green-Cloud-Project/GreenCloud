@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent">
 
     <!--Header(profile photo & name) -->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
-        android:layout_height="230dp">
+        android:background="@color/colorPrimary"
+        android:layout_height="130dp">
 
 
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/account_circle"
             android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/iv_profile"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="박소이"
-            android:textColor="#ffffff"
-            android:textSize="21sp" />
+        <LinearLayout
+            android:layout_alignLeft="@id/iv_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            >
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:layout_below="@+id/tv_name"
-            android:text="15 포인트"
-            android:textColor="#ffffff"
-            android:textSize="21sp" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="박소이"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(15 point)"
+                android:textColor="#ffffff" />
+        </LinearLayout>
 
 
     </RelativeLayout>
@@ -53,126 +54,108 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="match_parent"
+        android:background="#EEEEEE"
         android:layout_below="@+id/rl_header"
         android:layout_centerHorizontal="true"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
-
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/menu_icon" />
-
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher_round"
+                />
             <TextView
                 android:id="@+id/tv_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:text="대여위치"
-                android:textColor="#ffffff"
                 android:textSize="21sp" />
-
         </LinearLayout>
 
-
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:gravity="center"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
-
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/menu_icon" />
-
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher_round"
+                />
             <TextView
                 android:id="@+id/tv_sharing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="대여하기"
                 android:layout_marginLeft="40dp"
-                android:textColor="#ffffff"
                 android:textSize="21sp" />
         </LinearLayout>
 
-
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:gravity="center"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
-
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/menu_icon" />
-
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher_round"
+                />
             <TextView
                 android:id="@+id/tv_gift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="날씨정보"
-                android:textColor="#ffffff"
                 android:layout_marginLeft="40dp"
                 android:textSize="21sp" />
         </LinearLayout>
 
-
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:gravity="center"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
-
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/menu_icon" />
-
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher_round"
+                />
             <TextView
                 android:id="@+id/tv_support"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="환경뉴스"
-                android:textColor="#ffffff"
                 android:layout_marginLeft="40dp"
                 android:textSize="21sp" />
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:gravity="center"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
-
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/menu_icon" />
-
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher_round"
+                />
             <TextView
                 android:id="@+id/tv_mygreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="대여이력"
-                android:textColor="#ffffff"
                 android:layout_marginLeft="40dp"
                 android:textSize="21sp" />
         </LinearLayout>
