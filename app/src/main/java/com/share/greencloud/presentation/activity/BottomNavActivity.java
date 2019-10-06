@@ -111,7 +111,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[0]);
                     }
-                },500);
+                },300);
             }
         });
         findViewById(R.id.ll_rent_loc).setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[0]);
                     }
-                },500);
+                },300);
             }
         });
 
@@ -135,9 +135,9 @@ public class BottomNavActivity extends AppCompatActivity implements
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFragment(childFragment[4]);
+                        loadFragment(childFragment[3]);
                     }
-                },500);
+                },300);
             }
         });
         findViewById(R.id.ll_news).setOnClickListener(new View.OnClickListener() {
@@ -149,7 +149,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[1]);
                     }
-                },500);
+                },300);
             }
         });
         findViewById(R.id.ll_weather).setOnClickListener(new View.OnClickListener() {
@@ -159,9 +159,9 @@ public class BottomNavActivity extends AppCompatActivity implements
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFragment(childFragment[4]);
+                        loadFragment(childFragment[2]);
                     }
-                },500);
+                },300);
             }
         });
 
