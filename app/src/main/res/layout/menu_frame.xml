@@ -61,6 +61,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_rent_loc"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
@@ -81,6 +82,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_rent"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
@@ -101,6 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_weather"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
@@ -121,6 +124,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_news"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
@@ -141,6 +145,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_history"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
