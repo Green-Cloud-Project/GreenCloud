@@ -58,9 +58,11 @@
         <item name="android:background">@color/statusBarColor</item>
     </style>
 
-    <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="TransparentToolbar" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

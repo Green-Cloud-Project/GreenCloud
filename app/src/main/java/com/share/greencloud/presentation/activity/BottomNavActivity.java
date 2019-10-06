@@ -12,13 +12,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -93,12 +96,17 @@ public class BottomNavActivity extends AppCompatActivity implements
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        DrawerArrowDrawable arrow = toggle.getDrawerArrowDrawable();
+        arrow.setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         binding.navView.setNavigationItemSelectedListener(this);
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         binding.rentalInfo.setBottomNavActivity(this);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         loadDefaultFragment();
 
@@ -111,7 +119,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[0]);
                     }
-                },300);
+                }, 300);
             }
         });
         findViewById(R.id.ll_rent_loc).setOnClickListener(new View.OnClickListener() {
@@ -123,7 +131,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[0]);
                     }
-                },300);
+                }, 300);
             }
         });
 
@@ -137,7 +145,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[3]);
                     }
-                },300);
+                }, 300);
             }
         });
         findViewById(R.id.ll_news).setOnClickListener(new View.OnClickListener() {
@@ -149,7 +157,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[1]);
                     }
-                },300);
+                }, 300);
             }
         });
         findViewById(R.id.ll_weather).setOnClickListener(new View.OnClickListener() {
@@ -161,7 +169,7 @@ public class BottomNavActivity extends AppCompatActivity implements
                     public void run() {
                         loadFragment(childFragment[2]);
                     }
-                },300);
+                }, 300);
             }
         });
 
