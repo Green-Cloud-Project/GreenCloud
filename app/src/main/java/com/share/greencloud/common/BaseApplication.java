@@ -2,6 +2,8 @@ package com.share.greencloud.common;
 
 import android.app.Application;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
 import com.share.greencloud.presentation.adapter.KakaoSDKAdapter;
@@ -43,6 +45,7 @@ public class BaseApplication extends Application {
         Constants.token = GreenCloudPreferences.getToken(getBaseContext());
 
         Timber.plant(new Timber.DebugTree());
+
     }
 
     @Override

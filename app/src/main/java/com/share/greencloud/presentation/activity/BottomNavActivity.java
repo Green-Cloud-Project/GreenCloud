@@ -35,7 +35,6 @@ import com.share.greencloud.R;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.presentation.ViewModelFactory;
 import com.share.greencloud.presentation.fragment.AlarmFragment;
-import com.share.greencloud.presentation.fragment.CameraFragment;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.NewsFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
@@ -63,10 +62,8 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
-            new NewsFragment(),
             new WeatherFragment(),
-            new AlarmFragment(),
-            new CameraFragment()
+            new AlarmFragment()
     };
 
     @Override
@@ -74,24 +71,36 @@ public class BottomNavActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         Timber.d("onCreate is called");
 
-        setupintialView();
+        setupView();
 
         if (!checkPermissions()) {
             getLocationPermission();
         }
     }
 
-    private void setupintialView() {
+    private void setupView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
-        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
 
+        setupToolbar();
+        setupViewModel();
+        setupDrawerNavView();
+        setupBottomNavView();
+        changeTrasparentColorToolbarAndStatusbar();
+        loadDefaultFragment();
+    }
+
+    private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
+    private void setupViewModel() {
         binding.setLifecycleOwner(this);
         ViewModelFactory viewModelFactory = new ViewModelFactory();
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BottomNavViewModel.class);
+    }
 
+    private void setupDrawerNavView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -100,79 +109,72 @@ public class BottomNavActivity extends AppCompatActivity implements
         arrow.setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         binding.navView.setNavigationItemSelectedListener(this);
 
+        setupDrawerNavClickListen();
+    }
+
+    private void setupDrawerNavClickListen() {
+        // 네비게이션뷰 메뉴 클릭 시 이동 이벤트
+        findViewById(R.id.ll_history).setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadFragment(childFragment[2]);
+                }
+            }, 300);
+        });
+        findViewById(R.id.ll_news).setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawers();
+            Intent intent = new Intent(this, GreenNewsActivity.class);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    startActivity(intent);
+                }
+            }, 300);
+        });
+        findViewById(R.id.ll_weather).setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadFragment(childFragment[1]);
+                }
+            }, 300);
+        });
+
+        findViewById(R.id.ll_rent).setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadFragment(childFragment[0]);
+                }
+            }, 300);
+        });
+        findViewById(R.id.ll_rent_loc).setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawers();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadFragment(childFragment[0]);
+                }
+            }, 300);
+        });
+    }
+
+    private void setupBottomNavView() {
+        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         binding.rentalInfo.setBottomNavActivity(this);
+    }
 
+    private void changeTrasparentColorToolbarAndStatusbar() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-        loadDefaultFragment();
-
-        findViewById(R.id.ll_rent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.closeDrawers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadFragment(childFragment[0]);
-                    }
-                }, 300);
-            }
-        });
-        findViewById(R.id.ll_rent_loc).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.closeDrawers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadFragment(childFragment[0]);
-                    }
-                }, 300);
-            }
-        });
-
-        // 네비게이션뷰 메뉴 클릭 시 이동 이벤트
-        findViewById(R.id.ll_history).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.closeDrawers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadFragment(childFragment[3]);
-                    }
-                }, 300);
-            }
-        });
-        findViewById(R.id.ll_news).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.closeDrawers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadFragment(childFragment[1]);
-                    }
-                }, 300);
-            }
-        });
-        findViewById(R.id.ll_weather).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.closeDrawers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadFragment(childFragment[2]);
-                    }
-                }, 300);
-            }
-        });
-
     }
 
     private void loadDefaultFragment() {
@@ -183,18 +185,9 @@ public class BottomNavActivity extends AppCompatActivity implements
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-
-        if (fragment.equals(childFragment[4])) { // CarmeraFragment 경우에만 BackStack 추가되도록 적용.
-            transaction.addToBackStack(null);   // 사용자가 다시 대여소를 선택하거나 스캔을 취소하는 경우를 대비하여
-
-        } else {
-            transaction.disallowAddToBackStack();
-        }
-
+        transaction.disallowAddToBackStack();
         transaction.setReorderingAllowed(true);
         transaction.commit();
-
-
         invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }
 
@@ -265,17 +258,18 @@ public class BottomNavActivity extends AppCompatActivity implements
 
             case R.id.navigation_dashboard:
                 viewModel.hideSearchMenu();
-                loadFragment(childFragment[1]);
+                Intent intent = new Intent(this, GreenNewsActivity.class);
+                startActivity(intent);
                 return true;
 
             case R.id.navigation_mygreen:
                 viewModel.hideSearchMenu();
-                loadFragment(childFragment[2]);
+                loadFragment(childFragment[1]);
                 return true;
 
             case R.id.navigation_notifications:
                 viewModel.hideSearchMenu();
-                loadFragment(childFragment[3]);
+                loadFragment(childFragment[2]);
                 return true;
         }
         return false;
