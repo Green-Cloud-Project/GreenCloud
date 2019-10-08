@@ -1,68 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="news"
+            type="com.share.greencloud.domain.model.News" />
 
-    <androidx.cardview.widget.CardView
+        <variable
+            name="viewmodel"
+            type="com.share.greencloud.presentation.viewmodel.ItemGreenNewsViewModel" />
+    </data>
 
-        android:id="@+id/cardview"
+    <LinearLayout
+        android:id="@+id/item_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        android:layout_margin="5dp"
-        app:cardElevation="2dp"
-        >
+        android:onClick="@{viewmodel::onItemClick}"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_vv"
+
+        <androidx.cardview.widget.CardView
+
+            android:id="@+id/cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            app:cardCornerRadius="10dp"
+            android:layout_margin="5dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="120dp"
-                android:layout_height="90dp"
-                android:padding="4dp" />
-
-            <TextView
-                android:id="@+id/tv_title"
+            <RelativeLayout
+                android:id="@+id/rl_vv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/iv_image"
-                android:text="기후변화:내가 등교를 거부한 이유"
-                android:textStyle="bold"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="#000000" />
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/iv_image"
-                android:text="대학 가고 나서 해라. 어른 돼서 해도 늦지 않다 라는 말을 많이 들어요"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="120dp"
+                    android:layout_height="90dp"
+                    android:padding="4dp"
+                    tools:imageUrl="@{viewmodel.imageUrl}"
+                    />
 
-            <TextView
-                android:id="@+id/tv_from"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_desc"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/iv_image"
-                android:text="BBC news"/>
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/iv_image"
+                    android:text="@{viewmodel.title}"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="#000000"
+                    tools:text="News Title"/>
+
+                <TextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_title"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/iv_image"
+                    android:text="@{viewmodel.desc}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    tools:text="News Desc"/>
+
+                <TextView
+                    android:id="@+id/tv_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_desc"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/iv_image"
+                    android:text="@{viewmodel.from}"
+                    tools:text="News From"/>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

@@ -11,18 +11,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.king.zxing.CaptureActivity"
-            android:theme="@style/TransparentToolbar"/>
-        <activity android:name=".presentation.activity.QRScanActivity"
-            android:theme="@style/TransparentToolbar"/>
-        <activity android:name=".presentation.activity.OnBoardingActivity"></activity>
+        <activity
+            android:name=".presentation.activity.GreenNewsActivity"
+            android:label="@string/title_activity_green_news"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".presentation.activity.BottomNavActivity"></activity>
+        <activity
+            android:name="com.king.zxing.CaptureActivity"
+            android:theme="@style/TransparentToolbar" />
+        <activity
+            android:name=".presentation.activity.QRScanActivity"
+            android:theme="@style/TransparentToolbar" />
+        <activity android:name=".presentation.activity.OnBoardingActivity" />
         <activity android:name=".presentation.activity.LoginActivity" />
         <activity android:name=".presentation.activity.SplashActivity" />
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
             android:name=".presentation.activity.BottomNavActivity"
-            android:theme="@style/TransparentToolbar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/TransparentToolbar">
             <intent-filter>
 
                 <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -102,10 +109,10 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
