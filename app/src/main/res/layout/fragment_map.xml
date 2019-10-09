@@ -24,6 +24,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+        <com.exlyo.gmfmt.FloatingMarkerTitlesOverlay
+            android:id="@+id/map_floating_markers_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_current_location"
             android:layout_width="wrap_content"
