@@ -70,7 +70,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,5 +121,17 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/iv_um_img"
             app:layout_constraintStart_toStartOf="@+id/iv_um_img" />
+
+        <TextView
+            android:id="@+id/tv_spot_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:text="대여소 거리"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/tv_spot_location"
+            app:layout_constraintTop_toBottomOf="@+id/tv_spot_location" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

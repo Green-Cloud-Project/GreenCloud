@@ -55,7 +55,7 @@ public class MapFragmentViewModel extends AndroidViewModel {
 
         for (RentalOffice rentalOffice : rentalOffices) {
             position = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
-            markerUnit = new MarkerOptions().position(position).title(rentalOffice.getOffice_name())
+            markerUnit = new MarkerOptions().position(position).title(String.valueOf(rentalOffice.getUmbrella_count()))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green));
             markerOptions.add(markerUnit);
         }
