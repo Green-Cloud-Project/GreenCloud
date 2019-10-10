@@ -1,172 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--Header(profile photo & name) -->
+    <data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rl_header"
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="130dp">
+        android:layout_height="match_parent">
+
+        <!--Header(profile photo & name) -->
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rl_header"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_height="130dp">
 
 
-        <ImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/account_circle"
-            android:scaleType="fitXY" />
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/account_circle"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_alignLeft="@id/iv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GreenCloud"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(15 point)"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <!--menu  -->
 
         <LinearLayout
-            android:layout_alignLeft="@id/iv_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            >
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="박소이"
-                android:layout_marginRight="5dp"
-                android:textColor="#ffffff" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EEEEEE"
+            android:layout_below="@+id/rl_header"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(15 point)"
-                android:textColor="#ffffff" />
+            <LinearLayout
+                android:id="@+id/ll_rent_loc"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_place" />
+
+                <TextView
+                    android:id="@+id/tv_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="대여 위치"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_weather"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/um_green" />
+
+                <TextView
+                    android:id="@+id/tv_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날씨 정보"
+                    android:layout_marginLeft="40dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_news"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_dashboard_24dp" />
+
+                <TextView
+                    android:id="@+id/tv_support"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="환경 뉴스"
+                    android:layout_marginLeft="40dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_history"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_history" />
+
+                <TextView
+                    android:id="@+id/tv_mygreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="대여 기록"
+                    android:layout_marginLeft="40dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_menu_manage" />
+
+                <TextView
+                    android:id="@+id/tv_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="설정"
+                    android:layout_marginLeft="40dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
+        <!--</ScrollView>-->
 
     </RelativeLayout>
-
-
-    <!--menu  -->
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#EEEEEE"
-        android:layout_below="@+id/rl_header"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_rent_loc"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher_round"
-                />
-            <TextView
-                android:id="@+id/tv_payment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="대여위치"
-                android:textSize="21sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_rent"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher_round"
-                />
-            <TextView
-                android:id="@+id/tv_sharing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="대여하기"
-                android:layout_marginLeft="40dp"
-                android:textSize="21sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_weather"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher_round"
-                />
-            <TextView
-                android:id="@+id/tv_gift"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="날씨정보"
-                android:layout_marginLeft="40dp"
-                android:textSize="21sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_news"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher_round"
-                />
-            <TextView
-                android:id="@+id/tv_support"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="환경뉴스"
-                android:layout_marginLeft="40dp"
-                android:textSize="21sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_history"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher_round"
-                />
-            <TextView
-                android:id="@+id/tv_mygreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="대여이력"
-                android:layout_marginLeft="40dp"
-                android:textSize="21sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!--</ScrollView>-->
-
-</RelativeLayout>
+</layout>

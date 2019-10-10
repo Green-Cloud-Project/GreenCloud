@@ -52,6 +52,7 @@ import timber.log.Timber;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.share.greencloud.common.Constants.CIRCLE_OPTION_COLOR;
 import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfoMVP.View,
@@ -347,8 +348,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         CircleOptions circleOptions = (new CircleOptions()
                 .center(myPosition)
                 .radius(50) // In meters
-                .fillColor(0xffb2dfdb)
-                .strokeColor(0xffb2dfdb)).strokeWidth(2);
+                .fillColor(CIRCLE_OPTION_COLOR)
+                .strokeColor(CIRCLE_OPTION_COLOR)).strokeWidth(2);
 
         // 사용자 위치가 나타났을때 서클 추가 해주도록
         if (mMap.isMyLocationEnabled()) {
@@ -439,6 +440,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         double distance = SphericalUtil.computeDistanceBetween(currnetPosition, markerPosition);
 
+        // 직선거리로 계산되어 오차가 존재하여
+        // 1km 이하일때 + 200m / 1km 이상 + 2km 더해줘야 실제 거리와 동일하게 됨
+        if (distance > 1000)
+            distance = distance + 2000;
+
+        else
+            distance = distance + 200;
+
         // 1km 기준으로 표기법을 구분지음
         if (distance > 1000)
             return ((int) distance / 1000) + " km";
@@ -453,7 +462,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onAddressUpdate(Address address) {
     }
-
 
 
     public interface OnFragmentInteractionListener {
