@@ -45,26 +45,28 @@
 
         <ImageView
             android:id="@+id/iv_um_img"
-            android:layout_width="82dp"
-            android:layout_height="81dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            app:layout_constraintStart_toEndOf="@+id/tv_spot_name"
-            app:layout_constraintTop_toTopOf="@+id/tv_spot_name"
+            android:layout_width="64dp"
+            android:layout_height="109dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toStartOf="@+id/tv_um_count"
             app:srcCompat="@drawable/beach_access" />
 
         <TextView
             android:id="@+id/tv_um_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
             android:padding="5dp"
             android:text="10"
             android:textColor="@color/colorPrimary"
             android:textSize="45sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_um_img"
-            app:layout_constraintTop_toTopOf="@+id/iv_um_img" />
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.494" />
 
         <View
             android:id="@+id/view"
@@ -81,7 +83,7 @@
             android:layout_width="32dp"
             android:layout_height="36dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_star_yellow" />
@@ -114,13 +116,13 @@
             android:id="@+id/tv_available_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
             android:text="우산 갯수"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/iv_um_img"
-            app:layout_constraintStart_toStartOf="@+id/iv_um_img" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_um_count" />
 
         <TextView
             android:id="@+id/tv_spot_distance"
