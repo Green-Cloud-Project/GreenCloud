@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,17 +30,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.share.greencloud.R;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
+import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.presentation.ViewModelFactory;
 import com.share.greencloud.presentation.fragment.AlarmFragment;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.NewsFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
 import com.share.greencloud.presentation.viewmodel.BottomNavViewModel;
+import com.share.greencloud.utils.GreenCloudPreferences;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
@@ -84,6 +89,9 @@ public class BottomNavActivity extends AppCompatActivity implements
         setupViewModel();
         setupDrawerNavView();
         setupBottomNavView();
+        if (LoginManager.getInstance().isLogin()) {
+            setupUserProfile();
+        }
         changeTrasparentColorToolbarAndStatusbar();
         loadDefaultFragment();
     }
@@ -131,11 +139,6 @@ public class BottomNavActivity extends AppCompatActivity implements
                     loadFragment(childFragment[1]), 300);
         });
 
-        findViewById(R.id.ll_rent).setOnClickListener(v -> {
-            binding.drawerLayout.closeDrawers();
-            new Handler().postDelayed(() ->
-                    loadFragment(childFragment[0]), 300);
-        });
         findViewById(R.id.ll_rent_loc).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
             new Handler().postDelayed(() ->
@@ -149,6 +152,19 @@ public class BottomNavActivity extends AppCompatActivity implements
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         binding.rentalInfo.setBottomNavActivity(this);
+    }
+
+    private void setupUserProfile() {
+        TextView tv_userID = findViewById(R.id.tv_name);
+        ImageView iv_profileImg = findViewById(R.id.iv_profile);
+        String userId;
+        String userProfileImg;
+
+        userId = GreenCloudPreferences.getUserId(this);
+        userProfileImg = GreenCloudPreferences.getUserProfileImage(this);
+
+        tv_userID.setText(userId);
+        Glide.with(this).load(userProfileImg).circleCrop().placeholder(R.drawable.account_circle).into(iv_profileImg);
     }
 
     private void changeTrasparentColorToolbarAndStatusbar() {

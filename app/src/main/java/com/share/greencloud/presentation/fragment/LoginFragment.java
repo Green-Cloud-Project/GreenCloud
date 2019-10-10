@@ -2,33 +2,36 @@ package com.share.greencloud.presentation.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
 import com.share.greencloud.R;
-import com.share.greencloud.presentation.activity.BottomNavActivity;
-import com.share.greencloud.data.api.ApiManager;
-import com.share.greencloud.domain.interator.CallbackListener;
 import com.share.greencloud.common.Constants;
+import com.share.greencloud.data.api.ApiManager;
 import com.share.greencloud.databinding.FragmentLoginBinding;
+import com.share.greencloud.domain.interator.CallbackListener;
 import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.domain.login.LoginType;
 import com.share.greencloud.domain.model.UserBody;
+import com.share.greencloud.presentation.activity.BottomNavActivity;
 import com.share.greencloud.utils.GreenCloudPreferences;
+
+import timber.log.Timber;
 
 public class LoginFragment extends Fragment {
 
@@ -78,7 +81,8 @@ public class LoginFragment extends Fragment {
                                 Log.d(TAG, userBody.getToken());
                                 Constants.token = userBody.getToken();
                                 GreenCloudPreferences.setToken(getContext(), Constants.token);
-                                getActivity().startActivity(new Intent(getContext(), BottomNavActivity.class));
+
+                                requestUserProfileData();
                             }
 
                             @Override
@@ -107,6 +111,29 @@ public class LoginFragment extends Fragment {
         });
     }
 
+
+    private void requestUserProfileData() {
+        UserManagement.getInstance().me(new MeV2ResponseCallback() {
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                Timber.d("카카오 세션 Close!");
+            }
+
+            @Override
+            public void onSuccess(MeV2Response result) {
+                Constants.userID = result.getNickname();
+                Constants.userProfileImage = result.getProfileImagePath();
+
+                GreenCloudPreferences.setUserID(getContext(), Constants.userID);
+                GreenCloudPreferences.setUserProfileImage(getContext(), Constants.userProfileImage);
+
+                Intent intent = new Intent(getContext(), BottomNavActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -118,8 +145,7 @@ public class LoginFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        }
-        else {
+        } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
