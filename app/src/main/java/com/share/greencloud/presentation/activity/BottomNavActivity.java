@@ -62,8 +62,7 @@ public class BottomNavActivity extends AppCompatActivity implements
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
-            new WeatherFragment(),
-            new AlarmFragment()
+            new WeatherFragment()
     };
 
     @Override
@@ -116,51 +115,31 @@ public class BottomNavActivity extends AppCompatActivity implements
         // 네비게이션뷰 메뉴 클릭 시 이동 이벤트
         findViewById(R.id.ll_history).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadFragment(childFragment[2]);
-                }
-            }, 300);
+            Intent intent = new Intent(this, UserHistoryActivity.class);
+            new Handler().postDelayed(() ->
+                    startActivity(intent), 300);
         });
         findViewById(R.id.ll_news).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
             Intent intent = new Intent(this, GreenNewsActivity.class);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    startActivity(intent);
-                }
-            }, 300);
+            new Handler().postDelayed(() ->
+                    startActivity(intent), 300);
         });
         findViewById(R.id.ll_weather).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadFragment(childFragment[1]);
-                }
-            }, 300);
+            new Handler().postDelayed(() ->
+                    loadFragment(childFragment[1]), 300);
         });
 
         findViewById(R.id.ll_rent).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadFragment(childFragment[0]);
-                }
-            }, 300);
+            new Handler().postDelayed(() ->
+                    loadFragment(childFragment[0]), 300);
         });
         findViewById(R.id.ll_rent_loc).setOnClickListener(v -> {
             binding.drawerLayout.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    loadFragment(childFragment[0]);
-                }
-            }, 300);
+            new Handler().postDelayed(() ->
+                    loadFragment(childFragment[0]), 300);
         });
     }
 
@@ -269,7 +248,8 @@ public class BottomNavActivity extends AppCompatActivity implements
 
             case R.id.navigation_notifications:
                 viewModel.hideSearchMenu();
-                loadFragment(childFragment[2]);
+                Intent intentHistory = new Intent(this, UserHistoryActivity.class);
+                startActivity(intentHistory);
                 return true;
         }
         return false;

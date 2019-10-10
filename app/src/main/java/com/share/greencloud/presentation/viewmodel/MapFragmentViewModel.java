@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,28 +19,34 @@ import java.util.List;
 
 public class MapFragmentViewModel extends AndroidViewModel {
     private RentalOfficeRepository repository;
-    private MutableLiveData<List<MarkerOptions>> liveDataMarkerOptions = new MutableLiveData<>();
 
     private RentalOfficeKotlinRepositary kotlinRepositary;
     private LiveData<List<RentalOffice>> allRentalOffices;
+
+    private List<RentalOffice> rentalOfficeList;
+    private List<MarkerOptions> markerOptionsList;
 
     public MapFragmentViewModel(@NonNull Application application) {
         super(application);
         repository = new RentalOfficeRepository(application);
         kotlinRepositary = new RentalOfficeKotlinRepositary(application);
         allRentalOffices = kotlinRepositary.getAllRentalOffices();
+        rentalOfficeList = new ArrayList<>();
+        markerOptionsList = new ArrayList<>();
     }
 
     public LiveData<List<RentalOffice>> getRentalOfficeData() {
         return repository.getMutableLiveData();
     }
 
-    public MutableLiveData<List<MarkerOptions>> getLiveDataMarkerOptions() {
-        return liveDataMarkerOptions;
-    }
-
     public LiveData<List<RentalOffice>> getAllRentalOfficesFromDB() {
         return allRentalOffices;
+    }
+
+    public List<RentalOffice> getRentalOffice() { return rentalOfficeList; }
+
+    public List<MarkerOptions> getMarkerOptionsList() {
+        return markerOptionsList;
     }
 
     public void insert(RentalOffice rentalOffice) {
@@ -49,16 +54,19 @@ public class MapFragmentViewModel extends AndroidViewModel {
     }
 
     public void makeRentalOfficeMarkers(List<RentalOffice> rentalOffices) {
+
+        // Remote DB에서 가져온 정보를 저장
+        rentalOfficeList = rentalOffices;
+
         LatLng position;
         MarkerOptions markerUnit;
         List<MarkerOptions> markerOptions = new ArrayList<>();
 
-        for (RentalOffice rentalOffice : rentalOffices) {
+        for (RentalOffice rentalOffice : rentalOfficeList) {
             position = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
             markerUnit = new MarkerOptions().position(position).title(String.valueOf(rentalOffice.getUmbrella_count()))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green));
-            markerOptions.add(markerUnit);
+            markerOptionsList.add(markerUnit);
         }
-        liveDataMarkerOptions.setValue(markerOptions);
     }
 }

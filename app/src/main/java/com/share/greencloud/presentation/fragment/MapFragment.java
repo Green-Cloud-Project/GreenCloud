@@ -1,6 +1,7 @@
 package com.share.greencloud.presentation.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -17,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.exlyo.gmfmt.MarkerInfo;
@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -72,8 +73,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private LocationPresenter presenter;
 
     private MapFragmentViewModel viewModel;
-    private List<MarkerOptions> rentalOfficeMarkersOptions = new ArrayList<>();
-    private List<RentalOffice> rentalOfficeArrayList = new ArrayList<>();
+    Circle mapCircle;
 
     public MapFragment() {
     }
@@ -82,30 +82,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         return new MapFragment();
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
         MapsInitializer.initialize(getApplicationContext()); // 커스텀 마커에 아이콘 추가할때 필요
-
-
     }
+
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
 
-        bindView();
-
-        if (mMap == null) {
-            Timber.d("getMapAsync is called");
-            binding.map.getMapAsync(this);
-        }
-
+        bindView(inflater, container);
         setupInitialLocationInfo();
         getRentalOfficeData();
 
@@ -113,6 +106,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             getLocationPermission();
         }
 
+        Timber.d("LoadingIndicator show() is called");
         if (!LoadingIndicator.getInstance().isShowing()) {
             LoadingIndicator.getInstance().showProgress(getApplicationContext());
         }
@@ -120,10 +114,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         return binding.getRoot();
     }
 
-    private void bindView() {
+    private void bindView(LayoutInflater inflater, ViewGroup container) {
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
         viewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
         binding.setBottomNavActivity((BottomNavActivity) getActivity());
         binding.fabCurrentLocation.setOnClickListener(v -> refresh());
+        binding.map.getMapAsync(this);
     }
 
     private void getRentalOfficeData() {
@@ -132,20 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         viewModel.getRentalOfficeData().observe(this, rentalOffices -> {
             Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
             viewModel.makeRentalOfficeMarkers(rentalOffices);
-
-            for (RentalOffice rentalOffice : rentalOffices) {
-                viewModel.insert(rentalOffice);
-            }
-
         });
-
-        viewModel.getAllRentalOfficesFromDB().observe(this, rentalOffices -> {
-            Timber.d("대여소 데이터 로딩완료 from DB(Room): %s", rentalOffices.size());
-            rentalOfficeArrayList = rentalOffices;
-        });
-
-        viewModel.getLiveDataMarkerOptions().observe(this, markerOptions ->
-                rentalOfficeMarkersOptions = markerOptions);
     }
 
     private void setupInitialLocationInfo() {
@@ -154,9 +138,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         presenter = new LocationPresenter(rxLocation);
     }
 
+    // 현재 위치를 다시 가져오도록 함
     public void refresh() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.detach(this).attach(this).commit();
+        presenter.attachView(this);
     }
 
     private boolean checkPermissions() {
@@ -184,11 +168,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         rxPermissions
                 .request(Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(granted -> {
-                    if (granted) { // Always true pre-M
-                        // I can control the camera now
+                    if (granted) {
                         refresh();
                     } else {
-                        // Oups permission denied
                         Toast.makeText(getContext(), "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -218,10 +200,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Timber.d("onViewCreated is called");
         presenter.attachView(this);
         postponeEnterTransition();
-        Timber.d("onViewCreated is called");
-
     }
 
     @Override
@@ -229,51 +211,57 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onActivityCreated(savedInstanceState);
         //액티비티가 처음 생성될 때 실행되는 함수
         if (binding.map != null) {
+            Timber.d("onActivityCreated is called");
             binding.map.onCreate(savedInstanceState);
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof MapFragment.OnFragmentInteractionListener) {
-//            mListener = (MapFragment.OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Timber.d("onAttach is called");
+        if (context instanceof MapFragment.OnFragmentInteractionListener) {
+            mListener = (MapFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onDetach() {
         super.onDetach();
+
+        Timber.d("onDetach is called");
         mListener = null;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        Timber.d("onStart is called");
         binding.map.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Timber.i("onResume() is called");
 
+        Timber.d("onResume() is called");
         binding.map.onResume();
 
         if (mMap != null) {
             onMapUpdate(this);
         }
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Timber.i("onPause() is called");
 
+        Timber.d("onPause is called");
         binding.map.onPause();
         if (LoadingIndicator.getInstance().isShowing()) {
             LoadingIndicator.getInstance().dismiss();
@@ -283,14 +271,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onStop() {
         super.onStop();
+
+        Timber.d("onStop is called");
         binding.map.onStop();
         presenter.detachView();
     }
 
     @Override
     public void onDestroyView() {
-        Timber.d("onDestroyView is called");
         super.onDestroyView();
+
+        Timber.d("onDestroyView is called");
         if (mMap != null) {
             mMap.clear();
         }
@@ -299,50 +290,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     @Override
     public void onLowMemory() {
-        Timber.d("onLowMemory is called again");
         super.onLowMemory();
+
+        Timber.d("onLowMemory is called again");
         binding.map.onLowMemory();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        Timber.d("onSaveInstanceState is called again");
         binding.map.onSaveInstanceState(outState);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Timber.i("onMapReady() is called");
+        Timber.d("onMapReady is called");
+
         mMap = googleMap;
 
+        addRentalOfficeMarker();
+        setupMap();
+
         mMap.setOnMapLoadedCallback(() -> {
+
+            Timber.i("LoadingIndicator dismiss() is called");
             if (LoadingIndicator.getInstance().isShowing()) {
                 LoadingIndicator.getInstance().dismiss();
             }
+
         });
+    }
 
-        binding.mapFloatingMarkersOverlay.setSource(mMap); // mapFloatingMarkersOverlay 초기화
-        final int color = Color.GREEN;
-        MarkerInfo mi;
-        LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
+    // Map에 필수적인 설정을 세팅
+    private void setupMap() {
 
-        // 대여소 Marker 및 Infpwindo 표시
-        List<Marker> markers = new ArrayList<>();
-        for (int i = 0; i < rentalOfficeMarkersOptions.size(); ++i) {
-            Timber.d("대여소 위치: " + rentalOfficeMarkersOptions.get(i).getPosition());
-            // Marker와 Infopwindow 연결
-            mi = new MarkerInfo(rentalOfficeMarkersOptions.get(i).getPosition(), rentalOfficeMarkersOptions.get(i).getTitle(), color);
-            markers.add(mMap.addMarker(new MarkerOptions().position(mi.getCoordinates())));
-            binding.mapFloatingMarkersOverlay.addMarker(i, mi);
-            // 대여소 Marker
-            markers.add(mMap.addMarker(rentalOfficeMarkersOptions.get(i)));
+        // 기존 서클 제거 ( 제거 하지 않으면 중복으로 생김)
+        if (mapCircle != null) {
+            mapCircle.remove();
         }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM)); // 현재 위치로 지도를 표시해줌
+        LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
+
         mMap.getUiSettings().setZoomControlsEnabled(false);         // 줌 설정 비활화
         mMap.getUiSettings().setMyLocationButtonEnabled(false);     // gps 버튼 비활화
-        mMap.getUiSettings().setRotateGesturesEnabled(true);
-        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);                        //
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM)); // 현재 위치로 지도를 표시해줌
+
+        if (checkPermissions()) {
+            // 사용자 위치 표시
+            mMap.setMyLocationEnabled(true);
+        }
 
         // 사용자 위치 주변에 서클 추가
         CircleOptions circleOptions = (new CircleOptions()
@@ -351,20 +350,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 .fillColor(0xffb2dfdb)
                 .strokeColor(0xffb2dfdb)).strokeWidth(2);
 
-        if (checkPermissions()) {
-            // 사용자 위치 및 서클 표시
-            mMap.setMyLocationEnabled(true);
-            mMap.addCircle(circleOptions);
+        // 사용자 위치가 나타났을때 서클 추가 해주도록
+        if (mMap.isMyLocationEnabled()) {
+            mapCircle = mMap.addCircle(circleOptions);
         }
+    }
 
 
-        if (LoadingIndicator.getInstance().isShowing()) {
-            LoadingIndicator.getInstance().dismiss();
+    private void addRentalOfficeMarker() {
+
+        List<Marker> markers = new ArrayList<>();
+        List<MarkerOptions> markerOptions = viewModel.getMarkerOptionsList();
+        final int color = Color.GREEN;
+        MarkerInfo mi;
+
+        binding.mapFloatingMarkersOverlay.setSource(mMap); // mapFloatingMarkersOverlay 초기화
+
+        // 대여소 Marker 및 Infpwindo 표시
+        for (int i = 0; i < markerOptions.size(); ++i) {
+
+            // Marker와 Infopwindow 연결
+            mi = new MarkerInfo(markerOptions.get(i).getPosition(), markerOptions.get(i).getTitle(), color);
+            markers.add(mMap.addMarker(new MarkerOptions().position(mi.getCoordinates())));
+            binding.mapFloatingMarkersOverlay.addMarker(i, mi);
+
+            // 대여소 Marker
+            markers.add(mMap.addMarker(markerOptions.get(i)));
         }
+
     }
 
     @Override
     public void onLocationUpdate(Location location) {
+
+        Timber.d("LoadingIndicator show() is called");
+        if (!LoadingIndicator.getInstance().isShowing()) {
+            LoadingIndicator.getInstance().showProgress(getApplicationContext());
+        }
+
         Timber.d("onLocationUpdate is Called");
         if (location != null) {
             presenter.updateUserLocation(location, this);
@@ -382,46 +405,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     // 대여소 마커를 클릭했을때 대여소의 정보를 표시해줌.
     @Override
     public boolean onMarkerClick(Marker marker) {
+
         TextView tv_retal_spot_name = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_name);
         TextView tv_retal_spot_location = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_location);
         TextView tv_um_count = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_um_count);
         TextView tv_rental_spot_distance = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_distance);
 
         // 현재 위치에서 마커까지 거리 계산
-        tv_rental_spot_distance.setText(String.format("현재 위치에서 %d km", calculateDistance(marker.getPosition())));
+        tv_rental_spot_distance.setText("현재 위치에서 " + calculateDistance(marker.getPosition()));
 
-        if (marker.getTitle() != null) {
-            int marker_name = Integer.valueOf(marker.getTitle());
+        // 클릭된 마커를 구분하기 위하여 위치정보를 로딩
+        LatLng marker_position = marker.getPosition();
 
-            for (RentalOffice rentalOffice : rentalOfficeArrayList) {
-                if (marker_name == rentalOffice.getUmbrella_count()) {
-                    tv_retal_spot_name.setText(rentalOffice.getOffice_name());
-                    tv_retal_spot_location.setText(rentalOffice.getOffice_location());
-                    tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
-                    ((BottomNavActivity) getActivity()).showBottomSlide();
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
-                }
+        List<RentalOffice> rentalOfficeArrayList = viewModel.getRentalOffice();
+        for (RentalOffice rentalOffice : rentalOfficeArrayList) {
+            LatLng officePosition = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
+            // 대여소 정보 리스트에서 위치정보를 동일한 대여소의 정보를 보여준다
+            if (marker_position.equals(officePosition)) {
+                tv_retal_spot_name.setText(rentalOffice.getOffice_name());
+                tv_retal_spot_location.setText(rentalOffice.getOffice_location());
+                tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
+                ((BottomNavActivity) getActivity()).showBottomSlide();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
             }
         }
+
         return true;
     }
 
     // 현재 위치에서 마커까지 거리 계산
-    private int calculateDistance(LatLng markerPosition) {
+    private String calculateDistance(LatLng markerPosition) {
         LatLng currnetPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude());
-        double distance = SphericalUtil.computeDistanceBetween(currnetPosition, markerPosition) / 1000;
-        return (int) distance;
+
+        double distance = SphericalUtil.computeDistanceBetween(currnetPosition, markerPosition);
+
+        // 1km 기준으로 표기법을 구분지음
+        if (distance > 1000)
+            return ((int) distance / 1000) + " km";
+        else
+            return (int) distance + " m";
     }
 
     @Override
     public void onLocationSettingsUnsuccessful() {
-
     }
 
     @Override
     public void onAddressUpdate(Address address) {
-
     }
+
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
