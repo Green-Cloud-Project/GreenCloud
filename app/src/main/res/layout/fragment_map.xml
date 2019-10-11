@@ -12,6 +12,10 @@
         <variable
             name="BottomNavActivity"
             type="com.share.greencloud.presentation.activity.BottomNavActivity" />
+
+        <variable
+            name="SearchActiviy"
+            type="com.share.greencloud.presentation.activity.SearchResultActivity" />
     </data>
 
     <RelativeLayout
@@ -59,6 +63,31 @@
             android:src="@drawable/qr"
             android:onClick="@{BottomNavActivity::scanQRcode}"
             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/fab_location_margin_start"
+            android:layout_marginBottom="@dimen/fab_location_margin_bottom"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_search_icon"
+            android:scaleType="centerCrop"
+            app:backgroundTint="@android:color/white"
+            app:tint="#ff80cbc4"
+            app:fabSize="normal"
+            android:onClick="@{BottomNavActivity::search}"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:theme="@style/progressbar_color"/>
 
     </RelativeLayout>
 </layout>

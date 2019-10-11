@@ -4,9 +4,9 @@
     <group>
         <item
             android:id="@+id/menu_search"
-            app:showAsAction="collapseActionView|ifRoom"
+            app:showAsAction="always"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             android:icon="@drawable/ic_search_icon"
-            android:title="대여소 검색" />
+            android:title="검색" />
     </group>
 </menu>
