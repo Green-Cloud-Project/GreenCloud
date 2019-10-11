@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.share.greencloud.data.db.RentalOfficeDao
 import com.share.greencloud.data.db.RentalOfficeDatabase
 import com.share.greencloud.domain.model.RentalOffice
+import timber.log.Timber
 
 class RentalOfficeKotlinRepositary {
 
@@ -17,19 +18,32 @@ class RentalOfficeKotlinRepositary {
                 return null
             }
         }
+
+        private class queryAsyncTask constructor(private val asyncTaskDao: RentalOfficeDao) :
+                AsyncTask<Void , Void, LiveData<List<RentalOffice>>>() {
+            override fun doInBackground(vararg params: Void?): LiveData<List<RentalOffice>> {
+                return asyncTaskDao.getAllRentalOffice()
+            }
+
+            override fun onPostExecute(result: LiveData<List<RentalOffice>>) {
+                super.onPostExecute(result)
+                Timber.d("result: %s", result.value?.size)
+            }
+        }
+
     }
 
     private val rentalOfficeDao: RentalOfficeDao
-    private val allRentalOffice: LiveData<List<RentalOffice>>
+    private var  allRentalOffice: List<RentalOffice>  = arrayListOf()
 
     constructor (app: Application) {
         val db = RentalOfficeDatabase.getDatabase(app)
         rentalOfficeDao = db.RentalOfficeDao()
-        allRentalOffice = rentalOfficeDao.getAllRentalOffice()
+//        allRentalOffice = rentalOfficeDao.getAllRentalOffice()
     }
 
     fun getAllRentalOffices(): LiveData<List<RentalOffice>> {
-        return allRentalOffice
+        return queryAsyncTask(rentalOfficeDao).execute().get()
     }
 
     fun insert(rentalOffice: RentalOffice) {

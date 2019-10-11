@@ -2,14 +2,12 @@ package com.share.greencloud.presentation.activity;
 
 import android.Manifest;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,11 +36,10 @@ import com.share.greencloud.R;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
 import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.presentation.ViewModelFactory;
-import com.share.greencloud.presentation.fragment.AlarmFragment;
 import com.share.greencloud.presentation.fragment.MapFragment;
-import com.share.greencloud.presentation.fragment.NewsFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
 import com.share.greencloud.presentation.viewmodel.BottomNavViewModel;
+import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -52,8 +49,6 @@ public class BottomNavActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
-        NewsFragment.OnFragmentInteractionListener,
-        AlarmFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityBottomNavBinding binding;
@@ -64,6 +59,8 @@ public class BottomNavActivity extends AppCompatActivity implements
     private BottomNavViewModel viewModel;
 
     private BottomSheetBehavior bottomSheetBehavior;
+
+    MapFragmentViewModel mapFragmentViewModel;
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
@@ -105,6 +102,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         binding.setLifecycleOwner(this);
         ViewModelFactory viewModelFactory = new ViewModelFactory();
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BottomNavViewModel.class);
+        mapFragmentViewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
     }
 
     private void setupDrawerNavView() {
@@ -213,20 +211,51 @@ public class BottomNavActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Timber.d("onCreateOptionsMenu is called");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        Timber.d("onCreateOptionsMenu is called");
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main, menu);
+//
+////        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+////        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+////        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+////        searchView.setQueryHint("대여소 검색...");
+//
+//
+//        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//        searchView.isSubmitButtonEnabled();
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                if(query != null) {
+//                    getItemFromDB("test");
+//                }
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                return false;
+//            }
+//        });
+//
+//
+//        observeSearchMenu(menu);
+//
+//        return true;
+//    }
 
-        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint("대여소 검색...");
+    private void getItemFromDB(String searchTest) {
 
-        observeSearchMenu(menu);
+//        List<RentalOffice> offices= mapFragmentViewModel.getAllRentalOfficesFromDB();
+//        Timber.d("offices size: %s", offices.size());
 
-        return true;
+        mapFragmentViewModel.getAllRentalOfficesFromDB().observe(this, rentalOffices -> {
+            Toast.makeText(this, "result " + rentalOffices.get(0).getOffice_location() , Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     private void observeSearchMenu(Menu menu) {
@@ -312,6 +341,12 @@ public class BottomNavActivity extends AppCompatActivity implements
     public void scanQRcode(View view) {
         hideBottomSlide(view);
         Intent intent = new Intent(this, QRScanActivity.class);
+        startActivity(intent);
+    }
+
+    public void search(View view) {
+        hideBottomSlide(view);
+        Intent intent = new Intent(this, SearchResultActivity.class);
         startActivity(intent);
     }
 }

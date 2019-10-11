@@ -66,4 +66,13 @@ public class Constants {
         return defaultLocation;
     }
 
+    public static int fixDistanceError(double originalDistance) {
+        // 직선거리로 계산되어 오차가 존재하여
+        // 1km 이하일때 + 200m / 1km 이상 + 2km 더해줘야 실제 거리와 동일하게 됨
+        if (originalDistance > 1000)
+            return (int) originalDistance + 2000;
+
+        else
+            return (int) originalDistance + 200;
+    }
 }

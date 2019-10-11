@@ -10,10 +10,11 @@ import com.share.greencloud.domain.model.RentalOffice
 @Dao
 interface RentalOfficeDao {
 
-    @Query("SELECT * from rentaloffices ORDER BY office_id ASC")
+    //    ORDER BY office_id ASC
+    @Query("SELECT * from rentaloffices ORDER BY distance ASC")
     fun getAllRentalOffice(): LiveData<List<RentalOffice>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(rentalOffice: RentalOffice)
 
     @Query("DELETE FROM rentaloffices")

@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.SphericalUtil;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
 import com.share.greencloud.databinding.FragmentMapBinding;
@@ -39,7 +38,6 @@ import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.presentation.activity.BottomNavActivity;
 import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
-import com.share.greencloud.utils.LoadingIndicator;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
@@ -57,13 +55,8 @@ import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfoMVP.View,
         GoogleMap.OnMarkerClickListener {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private static final int DEFAULT_ZOOM = 15;
-
-    private String mParam1;
-    private String mParam2;
 
     private MapFragment.OnFragmentInteractionListener mListener;
 
@@ -87,10 +80,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
         MapsInitializer.initialize(getApplicationContext()); // 커스텀 마커에 아이콘 추가할때 필요
     }
 
@@ -107,10 +96,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             getLocationPermission();
         }
 
-        Timber.d("LoadingIndicator show() is called");
-        if (!LoadingIndicator.getInstance().isShowing()) {
-            LoadingIndicator.getInstance().showProgress(getApplicationContext());
-        }
+//        Timber.d("LoadingIndicator show() is called");
+//        if (!LoadingIndicator.getInstance().isShowing()) {
+//            LoadingIndicator.getInstance().showProgress(getApplicationContext());
+//        }
 
         return binding.getRoot();
     }
@@ -120,6 +109,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
         viewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
         binding.setBottomNavActivity((BottomNavActivity) getActivity());
+        binding.setMapFragment(this);
         binding.fabCurrentLocation.setOnClickListener(v -> refresh());
         binding.map.getMapAsync(this);
     }
@@ -129,7 +119,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         viewModel.getRentalOfficeData().observe(this, rentalOffices -> {
             Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
-            viewModel.makeRentalOfficeMarkers(rentalOffices);
+            viewModel.makeRentalOfficeMarkers(rentalOffices, presenter.getUserLocation());
         });
     }
 
@@ -141,7 +131,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     // 현재 위치를 다시 가져오도록 함
     public void refresh() {
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+        presenter.detachView();
         presenter.attachView(this);
+        postponeEnterTransition();
     }
 
     private boolean checkPermissions() {
@@ -173,6 +167,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                         refresh();
                     } else {
                         Toast.makeText(getContext(), "위치정보 사용에 대한 동의가 거부되었습니다.", Toast.LENGTH_SHORT).show();
+                        refresh();
                     }
                 });
     }
@@ -204,7 +199,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         Timber.d("onViewCreated is called");
         presenter.attachView(this);
-        postponeEnterTransition();
     }
 
     @Override
@@ -254,7 +248,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         binding.map.onResume();
 
         if (mMap != null) {
-            onMapUpdate(this);
+            refresh();
         }
     }
 
@@ -264,9 +258,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         Timber.d("onPause is called");
         binding.map.onPause();
-        if (LoadingIndicator.getInstance().isShowing()) {
-            LoadingIndicator.getInstance().dismiss();
-        }
+//        if (LoadingIndicator.getInstance().isShowing()) {
+//            LoadingIndicator.getInstance().dismiss();
+//        }
     }
 
     @Override
@@ -314,13 +308,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         addRentalOfficeMarker();
         setupMap();
 
-        mMap.setOnMapLoadedCallback(() -> {
+//        Timber.i("LoadingIndicator dismiss() is called");
+//        if (LoadingIndicator.getInstance().isShowing()) {
+//            LoadingIndicator.getInstance().dismiss();
+//        }
 
-            Timber.i("LoadingIndicator dismiss() is called");
-            if (LoadingIndicator.getInstance().isShowing()) {
-                LoadingIndicator.getInstance().dismiss();
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                binding.progressBar.setVisibility(View.INVISIBLE);
             }
-
         });
     }
 
@@ -384,16 +381,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onLocationUpdate(Location location) {
 
-        Timber.d("LoadingIndicator show() is called");
-        if (!LoadingIndicator.getInstance().isShowing()) {
-            LoadingIndicator.getInstance().showProgress(getApplicationContext());
-        }
-
         Timber.d("onLocationUpdate is Called");
         if (location != null) {
             presenter.updateUserLocation(location, this);
+            viewModel.addDistanceInfoToRentalOffice(location);
+
             Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
         }
+
+//        List<RentalOffice> rentalOffices = viewModel.getAllRentalOfficesFromDB();
+//        Timber.d("rentalOffices location: %s", rentalOffices.get(0).getOffice_location());
     }
 
     @Override
@@ -412,9 +409,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         TextView tv_um_count = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_um_count);
         TextView tv_rental_spot_distance = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_distance);
 
-        // 현재 위치에서 마커까지 거리 계산
-        tv_rental_spot_distance.setText("현재 위치에서 " + calculateDistance(marker.getPosition()));
-
         // 클릭된 마커를 구분하기 위하여 위치정보를 로딩
         LatLng marker_position = marker.getPosition();
 
@@ -426,33 +420,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_retal_spot_name.setText(rentalOffice.getOffice_name());
                 tv_retal_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
+                tv_rental_spot_distance.setText("현재 위치에서 " + addDistanceSign(rentalOffice.getDistance()));
+
                 ((BottomNavActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
             }
         }
-
         return true;
     }
 
     // 현재 위치에서 마커까지 거리 계산
-    private String calculateDistance(LatLng markerPosition) {
-        LatLng currnetPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude());
-
-        double distance = SphericalUtil.computeDistanceBetween(currnetPosition, markerPosition);
-
-        // 직선거리로 계산되어 오차가 존재하여
-        // 1km 이하일때 + 200m / 1km 이상 + 2km 더해줘야 실제 거리와 동일하게 됨
-        if (distance > 1000)
-            distance = distance + 2000;
-
-        else
-            distance = distance + 200;
+    private String addDistanceSign(int result) {
 
         // 1km 기준으로 표기법을 구분지음
-        if (distance > 1000)
-            return ((int) distance / 1000) + " km";
+        if (result > 1000)
+            return ((int) result / 1000) + " km";
         else
-            return (int) distance + " m";
+            return (int) result + " m";
+    }
+
+    public void moveCamera(View view, LatLng request) {
+        if (mMap != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(request, DEFAULT_ZOOM));
+        }
     }
 
     @Override

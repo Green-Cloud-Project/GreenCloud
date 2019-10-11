@@ -65,4 +65,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="progressbar_color">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
+
+    출처: https://altongmon.tistory.com/838 [IOS를 Java]
+
 </resources>

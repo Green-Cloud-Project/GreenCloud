@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.share.greencloud.domain.model.RentalOffice
 
-@Database(entities = [RentalOffice::class], version = 1, exportSchema = false)
+@Database(entities = [RentalOffice::class], version = 2, exportSchema = false)
 abstract class RentalOfficeDatabase : RoomDatabase() {
 
     companion object {
-        @Volatile private var INSTANCE: RentalOfficeDatabase? = null
+        @Volatile
+        private var INSTANCE: RentalOfficeDatabase? = null
 
         fun getDatabase(context: Context): RentalOfficeDatabase {
             if (INSTANCE == null) {
@@ -18,7 +19,8 @@ abstract class RentalOfficeDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(
                             context.applicationContext,
                             RentalOfficeDatabase::class.java, "rentaloffices"
-                    ).build()
+                    ).fallbackToDestructiveMigration()
+                            .build()
                 }
             }
             return INSTANCE!!

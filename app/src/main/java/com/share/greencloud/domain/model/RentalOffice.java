@@ -13,15 +13,22 @@ public class RentalOffice {
     @ColumnInfo(name = "office_id")
     private int office_id;
     @SerializedName("office_name")
+    @ColumnInfo(name = "office_name")
     private String office_name;
     @SerializedName("office_location")
+    @ColumnInfo(name = "office_location")
     private String office_location;
     @SerializedName("lat")
+    @ColumnInfo(name = "lat")
     private double lat;
     @SerializedName("lon")
+    @ColumnInfo(name = "lon")
     private double lon;
     @SerializedName("umbrella_count")
+    @ColumnInfo(name = "umbrella_count")
     private int umbrella_count;
+
+    private int distance;
 
     public int getOffice_id() {
         return office_id;
@@ -47,6 +54,10 @@ public class RentalOffice {
         return umbrella_count;
     }
 
+    public int getDistance() {
+        return distance;
+    }
+
     public void setOffice_id(int office_id) {
         this.office_id = office_id;
     }
@@ -69,6 +80,10 @@ public class RentalOffice {
 
     public void setUmbrella_count(int umbrella_count) {
         this.umbrella_count = umbrella_count;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }
 
