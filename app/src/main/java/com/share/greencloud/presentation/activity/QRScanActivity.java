@@ -28,7 +28,7 @@ public class QRScanActivity extends AppCompatActivity {
         Timber.d("onCreate");
         super.onCreate(savedInstanceState);
         rxPermissions = new RxPermissions(this);
-        doFullScreen();
+//        doFullScreen();
     }
 
     private void doFullScreen() {

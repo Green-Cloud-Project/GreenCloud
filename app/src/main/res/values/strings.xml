@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GreenCloud</string>
+    <string name="app_name">GREENCLOUD</string>
 
     <string name="facebook_app_id">464836024356605</string>
     <string name="fb_login_protocol_scheme">464836024356605</string>
@@ -13,4 +13,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_green_news">GreenNewsActivity</string>
+    <string name="title_activity_user_history">UserHistoryActivity</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
 </resources>
