@@ -6,24 +6,24 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/navigation_places"
+            android:id="@+id/navigation_favorite_places"
             android:icon="@drawable/menu_icon"
-            android:title="대여" />
+            android:title="즐겨찾기" />
 
         <item
-            android:id="@+id/navigation_dashboard"
-            android:icon="@drawable/menu_icon"
-            android:title="뉴스" />
+            android:id="@+id/navigation_green_news"
+            android:icon="@drawable/ic_dashboard_24dp"
+            android:title="그린뉴스" />
 
         <item
-            android:id="@+id/navigation_mygreen"
-            android:icon="@drawable/menu_icon"
-            android:title="마이페이지" />
+            android:id="@+id/navigation_usage_history"
+            android:icon="@drawable/ic_history"
+            android:title="대여 기록" />
 
         <item
-            android:id="@+id/navigation_notifications"
-            android:icon="@drawable/menu_icon"
-            android:title="알림" />
+            android:id="@+id/navigation_setting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="설정" />
 
     </group>
 

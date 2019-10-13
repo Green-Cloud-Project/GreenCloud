@@ -93,6 +93,21 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.isSubmitButtonEnabled();
         searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                adapter.getFilter().filter(query);
+                //todo 추후 구현 예정
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                adapter.getFilter().filter(newText);
+                //todo 추후 구현 예정
+                return false;
+            }
+        });
 
         return true;
     }

@@ -3,6 +3,8 @@ package com.share.greencloud.presentation.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,19 +15,50 @@ import com.share.greencloud.databinding.ItemSearchResultBinding;
 import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.presentation.viewmodel.ItemSearchResultViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
+public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>
+        implements Filterable {
 
     private Context mContext;
     private List<RentalOffice> rentalOfficeList;
+    private List<RentalOffice> rentalOffices;
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<RentalOffice> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(rentalOffices);
+            } else {
+                String filteredPattern = constraint.toString().toLowerCase().trim();
+
+                for (RentalOffice rentalOffice : rentalOffices) {
+                    if (rentalOffice.getOffice_location().toLowerCase().trim().contains(filteredPattern) && rentalOffice != null) {
+                        filteredList.add(rentalOffice);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            rentalOfficeList.clear();
+            rentalOfficeList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public SearchResultAdapter(Context context, List<RentalOffice> rentalOffices) {
         mContext = context;
         rentalOfficeList = rentalOffices;
-    }
-
-    public SearchResultAdapter() {
+        this.rentalOffices = rentalOffices;
     }
 
     @NonNull
@@ -45,6 +78,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public int getItemCount() {
         return rentalOfficeList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     static class SearchResultViewHolder extends RecyclerView.ViewHolder {

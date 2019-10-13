@@ -1,7 +1,6 @@
 package com.share.greencloud.presentation.activity;
 
 import android.Manifest;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,56 +10,43 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.share.greencloud.R;
+import com.share.greencloud.common.BaseActivity;
 import com.share.greencloud.databinding.ActivityBottomNavBinding;
+import com.share.greencloud.databinding.NavHeaderMainBinding;
 import com.share.greencloud.domain.login.LoginManager;
-import com.share.greencloud.presentation.ViewModelFactory;
+import com.share.greencloud.domain.model.User;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
-import com.share.greencloud.presentation.viewmodel.BottomNavViewModel;
-import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
+import com.share.greencloud.presentation.viewmodel.NavHeaderViewModel;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
 
-public class BottomNavActivity extends AppCompatActivity implements
+public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityBottomNavBinding binding;
-
-    private SearchManager searchManager;
-    private SearchView searchView;
-
-    private BottomNavViewModel viewModel;
-
+    private NavHeaderViewModel viewModel;
     private BottomSheetBehavior bottomSheetBehavior;
-
-    MapFragmentViewModel mapFragmentViewModel;
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
@@ -80,14 +66,14 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     private void setupView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_bottom_nav);
-
+        binding = getBinding();
+        binding.setLifecycleOwner(this);
         setupToolbar();
-        setupViewModel();
         setupDrawerNavView();
         setupBottomNavView();
+//        setupViewModel();
         if (LoginManager.getInstance().isLogin()) {
-            setupUserProfile();
+            bindUserProfile(); // 로그인 중에만 프로필 정보 불러오도록
         }
         changeTrasparentColorToolbarAndStatusbar();
         loadDefaultFragment();
@@ -99,10 +85,10 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     private void setupViewModel() {
-        binding.setLifecycleOwner(this);
-        ViewModelFactory viewModelFactory = new ViewModelFactory();
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BottomNavViewModel.class);
-        mapFragmentViewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
+
+//        ViewModelFactory viewModelFactory = new ViewModelFactory();
+//        viewModel = ViewModelProviders.of(this).get(NavHeaderViewModel.class);
+//        mapFragmentViewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
     }
 
     private void setupDrawerNavView() {
@@ -114,7 +100,6 @@ public class BottomNavActivity extends AppCompatActivity implements
         arrow.setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         binding.navView.setNavigationItemSelectedListener(this);
 
-        setupDrawerNavClickListen();
     }
 
     private void setupDrawerNavClickListen() {
@@ -145,24 +130,24 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     private void setupBottomNavView() {
-        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
+//        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         binding.rentalInfo.setBottomNavActivity(this);
     }
 
-    private void setupUserProfile() {
-        TextView tv_userID = findViewById(R.id.tv_name);
-        ImageView iv_profileImg = findViewById(R.id.iv_profile);
-        String userId;
-        String userProfileImg;
+    // databing을 활용하여 프로필 정보를 연결
+    void bindUserProfile() {
+        NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0));
 
-        userId = GreenCloudPreferences.getUserId(this);
-        userProfileImg = GreenCloudPreferences.getUserProfileImage(this);
-
-        tv_userID.setText(userId);
-        Glide.with(this).load(userProfileImg).circleCrop().placeholder(R.drawable.account_circle).into(iv_profileImg);
+        String userName = GreenCloudPreferences.getUserId(this);
+        String userProfileImg = GreenCloudPreferences.getUserProfileImage(this);
+        User user = new User(userName, userProfileImg);
+        if (headerMainBinding.getViewModel() == null) {
+            headerMainBinding.setViewModel(
+                    new NavHeaderViewModel(user));
+        }
     }
 
     private void changeTrasparentColorToolbarAndStatusbar() {
@@ -171,7 +156,6 @@ public class BottomNavActivity extends AppCompatActivity implements
     }
 
     private void loadDefaultFragment() {
-        binding.bottomNavView.setSelectedItemId(R.id.navigation_places);
         loadFragment(childFragment[0]);
     }
 
@@ -181,7 +165,7 @@ public class BottomNavActivity extends AppCompatActivity implements
         transaction.disallowAddToBackStack();
         transaction.setReorderingAllowed(true);
         transaction.commit();
-        invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
+//        invalidateOptionsMenu(); // 메뉴 아이템 변경 시 호출해야함.
     }
 
     private boolean checkPermissions() {
@@ -247,17 +231,6 @@ public class BottomNavActivity extends AppCompatActivity implements
 //        return true;
 //    }
 
-    private void getItemFromDB(String searchTest) {
-
-//        List<RentalOffice> offices= mapFragmentViewModel.getAllRentalOfficesFromDB();
-//        Timber.d("offices size: %s", offices.size());
-
-        mapFragmentViewModel.getAllRentalOfficesFromDB().observe(this, rentalOffices -> {
-            Toast.makeText(this, "result " + rentalOffices.get(0).getOffice_location() , Toast.LENGTH_SHORT).show();
-        });
-
-    }
-
     private void observeSearchMenu(Menu menu) {
         viewModel.getHideSearchMenu().observe(this, (hideSearchMenu) -> {
             if (hideSearchMenu) {
@@ -275,26 +248,24 @@ public class BottomNavActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.navigation_places:
-                viewModel.showSearchMenu();
-                loadFragment(childFragment[0]);
+            case R.id.navigation_favorite_places:
+                //todo 추후 구현 예정
                 return true;
 
-            case R.id.navigation_dashboard:
-                viewModel.hideSearchMenu();
+            case R.id.navigation_green_news:
                 Intent intent = new Intent(this, GreenNewsActivity.class);
                 startActivity(intent);
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
 
-            case R.id.navigation_mygreen:
-                viewModel.hideSearchMenu();
-                loadFragment(childFragment[1]);
-                return true;
-
-            case R.id.navigation_notifications:
-                viewModel.hideSearchMenu();
+            case R.id.navigation_usage_history:
                 Intent intentHistory = new Intent(this, UserHistoryActivity.class);
                 startActivity(intentHistory);
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+
+            case R.id.navigation_setting:
+            //todo 추후 구현 예정
                 return true;
         }
         return false;
@@ -311,8 +282,6 @@ public class BottomNavActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        searchManager = null;
-        searchView = null;
     }
 
     @Override
@@ -348,5 +317,10 @@ public class BottomNavActivity extends AppCompatActivity implements
         hideBottomSlide(view);
         Intent intent = new Intent(this, SearchResultActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.activity_bottom_nav;
     }
 }

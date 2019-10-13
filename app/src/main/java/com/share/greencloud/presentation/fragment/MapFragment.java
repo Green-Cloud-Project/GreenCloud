@@ -131,7 +131,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     // 현재 위치를 다시 가져오도록 함
     public void refresh() {
-
         binding.progressBar.setVisibility(View.VISIBLE);
         presenter.detachView();
         presenter.attachView(this);
@@ -249,6 +248,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         if (mMap != null) {
             refresh();
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -385,7 +386,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         if (location != null) {
             presenter.updateUserLocation(location, this);
             viewModel.addDistanceInfoToRentalOffice(location);
-
             Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
         }
 
