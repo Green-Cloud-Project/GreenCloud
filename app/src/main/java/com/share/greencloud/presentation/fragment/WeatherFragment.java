@@ -19,12 +19,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
+import com.share.greencloud.data.api.WeatherCondition;
 import com.share.greencloud.domain.interator.LocationInfoMVP;
-import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;
 import com.share.greencloud.model.WeatherCallbackListener;
-import com.share.greencloud.data.api.WeatherCondition;
+import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.utils.BaseTime;
 import com.share.greencloud.utils.CustomDialog;
 import com.share.greencloud.utils.Geocoding;
@@ -152,10 +152,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
         if (!LoadingIndicator.getInstance().isShowing()) {
             LoadingIndicator.getInstance().showProgress(getApplicationContext());
         }
-        
+
         rxLocation = new RxLocation(getContext());
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
-        presenter = new LocationPresenter(rxLocation);
+        presenter = new LocationPresenter(rxLocation, getLifecycle());
     }
 
     public void initGettingWeatherData() {
@@ -180,13 +180,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
     @Override
     public void onResume() {
         super.onResume();
-       // initGettingWeatherData();
+         initGettingWeatherData();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        presenter.detachView();
+//        presenter.detachView();
         if (LoadingIndicator.getInstance().isShowing()) {
             LoadingIndicator.getInstance().dismiss();
         }
@@ -267,7 +267,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
             } else if (weatherModel instanceof CurrentWeatherModel.Weather) {
 
-                String area = Geocoding.getAddress(mContext,presenter.getUserLocation().getLatitude(),presenter.getUserLocation().getLongitude());
+                String area = Geocoding.getAddress(mContext, presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude());
                 //sryang 널체크
                 if (((CurrentWeatherModel.Weather) weatherModel).getHourly() == null
                         || ((CurrentWeatherModel.Weather) weatherModel).getHourly().size() <= 0)
@@ -304,7 +304,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
             if (LoadingIndicator.getInstance().isShowing()) {
                 LoadingIndicator.getInstance().dismiss();
             }
-            new CustomDialog().showDialog(getActivity(),errorMsg);
+            new CustomDialog().showDialog(getActivity(), errorMsg);
 
         }
 

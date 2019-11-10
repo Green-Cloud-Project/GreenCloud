@@ -5,8 +5,10 @@
         <item
             android:id="@+id/menu_search"
             app:showAsAction="always"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
+
             android:icon="@drawable/ic_search_icon"
             android:title="검색" />
     </group>
 </menu>
+
+<!--    app:actionViewClass="androidx.appcompat.widget.SearchView"-->

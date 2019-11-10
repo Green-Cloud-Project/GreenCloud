@@ -20,7 +20,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
@@ -33,12 +35,17 @@ import com.share.greencloud.domain.model.User;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
 import com.share.greencloud.presentation.viewmodel.NavHeaderViewModel;
+import com.share.greencloud.presentation.viewmodel.SharedViewModel;
+import com.share.greencloud.utils.AutoDisposable;
 import com.share.greencloud.utils.GreenCloudPreferences;
+import com.share.greencloud.utils.RxBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> implements
+public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
@@ -46,7 +53,11 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
 
     private ActivityBottomNavBinding binding;
     private NavHeaderViewModel viewModel;
+    private SharedViewModel sharedViewModel;
     private BottomSheetBehavior bottomSheetBehavior;
+
+//    private CompositeDisposable disposables = new CompositeDisposable();
+    private AutoDisposable autoCloseable = new AutoDisposable();
 
     private final Fragment[] childFragment = new Fragment[]{
             new MapFragment(),
@@ -58,23 +69,38 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
         super.onCreate(savedInstanceState);
         Timber.d("onCreate is called");
 
-        setupView();
+        onInitView();
 
         if (!checkPermissions()) {
             getLocationPermission();
         }
+
+        autoCloseable.bindTo(getLifecycle());
+
+        Disposable disposable = RxBus.getInstance().getBust().subscribe((Consumer) o -> {
+            if (o != null && o instanceof LatLng) {
+                if (sharedViewModel.getMovedNewPosition()) {
+                    sharedViewModel.clearValue();
+                }
+                sharedViewModel.setPosition((LatLng) o);
+                sharedViewModel.setMovedNewPosition(true);
+            } else if (o != null && o instanceof String) {
+                Toast.makeText(BottomNavActivity.this, "현재 서버 접속에 실패하였습니다. 잠시 후 다시 실행해주시길 바랍니다.\n" + o, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+//        disposables.add(disposable);
+        autoCloseable.add(disposable);
     }
 
-    private void setupView() {
+    private void onInitView() {
         binding = getBinding();
         binding.setLifecycleOwner(this);
         setupToolbar();
         setupDrawerNavView();
-        setupBottomNavView();
-//        setupViewModel();
-        if (LoginManager.getInstance().isLogin()) {
-            bindUserProfile(); // 로그인 중에만 프로필 정보 불러오도록
-        }
+        setupBottomSheetView();
+        setupViewModel();
+        bindUserProfile();
         changeTrasparentColorToolbarAndStatusbar();
         loadDefaultFragment();
     }
@@ -85,7 +111,7 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
     }
 
     private void setupViewModel() {
-
+        sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel.class);
 //        ViewModelFactory viewModelFactory = new ViewModelFactory();
 //        viewModel = ViewModelProviders.of(this).get(NavHeaderViewModel.class);
 //        mapFragmentViewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
@@ -129,7 +155,7 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
         });
     }
 
-    private void setupBottomNavView() {
+    private void setupBottomSheetView() {
 //        binding.bottomNavView.setOnNavigationItemSelectedListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -137,12 +163,17 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
         binding.rentalInfo.setBottomNavActivity(this);
     }
 
+    // 로그인 중에만 프로필 정보 불러오도록
     // databing을 활용하여 프로필 정보를 연결
     void bindUserProfile() {
         NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0));
+        String userName = "GreenCloud";
+        String userProfileImg = "";
+        if (LoginManager.getInstance().isLogin(this)) {
+            userName = GreenCloudPreferences.getUserId(this);
+            userProfileImg = GreenCloudPreferences.getUserProfileImage(this);
+        }
 
-        String userName = GreenCloudPreferences.getUserId(this);
-        String userProfileImg = GreenCloudPreferences.getUserProfileImage(this);
         User user = new User(userName, userProfileImg);
         if (headerMainBinding.getViewModel() == null) {
             headerMainBinding.setViewModel(
@@ -161,7 +192,15 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        Fragment mapFragment = getSupportFragmentManager().findFragmentByTag("map");
+
+        if (mapFragment == null) {
+            transaction.add(R.id.frame_container, fragment, "map");
+        } else {
+            transaction.replace(R.id.frame_container, mapFragment, "map");
+        }
+
+//        transaction.replace(R.id.frame_container, fragment);
         transaction.disallowAddToBackStack();
         transaction.setReorderingAllowed(true);
         transaction.commit();
@@ -265,7 +304,7 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
                 return true;
 
             case R.id.navigation_setting:
-            //todo 추후 구현 예정
+                //todo 추후 구현 예정
                 return true;
         }
         return false;
@@ -284,13 +323,31 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
         super.onDestroy();
     }
 
+    long backKeyPressedTime;
+
+    //뒤로가기 2번하면 앱종료
     @Override
     public void onBackPressed() {
+
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+        //1번째 백버튼 클릭
+        else if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, getString(R.string.APP_CLOSE_BACK_BUTTON), Toast.LENGTH_SHORT).show();
+        }
+        //2번째 백버튼 클릭 (종료)
+        else {
+            AppFinish();
+        }
+    }
+
+    //앱종료
+    public void AppFinish() {
+        finish();
+        System.exit(0);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override
@@ -316,6 +373,7 @@ public class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> im
     public void search(View view) {
         hideBottomSlide(view);
         Intent intent = new Intent(this, SearchResultActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

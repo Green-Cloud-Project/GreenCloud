@@ -79,8 +79,9 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void callback(UserBody userBody) {
                                 Log.d(TAG, userBody.getToken());
-                                Constants.token = userBody.getToken();
-                                GreenCloudPreferences.setToken(getContext(), Constants.token);
+//                                Constants.token = userBody.getToken();
+                                String token = userBody.getToken();
+                                GreenCloudPreferences.setToken(getContext(), token);
 
                                 requestUserProfileData();
                             }
@@ -106,7 +107,9 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.btn_no_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getContext(), BottomNavActivity.class));
+                Intent intent = new Intent(getContext(), BottomNavActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                getActivity().startActivity(intent);
             }
         });
     }

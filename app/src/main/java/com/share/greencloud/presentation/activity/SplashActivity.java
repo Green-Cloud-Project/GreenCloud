@@ -1,10 +1,10 @@
 package com.share.greencloud.presentation.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.share.greencloud.R;
 import com.share.greencloud.domain.login.LoginManager;
@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
                     GreenCloudPreferences.setOnBoarding(SplashActivity.this, true);
                     startActivity(new Intent(SplashActivity.this, OnBoardingActivity.class));
                 }
-                else if (LoginManager.getInstance().isLogin()) {
+                else if (LoginManager.getInstance().isLogin(SplashActivity.this)) {
                     startActivity(new Intent(SplashActivity.this, BottomNavActivity.class));
                 }
                 else {

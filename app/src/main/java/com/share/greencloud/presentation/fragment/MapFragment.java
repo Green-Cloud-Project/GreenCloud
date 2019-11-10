@@ -38,6 +38,7 @@ import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.presentation.activity.BottomNavActivity;
 import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
+import com.share.greencloud.presentation.viewmodel.SharedViewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,6 +70,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private MapFragmentViewModel viewModel;
     Circle mapCircle;
 
+    private SharedViewModel sharedViewModel;
+
     public MapFragment() {
     }
 
@@ -96,10 +99,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             getLocationPermission();
         }
 
-//        Timber.d("LoadingIndicator show() is called");
-//        if (!LoadingIndicator.getInstance().isShowing()) {
-//            LoadingIndicator.getInstance().showProgress(getApplicationContext());
-//        }
 
         return binding.getRoot();
     }
@@ -108,6 +107,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
         viewModel = ViewModelProviders.of(this).get(MapFragmentViewModel.class);
+
+        sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
         binding.setBottomNavActivity((BottomNavActivity) getActivity());
         binding.setMapFragment(this);
         binding.fabCurrentLocation.setOnClickListener(v -> refresh());
@@ -126,11 +128,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private void setupInitialLocationInfo() {
         rxLocation = new RxLocation(getContext());
         rxLocation.setDefaultTimeout(REQEUST_TIME_INTERVAL, TimeUnit.SECONDS);
-        presenter = new LocationPresenter(rxLocation);
+        presenter = new LocationPresenter(rxLocation, getLifecycle());
     }
 
     // 현재 위치를 다시 가져오도록 함
     public void refresh() {
+        Timber.d("refresh is called");
+        if (sharedViewModel.getMovedNewPosition()) {
+            sharedViewModel.clearValue();
+        }
         binding.progressBar.setVisibility(View.VISIBLE);
         presenter.detachView();
         presenter.attachView(this);
@@ -247,10 +253,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         binding.map.onResume();
 
         if (mMap != null) {
-            refresh();
+            if (sharedViewModel.getMovedNewPosition()) {
+                binding.map.getMapAsync(this);
+            } else {
+                refresh();
+            }
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
@@ -259,9 +270,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         Timber.d("onPause is called");
         binding.map.onPause();
-//        if (LoadingIndicator.getInstance().isShowing()) {
-//            LoadingIndicator.getInstance().dismiss();
-//        }
+        if (sharedViewModel.getMovedNewPosition()) {
+            sharedViewModel.clearValue();
+        }
     }
 
     @Override
@@ -309,17 +320,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         addRentalOfficeMarker();
         setupMap();
 
-//        Timber.i("LoadingIndicator dismiss() is called");
-//        if (LoadingIndicator.getInstance().isShowing()) {
-//            LoadingIndicator.getInstance().dismiss();
-//        }
-
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                binding.progressBar.setVisibility(View.INVISIBLE);
-            }
-        });
+        mMap.setOnMapLoadedCallback(() -> binding.progressBar.setVisibility(View.INVISIBLE));
     }
 
     // Map에 필수적인 설정을 세팅
@@ -330,12 +331,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             mapCircle.remove();
         }
 
-        LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(), presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
+        LatLng myPosition = new LatLng(presenter.getUserLocation().getLatitude(),
+                presenter.getUserLocation().getLongitude()); // 현재 위치 정보 가져옴.
 
         mMap.getUiSettings().setZoomControlsEnabled(false);         // 줌 설정 비활화
         mMap.getUiSettings().setMyLocationButtonEnabled(false);     // gps 버튼 비활화
         mMap.setOnMarkerClickListener(this);                        //
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM)); // 현재 위치로 지도를 표시해줌
+
+
+        if (sharedViewModel.getMovedNewPosition()) {
+            LatLng clickedPositon = sharedViewModel.getPosition().getValue();
+            if (clickedPositon != null) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedPositon, DEFAULT_ZOOM));
+            }
+        } else {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_ZOOM));
+        }
+
 
         if (checkPermissions()) {
             // 사용자 위치 표시
@@ -437,12 +450,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             return ((int) result / 1000) + " km";
         else
             return (int) result + " m";
-    }
-
-    public void moveCamera(View view, LatLng request) {
-        if (mMap != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(request, DEFAULT_ZOOM));
-        }
     }
 
     @Override

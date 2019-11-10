@@ -12,7 +12,6 @@ import com.share.greencloud.domain.model.User;
 
 public class NavHeaderViewModel extends BaseObservable {
     private User user;
-    private boolean check_login;
 
     private MutableLiveData<Boolean> hideSearchMenu = new MutableLiveData<>();
 
@@ -22,14 +21,6 @@ public class NavHeaderViewModel extends BaseObservable {
 
     public MutableLiveData<Boolean> getHideSearchMenu() {
         return hideSearchMenu;
-    }
-
-    public void hideSearchMenu() {
-        hideSearchMenu.setValue(true);
-    }
-
-    public void showSearchMenu() {
-        hideSearchMenu.setValue(false);
     }
 
     public String getUserName() {
@@ -42,6 +33,6 @@ public class NavHeaderViewModel extends BaseObservable {
 
     @BindingAdapter("profileImageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.um_green).circleCrop().into(imageView);
+        Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.account_circle).circleCrop().into(imageView);
     }
 }

@@ -36,7 +36,7 @@ public class GreenNewsActivity extends BaseActivity<ActivityGreenNewsBinding> {
         binding = getBinding();
         setupToolbar();
         setupViewModel();
-        setuoView();
+        setupView();
     }
 
     private void setupViewModel() {
@@ -57,7 +57,7 @@ public class GreenNewsActivity extends BaseActivity<ActivityGreenNewsBinding> {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    public void setuoView() {
+    public void setupView() {
         binding.contentGreenNews.greenNewsRecyclerView.setHasFixedSize(true);
 
         binding.contentGreenNews.swipeLayout.setOnRefreshListener(() -> {

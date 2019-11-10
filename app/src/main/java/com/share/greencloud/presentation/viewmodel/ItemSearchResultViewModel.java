@@ -1,12 +1,17 @@
 package com.share.greencloud.presentation.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 
 import androidx.databinding.BaseObservable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.share.greencloud.domain.model.RentalOffice;
+import com.share.greencloud.presentation.activity.BottomNavActivity;
+import com.share.greencloud.utils.RxBus;
 
-public class ItemSearchResultViewModel  extends BaseObservable {
+public class ItemSearchResultViewModel extends BaseObservable {
 
     private RentalOffice rentalOffice;
     private Context context;
@@ -57,5 +62,12 @@ public class ItemSearchResultViewModel  extends BaseObservable {
             return ((int) result / 1000) + " km";
         else
             return (int) result + " m";
+    }
+
+    public void onItemClick(View view) {
+        RxBus.getInstance().sendBus(new LatLng(getLat(), getLon()));
+        Intent i = new Intent(view.getContext(), BottomNavActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        context.startActivity(i);
     }
 }

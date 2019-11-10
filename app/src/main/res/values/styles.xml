@@ -69,8 +69,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-
-
-    출처: https://altongmon.tistory.com/838 [IOS를 Java]
+    <style name="AppTheme.SplashScreen" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
 </resources>

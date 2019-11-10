@@ -16,4 +16,5 @@
     <string name="title_activity_green_news">GreenNewsActivity</string>
     <string name="title_activity_user_history">UserHistoryActivity</string>
     <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="APP_CLOSE_BACK_BUTTON">뒤로 버튼을 한번 더 누르시면 종료됩니다.</string>
 </resources>

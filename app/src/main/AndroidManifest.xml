@@ -4,20 +4,31 @@
 
     <application
         android:name=".common.BaseApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".presentation.splash.SplashActivityKotlin"
+            android:theme="@style/AppTheme.SplashScreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".presentation.activity.SearchResultActivity"
             android:label="@string/title_activity_search_result"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".presentation.activity.UserHistoryActivity"
             android:label="@string/title_activity_user_history"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".presentation.activity.GreenNewsActivity"
@@ -31,46 +42,22 @@
             android:name=".presentation.activity.QRScanActivity"
             android:theme="@style/TransparentToolbar" />
         <activity android:name=".presentation.activity.OnBoardingActivity" />
-        <activity android:name=".presentation.activity.LoginActivity" />
+        <activity android:name=".presentation.activity.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".presentation.activity.SplashActivity" />
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
             android:name=".presentation.activity.BottomNavActivity"
             android:launchMode="singleTop"
-            android:theme="@style/TransparentToolbar">
-            <intent-filter>
+            android:theme="@style/TransparentToolbar"
+            android:screenOrientation="portrait" />
 
-                <!-- <action android:name="android.intent.action.MAIN" /> -->
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.SEARCH" />
-
-                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
         <activity android:name=".presentation.activity.JkAppActivity" />
-        <activity
-            android:name=".presentation.activity.KakaoLoginActiviy"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".presentation.activity.KakaoLoginActiviy" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".presentation.activity.LayoutListActivity" />
         <activity android:name=".presentation.activity.GoogleLoginActivity" />
+        <activity android:name=".presentation.activity.MyGreenActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -87,7 +74,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activity.MyGreenActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -95,12 +81,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -108,19 +88,16 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <provider
-            android:name=".utils.SuggestionProvider"
-            android:authorities="com.share.greencloud.utils.SuggestionProvider"
-            android:exported="false" />
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

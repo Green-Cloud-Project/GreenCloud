@@ -17,7 +17,7 @@ abstract class RentalOfficeDatabase : RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(this) {
                     INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
+                            context,
                             RentalOfficeDatabase::class.java, "rentaloffices"
                     ).fallbackToDestructiveMigration()
                             .build()

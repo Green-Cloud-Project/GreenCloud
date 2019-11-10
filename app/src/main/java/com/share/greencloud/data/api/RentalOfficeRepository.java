@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.MutableLiveData;
 
 import com.share.greencloud.domain.model.RentalOffice;
+import com.share.greencloud.utils.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RentalOfficeRepository {
             @Override
             public void onFailure(Call<List<RentalOffice>> call, Throwable t) {
                 Timber.d("대여소 데이터 로딩실패: %s", t.getMessage());
+                RxBus.getInstance().sendBus(t.getMessage()); // 사용자 오류 메세지를 보내기 위해서 RxBus에 오류 메세지 전송.
             }
         });
 

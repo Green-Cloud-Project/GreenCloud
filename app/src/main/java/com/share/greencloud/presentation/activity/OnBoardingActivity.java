@@ -1,13 +1,13 @@
 package com.share.greencloud.presentation.activity;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
-import android.view.View;
 
 import com.share.greencloud.R;
 import com.share.greencloud.presentation.fragment.OnBoardingFragment;
@@ -27,6 +27,12 @@ public class OnBoardingActivity extends AppCompatActivity {
                 LoginActivity.go(OnBoardingActivity.this);
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.finish();
     }
 
     private class OnBoardingVpAdt extends FragmentPagerAdapter {

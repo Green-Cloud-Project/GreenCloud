@@ -2,15 +2,12 @@ package com.share.greencloud.presentation.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.share.greencloud.R;
 import com.share.greencloud.common.BaseActivity;
 import com.share.greencloud.databinding.ActivitySearchResultBinding;
@@ -18,19 +15,15 @@ import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.presentation.adapter.SearchResultAdapter;
 import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
 
-public class SearchResultActivity extends BaseActivity<ActivitySearchResultBinding> {
+public class SearchResultActivity extends BaseActivity<ActivitySearchResultBinding>
+        implements SearchView.OnQueryTextListener {
 
     private ActivitySearchResultBinding binding;
-    public LatLng request;
-    private SearchView searchView;
     private SearchResultAdapter adapter;
-    private List<RentalOffice> rentalOfficeList = new ArrayList<>();
-
     private MapFragmentViewModel mapFragmentViewModel;
 
     @Override
@@ -46,20 +39,18 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
         setupToolbar();
         setupViewModel();
         setupView();
-
     }
-
 
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void setupView() {
         binding.contentSearchResult.searchResultRecyclerView.setHasFixedSize(true);
-
-        new Handler().postDelayed(() -> getItemFromDB("test"),2000);
+        new Handler().postDelayed(this::getItemFromDB, 500);
+        binding.searchV.setOnQueryTextListener(this);
+        binding.searchV.onActionViewExpanded();
     }
 
 
@@ -68,48 +59,18 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
     }
 
     public void loadData(List<RentalOffice> rentalOffices) {
-
-        adapter = new SearchResultAdapter(this, rentalOffices);
+        adapter = new SearchResultAdapter(rentalOffices);
         binding.contentSearchResult.searchResultRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
-    private void getItemFromDB(String searchTest) {
-
+    private void getItemFromDB() {
         mapFragmentViewModel.getAllRentalOfficesFromDB().observe(this, rentalOffices -> {
             loadData(rentalOffices);
             binding.contentSearchResult.searchResultRecyclerView.setVisibility(View.VISIBLE);
             binding.contentSearchResult.progressBar.setVisibility(View.INVISIBLE);
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Timber.d("onCreateOptionsMenu is called");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.isSubmitButtonEnabled();
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-//                adapter.getFilter().filter(query);
-                //todo 추후 구현 예정
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-//                adapter.getFilter().filter(newText);
-                //todo 추후 구현 예정
-                return false;
-            }
-        });
-
-        return true;
     }
 
     @Override
@@ -123,5 +84,32 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Timber.d("onResume");
+        new Handler().postDelayed(this::getItemFromDB, 500);
+        binding.searchV.onActionViewExpanded();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();  // 기존에 검색 내역 및 대야소 목록을 다시 보여주시기 위해서 액티비티를 종료 처리.
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText != null && !newText.equals("")) {
+            adapter.search(newText, null);
+            return true;
+        }
+        return false;
+    }
 }

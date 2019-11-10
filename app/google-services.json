@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "382620099711",
+    "firebase_url": "https://cloudforest-71218.firebaseio.com",
+    "project_id": "cloudforest-71218",
+    "storage_bucket": "cloudforest-71218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382620099711:android:12c8cb44d4a5359695cb4a",
+        "android_client_info": {
+          "package_name": "com.share.greencloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382620099711-u3tngnvcomtdebes8llgl5ecd3nfqae7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.share.greencloud",
+            "certificate_hash": "1090ade680177dcf8790bca97207fc3be5fa4de5"
+          }
+        },
+        {
+          "client_id": "382620099711-arjqmq5mo1nobjnukn7cnef171e03392.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvw6B3psFRcYwdT31RzJkqv65lDZ46zFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382620099711-arjqmq5mo1nobjnukn7cnef171e03392.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

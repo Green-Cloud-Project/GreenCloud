@@ -3,11 +3,14 @@ package com.share.greencloud.presentation.presenter;
 import android.location.Address;
 import android.location.Location;
 
+import androidx.lifecycle.Lifecycle;
+
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.domain.interator.LocationInfoMVP;
 import com.share.greencloud.domain.model.UserLocation;
+import com.share.greencloud.utils.AutoDisposable;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,13 +32,17 @@ public class LocationPresenter implements LocationInfoMVP.Presenter {
 
     private UserLocation userLocation;
 
-    public LocationPresenter(RxLocation rxLocation) {
+    private AutoDisposable autoDisposable = new AutoDisposable();
+
+    public LocationPresenter(RxLocation rxLocation, Lifecycle lifecycle) {
 
         this.rxLocation = rxLocation;
         this.locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_LOW_POWER)
                 .setInterval(REQEUST_TIME_INTERVAL);
         userLocation = new UserLocation(setDefaultLocation());
+        autoDisposable.bindTo(lifecycle);
+        autoDisposable.add(disposable);
     }
 
     public void attachView(LocationInfoMVP.View view) {
@@ -51,13 +58,13 @@ public class LocationPresenter implements LocationInfoMVP.Presenter {
     }
 
     @Override
-    public void updateUserLocation(Location updatedLocation, OnMapReadyCallback callback){
+    public void updateUserLocation(Location updatedLocation, OnMapReadyCallback callback) {
         userLocation.updateCurrentLocation(updatedLocation);
         view.onMapUpdate(callback);
     }
 
     @Override
-    public Location getUserLocation(){
+    public Location getUserLocation() {
         return userLocation.getCurrentLocation();
     }
 
@@ -94,4 +101,5 @@ public class LocationPresenter implements LocationInfoMVP.Presenter {
         return rxLocation.geocoding().fromLocation(location).toObservable()
                 .subscribeOn(Schedulers.io());
     }
+
 }

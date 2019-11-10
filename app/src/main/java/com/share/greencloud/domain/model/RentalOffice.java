@@ -5,9 +5,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.share.greencloud.presentation.adapter.DynamicSearchAdapter;
+
+import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "rentaloffices")
-public class RentalOffice {
+public class RentalOffice implements DynamicSearchAdapter.Searchable{
     @PrimaryKey
     @SerializedName("office_id")
     @ColumnInfo(name = "office_id")
@@ -84,6 +87,12 @@ public class RentalOffice {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    @NotNull
+    @Override
+    public String getSearchCriteria() {
+        return this.office_location;
     }
 }
 

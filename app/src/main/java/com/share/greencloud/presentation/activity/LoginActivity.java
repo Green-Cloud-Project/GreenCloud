@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.share.greencloud.R;
+import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.presentation.fragment.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
@@ -19,6 +20,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl_container, LoginFragment.newInstance())
                 .commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(LoginManager.getInstance().isLogin(this)){
+            this.finish();
+        }
     }
 
     public static void go(AppCompatActivity activity) {

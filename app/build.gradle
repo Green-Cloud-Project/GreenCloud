@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "com.share.greencloud"
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,93 +40,98 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    lintOptions {
+        abortOnError false
+    }
 }
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
+    implementation project(path: ':googlemapsfloatingmarkertitles') // for marker inforwindow keep opening
 
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
-    implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'
+    // Support libraries
+    implementation deps.support.app_compat
+    implementation deps.support.constraintlayout
+    implementation deps.support.core_ktx
+    implementation deps.support.legacy_support
+    implementation deps.support.material
 
-    // 카카오 로그인 sdk를 사용하기 위해 필요.
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    //카메라 
-    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+    // Architecture components
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+    implementation deps.room.runtime
+    kapt deps.room.compiler
 
+    // Android Testing Support Library's runner and rules
+    androidTestImplementation deps.atsl.junit
+    androidTestImplementation deps.atsl.runner
+    androidTestImplementation deps.atsl.rules
+    androidTestImplementation deps.support.annotations
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.retrofit.mock
+    testImplementation deps.junit_jupiter
+    testImplementation deps.truth
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
+    testImplementation deps.archTesting
+    testImplementation deps.mockito_kotlin
+    kaptTest deps.auto_service
 
-    //네이버 로그인
-    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.5'   // import from jcenter
-
-    //페이스북 로그인
-    implementation 'com.facebook.android:facebook-login:[5,6)'
-
-    // 로그 출력
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
-    // 구글맵 라이브러리
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.0.0'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-
-    // 메모리릭 검출 라이브러리
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-
-    // 서치뷰 라이브러리
-    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
-
-    //서버통신
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    //서버통신간 데이타 디버깅
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
-
-    // 안드로이드 디버깅 툴
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.1'
-
-    //rx java & android & location
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
-    implementation 'com.patloew.rxlocation:rxlocation:1.0.5'
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-
-    // room(SQLlite)
-    implementation 'androidx.room:room-runtime:2.1.0'
-    kapt 'android.arch.persistence.room:compiler:2.1.0'
+    // Google Play Services
+    implementation deps.play_service.location
+    implementation deps.play_service.maps
+    implementation deps.play_service.auth
+    implementation deps.play_service.vision
+    implementation deps.libraries_places
 
     // kotlin
-    implementation "androidx.core:core-ktx:+"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.1.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation deps.kotlin.stdlib
 
-    // QR code Scan
-    implementation 'com.king.zxing:zxing-lite:1.1.3-androidx'
+    // Glide
+    implementation deps.glide.core
+    kapt deps.glide.compile
 
-    // glide for image
-    implementation "com.github.bumptech.glide:glide:4.9.0"
-    annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
+    // Retrofit & gson
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+    implementation deps.google_gson
+    implementation deps.okhttp_logging_interceptor
+    implementation deps.retrofit.adapter_rxjava
 
-    // location distance calculation
-    implementation 'com.google.maps.android:android-maps-utils:0.5'
+    // rx java & android & library
+    implementation deps.rxjava
+    implementation deps.rxandroid
+    implementation deps.rxlocation
+    implementation deps.rxpermissions
 
-    // for marker inforwindow keep opening
-    implementation project(path: ':googlemapsfloatingmarkertitles')
+    // Memory Leak
+    implementation deps.leakcanary
+    testImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary
+
+    // debugging tool
+    implementation deps.stetho.runtime
+    implementation deps.stetho.okhttp3
+    implementation deps.stetho.js_rhino
+    implementation deps.timber
+
+    implementation deps.firebase.core
+    implementation deps.firebase.analytics
+    implementation deps.crashlytics
+
+    // Social Login
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation deps.naveridlogin
+    implementation deps.facebook_login
+
+    // util
+    implementation deps.map_utils
+    implementation deps.zxing
+
+    // ETC
+    implementation 'com.github.andrefrsousa:SuperBottomSheet:1.4.0'
+    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 }
