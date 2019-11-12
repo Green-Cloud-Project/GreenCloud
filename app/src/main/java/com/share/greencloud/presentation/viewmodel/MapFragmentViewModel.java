@@ -7,11 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.SphericalUtil;
-import com.share.greencloud.R;
 import com.share.greencloud.data.api.RentalOfficeKotlinRepositary;
 import com.share.greencloud.data.api.RentalOfficeRepository;
 import com.share.greencloud.domain.model.RentalOffice;
@@ -65,19 +63,17 @@ public class MapFragmentViewModel extends AndroidViewModel {
 //        return kotlinRepositary.getAllRentalOffices();
 //    }
 
-    public void makeRentalOfficeMarkers(List<RentalOffice> rentalOffices, Location userLocation) {
-
+    public void makeRentalOfficeMarkers(List<RentalOffice> rentalOffices) {
         // Remote DB에서 가져온 정보를 저장
         rentalOfficeList = rentalOffices;
 
         LatLng position;
         MarkerOptions markerUnit;
-        List<MarkerOptions> markerOptions = new ArrayList<>();
+//        List<MarkerOptions> markerOptions = new ArrayList<>();
 
         for (RentalOffice rentalOffice : rentalOfficeList) {
             position = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
-            markerUnit = new MarkerOptions().position(position).title(String.valueOf(rentalOffice.getUmbrella_count()))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green));
+            markerUnit = new MarkerOptions().position(position).title(String.valueOf(rentalOffice.getUmbrella_count()));
             markerOptionsList.add(markerUnit);
         }
     }
@@ -88,6 +84,8 @@ public class MapFragmentViewModel extends AndroidViewModel {
         LatLng currentLocation = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
         int distance;
 
+        // 테스트 코드 커스텀 아이콘
+       //.icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green))
         for (RentalOffice rentalOffice : rentalOfficeList) {
             distance = fixDistanceError(SphericalUtil.computeDistanceBetween(currentLocation,
                     new LatLng(rentalOffice.getLat(), rentalOffice.getLon())));
@@ -96,5 +94,20 @@ public class MapFragmentViewModel extends AndroidViewModel {
         }
 
         Timber.d("rentalOfficeList %s", rentalOfficeList.get(0).getDistance());
+    }
+
+    public List<RentalOffice> makeRentalOfficeListwithDistanceInfo(List<RentalOffice> list, Location userLocation){
+        LatLng currentLocation = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+        int distance;
+
+        // 테스트 코드 커스텀 아이콘
+        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green))
+        for (RentalOffice rentalOffice : list) {
+            distance = fixDistanceError(SphericalUtil.computeDistanceBetween(currentLocation,
+                    new LatLng(rentalOffice.getLat(), rentalOffice.getLon())));
+            rentalOffice.setDistance(distance);
+        }
+
+        return  list;
     }
 }
