@@ -94,5 +94,14 @@ public class RentalOffice implements DynamicSearchAdapter.Searchable{
     public String getSearchCriteria() {
         return this.office_location;
     }
+
+    public RentalOffice(int office_id, String office_name, String office_location, double lat, double lon, int umbrella_count) {
+        this.office_id = office_id;
+        this.office_name = office_name;
+        this.office_location = office_location;
+        this.lat = lat;
+        this.lon = lon;
+        this.umbrella_count = umbrella_count;
+    }
 }
 

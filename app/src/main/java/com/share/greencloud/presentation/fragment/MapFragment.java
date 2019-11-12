@@ -119,9 +119,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private void getRentalOfficeData() {
         Timber.d("대여소 목록 가져오기: getRentalOfficeData()");
 
-        viewModel.getRentalOfficeData().observe(this, rentalOffices -> {
+        viewModel.getRentalOfficeData().observe(getViewLifecycleOwner(), rentalOffices -> {
             Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
-            viewModel.makeRentalOfficeMarkers(rentalOffices, presenter.getUserLocation());
+            viewModel.makeRentalOfficeMarkers(rentalOffices);
         });
     }
 
@@ -402,8 +402,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             Timber.d("updated location is " + location.getLatitude() + " , " + location.getLatitude());
         }
 
-//        List<RentalOffice> rentalOffices = viewModel.getAllRentalOfficesFromDB();
-//        Timber.d("rentalOffices location: %s", rentalOffices.get(0).getOffice_location());
     }
 
     @Override
