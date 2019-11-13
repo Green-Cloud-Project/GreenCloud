@@ -17,8 +17,6 @@ import com.share.greencloud.domain.model.RentalOffice;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
-
 import static com.share.greencloud.common.Constants.fixDistanceError;
 
 public class MapFragmentViewModel extends AndroidViewModel {
@@ -34,7 +32,6 @@ public class MapFragmentViewModel extends AndroidViewModel {
         super(application);
         repository = new RentalOfficeRepository(application);
         kotlinRepositary = new RentalOfficeKotlinRepositary(application);
-//        allRentalOffices = kotlinRepositary.getAllRentalOffices();
         rentalOfficeList = new ArrayList<>();
         markerOptionsList = new ArrayList<>();
     }
@@ -43,7 +40,7 @@ public class MapFragmentViewModel extends AndroidViewModel {
         return repository.getMutableLiveData();
     }
 
-    public LiveData<List<RentalOffice>>getAllRentalOfficesFromDB() {
+    public LiveData<List<RentalOffice>> getAllRentalOfficesFromDB() {
         return kotlinRepositary.getAllRentalOffices();
     }
 
@@ -55,13 +52,9 @@ public class MapFragmentViewModel extends AndroidViewModel {
         return markerOptionsList;
     }
 
-    public void insert(RentalOffice rentalOffice) {
+    private void insert(RentalOffice rentalOffice) {
         kotlinRepositary.insert(rentalOffice);
     }
-
-//    public List<RentalOffice> search(String request) {
-//        return kotlinRepositary.getAllRentalOffices();
-//    }
 
     public void makeRentalOfficeMarkers(List<RentalOffice> rentalOffices) {
         // Remote DB에서 가져온 정보를 저장
@@ -69,7 +62,6 @@ public class MapFragmentViewModel extends AndroidViewModel {
 
         LatLng position;
         MarkerOptions markerUnit;
-//        List<MarkerOptions> markerOptions = new ArrayList<>();
 
         for (RentalOffice rentalOffice : rentalOfficeList) {
             position = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
@@ -79,35 +71,25 @@ public class MapFragmentViewModel extends AndroidViewModel {
     }
 
     public void addDistanceInfoToRentalOffice(Location userLocation) {
-        Timber.d("addDistanceInfoToRentalOffice");
-
         LatLng currentLocation = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        int distance;
+        List<RentalOffice> newRentalOfficeData = makeRentalOfficeListwithDistanceInfo(rentalOfficeList, currentLocation);
 
-        // 테스트 코드 커스텀 아이콘
-       //.icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green))
-        for (RentalOffice rentalOffice : rentalOfficeList) {
-            distance = fixDistanceError(SphericalUtil.computeDistanceBetween(currentLocation,
-                    new LatLng(rentalOffice.getLat(), rentalOffice.getLon())));
-            rentalOffice.setDistance(distance);
+        for (RentalOffice rentalOffice : newRentalOfficeData) {
             insert(rentalOffice);
         }
-
-        Timber.d("rentalOfficeList %s", rentalOfficeList.get(0).getDistance());
     }
 
-    public List<RentalOffice> makeRentalOfficeListwithDistanceInfo(List<RentalOffice> list, Location userLocation){
-        LatLng currentLocation = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+
+    public List<RentalOffice> makeRentalOfficeListwithDistanceInfo(List<RentalOffice> originalData, LatLng userLocation) {
         int distance;
 
-        // 테스트 코드 커스텀 아이콘
+        // 테스트 코드 작성 커스텀 아이콘시 추가하는 케이스가 에러가 나서 임시로 빼둠
         //.icon(BitmapDescriptorFactory.fromResource(R.drawable.um_green))
-        for (RentalOffice rentalOffice : list) {
-            distance = fixDistanceError(SphericalUtil.computeDistanceBetween(currentLocation,
+        for (RentalOffice rentalOffice : originalData) {
+            distance = fixDistanceError(SphericalUtil.computeDistanceBetween(userLocation,
                     new LatLng(rentalOffice.getLat(), rentalOffice.getLon())));
             rentalOffice.setDistance(distance);
         }
-
-        return  list;
+        return originalData;
     }
 }
