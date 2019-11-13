@@ -415,10 +415,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        TextView tv_retal_spot_name = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_name);
-        TextView tv_retal_spot_location = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_location);
+        TextView tv_rental_spot_name = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_name);
+        TextView tv_rental_spot_location = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_location);
         TextView tv_um_count = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_um_count);
         TextView tv_rental_spot_distance = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_distance);
+//        TextView tv_rental_spot_id = getActivity().findViewById(R.id.tv_spot_id);
 
         // 클릭된 마커를 구분하기 위하여 위치정보를 로딩
         LatLng marker_position = marker.getPosition();
@@ -428,10 +429,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             LatLng officePosition = new LatLng(rentalOffice.getLat(), rentalOffice.getLon());
             // 대여소 정보 리스트에서 위치정보를 동일한 대여소의 정보를 보여준다
             if (marker_position.equals(officePosition)) {
-                tv_retal_spot_name.setText(rentalOffice.getOffice_name());
-                tv_retal_spot_location.setText(rentalOffice.getOffice_location());
+                tv_rental_spot_name.setText(rentalOffice.getOffice_name());
+                tv_rental_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 tv_rental_spot_distance.setText("현재 위치에서 " + addDistanceSign(rentalOffice.getDistance()));
+//                tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id())) ;
 
                 ((BottomNavActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
