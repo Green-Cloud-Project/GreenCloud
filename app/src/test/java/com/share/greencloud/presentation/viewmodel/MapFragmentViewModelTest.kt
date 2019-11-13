@@ -1,7 +1,6 @@
 package com.share.greencloud.presentation.viewmodel
 
 import android.app.Application
-import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -50,24 +49,13 @@ class MapFragmentViewModelTest {
         Truth.assertThat(viewmodel.markerOptionsList[0].title).isEqualTo(markerUnit.title)
     }
 
-    // todo fail case 이므로 수정요망
-    // location 변수에 값이 들어가지 않아서 test 결과가 fail됨
     @Test
     fun `add distance info into RentalOffice Data`() {
         val currentLocation = LatLng(37.4910180, 127.006799)
 
-        val locationInfo = Location("")
-        locationInfo.latitude = 37.4910180
-        locationInfo.longitude = 127.006799
-
-        println(locationInfo.latitude)
-
         val distance: Int = fixDistanceError(SphericalUtil.computeDistanceBetween(currentLocation,
                 LatLng(list[0].lat, list[0].lon)))
-
-        val rentalOfficeData = viewmodel.makeRentalOfficeListwithDistanceInfo(list, locationInfo)
-
-        println(rentalOfficeData[0].distance)
+        val rentalOfficeData = viewmodel.makeRentalOfficeListwithDistanceInfo(list, currentLocation)
 
         Truth.assertThat(rentalOfficeData[0].distance).isEqualTo(distance)
     }
