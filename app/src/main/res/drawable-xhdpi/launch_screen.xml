@@ -11,7 +11,7 @@
     <item>
 
         <bitmap
-            android:src="@drawable/greencloud_logo"
+            android:src="@drawable/logo"
             android:gravity="center"/>
 
     </item>
