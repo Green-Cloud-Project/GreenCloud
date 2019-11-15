@@ -45,7 +45,8 @@ versions.stetho = "1.5.1"
 versions.support = "1.1.0"
 versions.timber = "4.7.1"
 versions.truth = "0.44"
-versions.zxing = "1.1.3-androidx"
+versions.zxing_android_embedded ="3.6.0"
+//versions.zxing = "1.1.3-androidx"
 
 def support = [:]
 support.annotations = "androidx.annotation:annotation:$versions.support"
@@ -153,7 +154,8 @@ stetho.okhttp3 = "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
 stetho.js_rhino = "com.facebook.stetho:stetho-js-rhino:$versions.stetho"
 deps.stetho = stetho
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
-deps.zxing = "com.king.zxing:zxing-lite:$versions.zxing"
+//deps.zxing = "com.king.zxing:zxing-lite:$versions.zxing"
+deps.zxing_android_embedded = "com.journeyapps:zxing-android-embedded:$versions.zxing_android_embedded"
 
 deps.naveridlogin = "com.naver.nid:naveridlogin-android-sdk:$versions.naveridlogin"
 deps.facebook_login = "com.facebook.android:facebook-login:$versions.facebook_login"

@@ -2,17 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.share.greencloud">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".common.BaseApplication"
         android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true" >
-        <activity android:name=".presentation.splash.SplashActivityKotlin"
-            android:theme="@style/AppTheme.SplashScreen" >
+        android:usesCleartextTraffic="true">
+        <activity android:name=".presentation.activity.CustomScannerActivity" />
+        <activity
+            android:name=".presentation.splash.SplashActivityKotlin"
+            android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +33,7 @@
             android:name=".presentation.activity.SearchResultActivity"
             android:label="@string/title_activity_search_result"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".presentation.activity.UserHistoryActivity"
             android:label="@string/title_activity_user_history"
@@ -39,19 +48,18 @@
             android:name="com.king.zxing.CaptureActivity"
             android:theme="@style/TransparentToolbar" />
         <activity
-            android:name=".presentation.activity.QRScanActivity"
-            android:theme="@style/TransparentToolbar" />
+            android:name=".presentation.activity.QRScanActivity" />
         <activity android:name=".presentation.activity.OnBoardingActivity" />
-        <activity android:name=".presentation.activity.LoginActivity"
+        <activity
+            android:name=".presentation.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".presentation.activity.SplashActivity" />
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
             android:name=".presentation.activity.BottomNavActivity"
             android:launchMode="singleTop"
-            android:theme="@style/TransparentToolbar"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/TransparentToolbar" />
         <activity android:name=".presentation.activity.JkAppActivity" />
         <activity android:name=".presentation.activity.KakaoLoginActiviy" />
         <activity android:name=".MainActivity" />
@@ -92,12 +100,5 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
