@@ -14,6 +14,6 @@ jobs:
     - name: Run a multi-line script
       run: |
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_PREFIX: "dev"
+          GITHUB_TOKEN: ${{ "67a869aa00ba71a5e10af66c8755aee7ca528019" }}
+          BRANCH_PREFIX: "bentley/"
           PULL_REQUEST_BRANCH: "master"
