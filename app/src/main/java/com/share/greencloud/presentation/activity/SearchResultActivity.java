@@ -44,13 +44,14 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setupView() {
         binding.contentSearchResult.searchResultRecyclerView.setHasFixedSize(true);
         new Handler().postDelayed(this::getItemFromDB, 500);
         binding.searchV.setOnQueryTextListener(this);
-        binding.searchV.onActionViewExpanded();
+//        binding.searchV.onActionViewExpanded();
     }
 
 
@@ -89,7 +90,7 @@ public class SearchResultActivity extends BaseActivity<ActivitySearchResultBindi
         super.onResume();
         Timber.d("onResume");
         new Handler().postDelayed(this::getItemFromDB, 500);
-        binding.searchV.onActionViewExpanded();
+//        binding.searchV.onActionViewExpanded();
 
     }
 

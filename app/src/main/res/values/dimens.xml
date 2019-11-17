@@ -17,5 +17,7 @@
     <dimen name="nav_header_iv_profile_size">80dp</dimen>
     <dimen name="nav_header_iv_profile_paddingTop">8dp</dimen>
     <dimen name="nav_header_tv_user_name_paddingTop">20dp</dimen>
+    <dimen name="searview_marginStart_value">35dp</dimen>
+    <dimen name="searview_marginTop_value">5dp</dimen>
 
 </resources>

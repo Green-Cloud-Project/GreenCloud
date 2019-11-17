@@ -28,16 +28,12 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-<!--                <br.com.liveo.searchliveo.SearchLiveo-->
-<!--                    android:id="@+id/search_liveo"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content" />-->
-
                 <androidx.appcompat.widget.SearchView
                     android:layout_width="match_parent"
                     android:id="@+id/searchV"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_marginStart="@dimen/searview_marginStart_value"
+                    android:layout_marginTop="@dimen/searview_marginTop_value"
                     app:queryHint="지역 검색: ex)강남역">
 
                 </androidx.appcompat.widget.SearchView>
