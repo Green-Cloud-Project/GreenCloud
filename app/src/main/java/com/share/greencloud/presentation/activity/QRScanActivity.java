@@ -75,7 +75,7 @@ public class QRScanActivity extends AppCompatActivity {
                 finish(); // 액티비티 종료를 위해서 호출
             } else {
                 //todo: 2019-11-15  QR코드 내용을 실행시키는 로직 추가해야됨.
-                Toast.makeText(this, "Scan 결: " + result.getContents(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 finish();
             }
         } else {
