@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.share.greencloud.R;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import timber.log.Timber;
@@ -28,7 +29,7 @@ public class QRScanActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getStringExtra("finish") != null) {
             if (intent.getStringExtra("finish").equals("close")) {
-                Toast.makeText(this, intent.getStringExtra("QR코드 스캔을 종료합니"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.finish_qr_code_scan_msg, Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else {
@@ -42,7 +43,7 @@ public class QRScanActivity extends AppCompatActivity {
                             if (granted) {
                                 onQrcodeScanner();
                             } else {
-                                Toast.makeText(this, "카메라 접근이 거부되었습니다", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.reject_use_of_camera_access_msg, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }
@@ -53,7 +54,7 @@ public class QRScanActivity extends AppCompatActivity {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setBeepEnabled(false);
         integrator.setCaptureActivity(CustomScannerActivity.class);
-        integrator.setPrompt("대여소에 부착된 QR코드를 인식해주세요");
+        integrator.setPrompt(getString(R.string.guide_msg_for_qr_scan));
         integrator.initiateScan();
     }
 
@@ -71,8 +72,7 @@ public class QRScanActivity extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-//                Toast.makeText(this, "QR 코드 인식 실패하였습니다", Toast.LENTH_LONG).show();
-                finish();
+                finish(); // 액티비티 종료를 위해서 호출
             } else {
                 //todo: 2019-11-15  QR코드 내용을 실행시키는 로직 추가해야됨.
                 Toast.makeText(this, "Scan 결: " + result.getContents(), Toast.LENGTH_LONG).show();
