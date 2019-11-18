@@ -18,16 +18,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".presentation.activity.CustomScannerActivity" />
-        <activity
-            android:name=".presentation.splash.SplashActivityKotlin"
-            android:theme="@style/AppTheme.SplashScreen">
+        <activity android:name=".presentation.activity.RentalOrderActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".presentation.activity.CustomScannerActivity" />
+        <activity
+            android:name=".presentation.splash.SplashActivityKotlin"
+            android:theme="@style/AppTheme.SplashScreen">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".presentation.activity.SearchResultActivity"
@@ -44,11 +54,7 @@
             android:label="@string/title_activity_green_news"
             android:parentActivityName=".presentation.activity.BottomNavActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.king.zxing.CaptureActivity"
-            android:theme="@style/TransparentToolbar" />
-        <activity
-            android:name=".presentation.activity.QRScanActivity" />
+        <activity android:name=".presentation.activity.QRScanActivity" />
         <activity android:name=".presentation.activity.OnBoardingActivity" />
         <activity
             android:name=".presentation.activity.LoginActivity"

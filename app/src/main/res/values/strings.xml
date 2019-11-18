@@ -20,4 +20,5 @@
     <string name="finish_qr_code_scan_msg">QR코드 스캔을 종료합니다.</string>
     <string name="reject_use_of_camera_access_msg">카메라 접근이 거부되었습니다</string>
     <string name="guide_msg_for_qr_scan">대여소에 부착된 QR코드를 인식해주세요</string>
+    <string name="rental_order_activity_title">주문내역 확인</string>
 </resources>
