@@ -10,12 +10,12 @@
 
         <variable
             name="viewmodel"
-            type="com.share.greencloud.presentation.viewmodel.ItemSearchResultViewModel" />
+            type="com.share.greencloud.presentation.viewmodel.ItemUserFavoritePlaceViewModel" />
 
     </data>
 
     <LinearLayout
-        android:id="@+id/item_search_result"
+        android:id="@+id/item_user_favorite"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:padding="8dp">
 
                 <ImageView
-                    android:id="@+id/iv_search_result_image"
+                    android:id="@+id/iv_place_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -43,7 +43,7 @@
                     android:src="@drawable/ic_place" />
 
                 <TextView
-                    android:id="@+id/tv_search_result_title"
+                    android:id="@+id/tv_place_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -54,34 +54,44 @@
                     tools:text="대여소 이름"
                     android:textSize="18sp"
                     android:padding="4dp"
-                    android:layout_toEndOf="@id/iv_search_result_image"/>
+                    android:layout_toEndOf="@id/iv_place_image"/>
 
                 <TextView
-                    android:id="@+id/tv_search_result_location"
+                    android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_search_result_title"
+                    android:layout_below="@id/tv_place_title"
                     android:layout_marginTop="10dp"
                     android:padding="4dp"
-                    android:textSize="10sp"
-                    android:layout_alignStart="@id/tv_search_result_title"
+                    android:textSize="12sp"
+                    android:layout_alignStart="@id/tv_place_title"
                     android:text="@{viewmodel.office_location}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="#000000"
                     tools:text="대여소 위치" />
 
+                <ImageView
+                    android:id="@+id/iv_um_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toStartOf="@id/tv_umbrella_count"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="4dp"
+                    android:src="@drawable/beach_access" />
+
                 <TextView
-                    android:id="@+id/tv_search_result_distance"
+                    android:id="@+id/tv_umbrella_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignBaseline="@id/tv_search_result_title"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="13sp"
-                    android:text="@{viewmodel.distance}"
-                    tools:text="대여소 거리" />
+                    android:textSize="15sp"
+                    android:text="@{viewmodel.umbrella_count}"
+                    tools:text="우산갯수" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

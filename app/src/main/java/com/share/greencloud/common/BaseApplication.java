@@ -6,6 +6,7 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
 import com.share.greencloud.presentation.adapter.KakaoSDKAdapter;
+import com.share.greencloud.utils.GreenCloudPreferences;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
@@ -41,7 +42,7 @@ public class BaseApplication extends Application {
         Stetho.initializeWithDefaults(this);
 
         //토큰 셋팅
-//        Constants.token = GreenCloudPreferences.getToken(getBaseContext());
+        Constants.token = GreenCloudPreferences.getToken(getBaseContext());
 
         Timber.plant(new Timber.DebugTree());
 

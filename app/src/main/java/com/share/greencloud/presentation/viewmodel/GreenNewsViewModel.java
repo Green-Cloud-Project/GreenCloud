@@ -1,23 +1,18 @@
 package com.share.greencloud.presentation.viewmodel;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.share.greencloud.domain.model.News;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-public class GreenNewsViewModel extends Observable {
+public class GreenNewsViewModel extends ViewModel {
     private MutableLiveData<List<News>> newsData = new MutableLiveData<List<News>>();
     private List<News> mNewsList;
-    private Context context;
 
-    public GreenNewsViewModel(@NonNull Context context) {
-        this.context = context;
+    public GreenNewsViewModel() {
         fetchNewsData();
     }
 
