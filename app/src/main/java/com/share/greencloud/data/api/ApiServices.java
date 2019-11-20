@@ -2,16 +2,19 @@ package com.share.greencloud.data.api;
 
 import com.share.greencloud.domain.interator.BookingRestResponse;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
+import com.share.greencloud.domain.model.GreenCloudRestResponse;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;
 import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.domain.model.UserBody;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -47,6 +50,9 @@ public interface ApiServices {
 
     @GET("findRentalOffice")
     Call<List<RentalOffice>> getRentalOffices();
+
+    @GET("listFavority")
+    Call<GreenCloudRestResponse<RentalOffice>> getUserFavoritePlace(@Header("Authorization")Map<String, String> headers);
 }
 
 

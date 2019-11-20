@@ -106,6 +106,7 @@ dependencies {
     implementation deps.google_gson
     implementation deps.okhttp_logging_interceptor
     implementation deps.retrofit.adapter_rxjava
+    implementation deps.conscrypt
 
     // rx java & android & library
     implementation deps.rxjava
@@ -140,6 +141,4 @@ dependencies {
     // ETC
     implementation 'com.github.andrefrsousa:SuperBottomSheet:1.4.0'
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
-    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-
 }

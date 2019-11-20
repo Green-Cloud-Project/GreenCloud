@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.share.greencloud.R;
@@ -40,15 +41,11 @@ public class GreenNewsActivity extends BaseActivity<ActivityGreenNewsBinding> {
     }
 
     private void setupViewModel() {
-        viewModel = new GreenNewsViewModel(this);
-        binding.contentGreenNews.setViewmodel(viewModel);
-        binding.setLifecycleOwner(this);
-
+        viewModel = ViewModelProviders.of(this).get(GreenNewsViewModel.class);
         viewModel.getNewsData().observe(this, news -> {
             mNewsList = news;
             loadData(news);
         });
-
     }
 
     private void setupToolbar() {

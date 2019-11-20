@@ -1,9 +1,14 @@
 package com.share.greencloud.data.api;
 
+import com.share.greencloud.common.Constants;
 import com.share.greencloud.domain.interator.BookingRestResponse;
 import com.share.greencloud.domain.interator.CallbackListener;
-import com.share.greencloud.common.Constants;
+import com.share.greencloud.domain.model.GreenCloudRestResponse;
+import com.share.greencloud.domain.model.RentalOffice;
 import com.share.greencloud.domain.model.UserBody;
+
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -70,8 +75,7 @@ public class ApiManager {
                     if (response.body().getResponse() == 0) {
                         callbackListener.callback(response.body().getData());
                     }
-                }
-                else {
+                } else {
                     callbackListener.failed(response.message());
                 }
                 callbackListener.endApi();
@@ -79,6 +83,28 @@ public class ApiManager {
 
             @Override
             public void onFailure(Call<BookingRestResponse<UserBody>> call, Throwable t) {
+                callbackListener.endApi();
+            }
+        });
+    }
+
+    public void getUserFavoriteList(Map<String, String> headers, CallbackListener<List<RentalOffice>> callbackListener) {
+        callbackListener.startApi();
+        getService().getUserFavoritePlace(headers).enqueue(new Callback<GreenCloudRestResponse<RentalOffice>>() {
+            @Override
+            public void onResponse(Call<GreenCloudRestResponse<RentalOffice>> call, Response<GreenCloudRestResponse<RentalOffice>> response) {
+                if (response.isSuccessful()) {
+                    if(response.body().getResult() == 0){
+                        callbackListener.callback(response.body().getModel());
+                    }
+                } else {
+                    callbackListener.failed(response.message());
+                }
+                callbackListener.endApi();
+            }
+
+            @Override
+            public void onFailure(Call<GreenCloudRestResponse<RentalOffice>> call, Throwable t) {
                 callbackListener.endApi();
             }
         });

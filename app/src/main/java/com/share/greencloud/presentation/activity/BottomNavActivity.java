@@ -289,7 +289,9 @@ public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBindi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.navigation_favorite_places:
-                //todo 추후 구현 예정
+                Intent intentUserFavorite = new Intent(this, UserFavoriteActivity.class);
+                startActivity(intentUserFavorite);
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
 
             case R.id.navigation_green_news:

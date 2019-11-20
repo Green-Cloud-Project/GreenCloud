@@ -21,4 +21,7 @@
     <string name="reject_use_of_camera_access_msg">카메라 접근이 거부되었습니다</string>
     <string name="guide_msg_for_qr_scan">대여소에 부착된 QR코드를 인식해주세요</string>
     <string name="rental_order_activity_title">주문내역 확인</string>
+    <string name="no_data_msg_user_favorite_activity">즐겨찾기 내역이 없습니다.</string>
+    <string name="green_news_toolbar_title">GREEN NEWS</string>
+    <string name="user_favorite_toolbar_title">즐겨찾기</string>
 </resources>
