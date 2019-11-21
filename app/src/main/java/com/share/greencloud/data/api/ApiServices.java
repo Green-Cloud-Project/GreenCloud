@@ -10,6 +10,7 @@ import com.share.greencloud.domain.model.UserBody;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -24,15 +25,14 @@ public interface ApiServices {
 
     //기상청 일일 예보
     @GET("ForecastSpaceData")
-    Call <HourlyWeatherForecastModel> getHourlyWeatherData(@Query(value = "serviceKey", encoded = true) String serviceKey,
-                                                           @Query("base_date") String base_date,
-                                                           @Query("base_time") String base_time,
-                                                           @Query("nx") String nx,
-                                                           @Query("ny") String ny,
-                                                           @Query("numOfRows") int numOfRows,
-                                                           @Query("pageNo") int pageNo,
-                                                           @Query("_type") String _type);
-
+    Call<HourlyWeatherForecastModel> getHourlyWeatherData(@Query(value = "serviceKey", encoded = true) String serviceKey,
+                                                          @Query("base_date") String base_date,
+                                                          @Query("base_time") String base_time,
+                                                          @Query("nx") String nx,
+                                                          @Query("ny") String ny,
+                                                          @Query("numOfRows") int numOfRows,
+                                                          @Query("pageNo") int pageNo,
+                                                          @Query("_type") String _type);
 
 
     @GET("weather/current/hourly")
@@ -52,7 +52,11 @@ public interface ApiServices {
     Call<List<RentalOffice>> getRentalOffices();
 
     @GET("listFavority")
-    Call<GreenCloudRestResponse<RentalOffice>> getUserFavoritePlace(@Header("Authorization")Map<String, String> headers);
+    Call<GreenCloudRestResponse<RentalOffice>> getUserFavoritePlace(@Header("Authorization") Map<String, String> headers);
+
+    @FormUrlEncoded
+    @POST("addFavority")
+    Single<GreenCloudRestResponse> addUserFavoritePlace(@Header("Authorization") Map<String, String> headers, @Field("office_id") String office_id);
 }
 
 

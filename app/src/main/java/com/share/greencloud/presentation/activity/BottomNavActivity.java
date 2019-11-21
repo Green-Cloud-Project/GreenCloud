@@ -34,12 +34,15 @@ import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.domain.model.User;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
+import com.share.greencloud.presentation.viewmodel.MainActivityViewModel;
 import com.share.greencloud.presentation.viewmodel.NavHeaderViewModel;
 import com.share.greencloud.presentation.viewmodel.SharedViewModel;
 import com.share.greencloud.utils.AutoDisposable;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.share.greencloud.utils.RxBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -55,7 +58,7 @@ public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBindi
     private NavHeaderViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private BottomSheetBehavior bottomSheetBehavior;
-
+    private MainActivityViewModel mainActivityViewModel;
     //    private CompositeDisposable disposables = new CompositeDisposable();
     private AutoDisposable autoCloseable = new AutoDisposable();
 
@@ -76,6 +79,15 @@ public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBindi
         }
 
         parsingMessageFromRxBus();
+
+
+        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        binding.rentalInfo.ivFavoriteMark.setOnClickListener(view -> {
+            HashMap<String, String> header = new HashMap<>();
+            header.put("token", GreenCloudPreferences.getToken(this));
+            mainActivityViewModel.addUserFavorite(header, binding.rentalInfo.tvSpotId.getText().toString());
+        });
+
     }
 
     private void parsingMessageFromRxBus() {
