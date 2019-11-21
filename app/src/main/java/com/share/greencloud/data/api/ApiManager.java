@@ -10,6 +10,7 @@ import com.share.greencloud.domain.model.UserBody;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -17,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiManager {
@@ -58,6 +60,7 @@ public class ApiManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(Constants.API_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -94,7 +97,7 @@ public class ApiManager {
             @Override
             public void onResponse(Call<GreenCloudRestResponse<RentalOffice>> call, Response<GreenCloudRestResponse<RentalOffice>> response) {
                 if (response.isSuccessful()) {
-                    if(response.body().getResult() == 0){
+                    if (response.body().getResult() == 0) {
                         callbackListener.callback(response.body().getModel());
                     }
                 } else {
@@ -108,6 +111,10 @@ public class ApiManager {
                 callbackListener.endApi();
             }
         });
+    }
+
+    public Single<GreenCloudRestResponse> addUserFavoritePlace(Map<String, String> headers, String office_id) {
+        return getService().addUserFavoritePlace(headers,office_id);
     }
 }
 

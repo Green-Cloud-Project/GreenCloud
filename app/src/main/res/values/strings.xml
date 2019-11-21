@@ -24,4 +24,6 @@
     <string name="no_data_msg_user_favorite_activity">즐겨찾기 내역이 없습니다.</string>
     <string name="green_news_toolbar_title">GREEN NEWS</string>
     <string name="user_favorite_toolbar_title">즐겨찾기</string>
+    <string name="success_msg_add_user_favorite_place">즐겨찾기 추가 성공!</string>
+    <string name="fail_msg_add_user_favorite_place">즐겨찾기 추가 실패..</string>
 </resources>

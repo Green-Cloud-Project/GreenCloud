@@ -419,7 +419,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         TextView tv_rental_spot_location = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_location);
         TextView tv_um_count = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_um_count);
         TextView tv_rental_spot_distance = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_distance);
-//        TextView tv_rental_spot_id = getActivity().findViewById(R.id.tv_spot_id);
+        TextView tv_rental_spot_id = getActivity().findViewById(R.id.tv_spot_id);
 
         // 클릭된 마커를 구분하기 위하여 위치정보를 로딩
         LatLng marker_position = marker.getPosition();
@@ -433,7 +433,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_rental_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 tv_rental_spot_distance.setText("현재 위치에서 " + addDistanceSign(rentalOffice.getDistance()));
-//                tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id())) ;
+                tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id())) ;
 
                 ((BottomNavActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
