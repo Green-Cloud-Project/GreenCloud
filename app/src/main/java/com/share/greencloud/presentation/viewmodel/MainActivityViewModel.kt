@@ -3,6 +3,7 @@ package com.share.greencloud.presentation.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import com.share.greencloud.R
 import com.share.greencloud.data.api.ApiManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,9 +18,9 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (result) ->
                     if (result == 0) {
-                        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.success_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "fail", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.fail_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show()
                     }
                 }
                 ) { throwable: Throwable -> Timber.d("Throwable " + throwable.message) }
