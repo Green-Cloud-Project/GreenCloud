@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.share.greencloud.R
 import com.share.greencloud.domain.login.LoginManager
 import com.share.greencloud.domain.network.NetworkState
-import com.share.greencloud.presentation.activity.BottomNavActivity
+import com.share.greencloud.presentation.activity.MainActivity
 import com.share.greencloud.presentation.activity.LoginActivity
 import com.share.greencloud.presentation.activity.OnBoardingActivity
 import com.share.greencloud.utils.GreenCloudPreferences
@@ -65,7 +65,7 @@ class SplashActivityKotlin : AppCompatActivity(R.layout.activity_splash_kotlin),
             GreenCloudPreferences.setOnBoarding(this, true)
             startActivity(Intent(this, OnBoardingActivity::class.java))
         } else if (LoginManager.getInstance().isLogin(this)) {
-            startActivity(Intent(this, BottomNavActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         } else {
             LoginActivity.go(this)
         }

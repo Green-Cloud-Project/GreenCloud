@@ -55,7 +55,7 @@
         <activity
             android:name=".presentation.activity.GreenNewsActivity"
             android:label="@string/title_activity_green_news"
-            android:parentActivityName=".presentation.activity.BottomNavActivity"
+            android:parentActivityName=".presentation.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".presentation.activity.QRScanActivity" />
         <activity android:name=".presentation.activity.OnBoardingActivity" />
@@ -65,13 +65,13 @@
         <activity android:name=".presentation.activity.SplashActivity" />
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
-            android:name=".presentation.activity.BottomNavActivity"
+            android:name=".presentation.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentToolbar" />
         <activity android:name=".presentation.activity.JkAppActivity" />
         <activity android:name=".presentation.activity.KakaoLoginActiviy" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".LayoutMenuActivity" />
         <activity android:name=".presentation.activity.LayoutListActivity" />
         <activity android:name=".presentation.activity.GoogleLoginActivity" />
         <activity android:name=".presentation.activity.MyGreenActivity" />

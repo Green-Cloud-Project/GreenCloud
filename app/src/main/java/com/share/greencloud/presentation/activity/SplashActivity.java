@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, OnBoardingActivity.class));
                 }
                 else if (LoginManager.getInstance().isLogin(SplashActivity.this)) {
-                    startActivity(new Intent(SplashActivity.this, BottomNavActivity.class));
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
                 else {
                     LoginActivity.go(SplashActivity.this);

@@ -35,7 +35,7 @@ import com.share.greencloud.R;
 import com.share.greencloud.databinding.FragmentMapBinding;
 import com.share.greencloud.domain.interator.LocationInfoMVP;
 import com.share.greencloud.domain.model.RentalOffice;
-import com.share.greencloud.presentation.activity.BottomNavActivity;
+import com.share.greencloud.presentation.activity.MainActivity;
 import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.presentation.viewmodel.MapFragmentViewModel;
 import com.share.greencloud.presentation.viewmodel.SharedViewModel;
@@ -110,7 +110,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
 
-        binding.setBottomNavActivity((BottomNavActivity) getActivity());
+        binding.setMainActivity((MainActivity) getActivity());
         binding.setMapFragment(this);
         binding.fabCurrentLocation.setOnClickListener(v -> refresh());
         binding.map.getMapAsync(this);
@@ -415,10 +415,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        TextView tv_rental_spot_name = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_name);
-        TextView tv_rental_spot_location = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_location);
-        TextView tv_um_count = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_um_count);
-        TextView tv_rental_spot_distance = ((BottomNavActivity) getActivity()).findViewById(R.id.tv_spot_distance);
+        TextView tv_rental_spot_name = ((MainActivity) getActivity()).findViewById(R.id.tv_spot_name);
+        TextView tv_rental_spot_location = ((MainActivity) getActivity()).findViewById(R.id.tv_spot_location);
+        TextView tv_um_count = ((MainActivity) getActivity()).findViewById(R.id.tv_um_count);
+        TextView tv_rental_spot_distance = ((MainActivity) getActivity()).findViewById(R.id.tv_spot_distance);
         TextView tv_rental_spot_id = getActivity().findViewById(R.id.tv_spot_id);
 
         // 클릭된 마커를 구분하기 위하여 위치정보를 로딩
@@ -435,7 +435,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_rental_spot_distance.setText("현재 위치에서 " + addDistanceSign(rentalOffice.getDistance()));
                 tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id())) ;
 
-                ((BottomNavActivity) getActivity()).showBottomSlide();
+                ((MainActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));
             }
         }

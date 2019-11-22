@@ -6,7 +6,7 @@ import android.view.View
 import androidx.databinding.BaseObservable
 import com.google.android.gms.maps.model.LatLng
 import com.share.greencloud.domain.model.RentalOffice
-import com.share.greencloud.presentation.activity.BottomNavActivity
+import com.share.greencloud.presentation.activity.MainActivity
 import com.share.greencloud.utils.RxBus
 
 class ItemUserFavoritePlaceViewModel(var rentalOffice: RentalOffice, val context: Context) : BaseObservable() {
@@ -37,7 +37,7 @@ class ItemUserFavoritePlaceViewModel(var rentalOffice: RentalOffice, val context
 
     fun onItemClick(view: View) {
         RxBus.getInstance().sendBus(LatLng(getLat(), getLon()))
-        val i = Intent(view.context, BottomNavActivity::class.java)
+        val i = Intent(view.context, MainActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         context.startActivity(i)
     }

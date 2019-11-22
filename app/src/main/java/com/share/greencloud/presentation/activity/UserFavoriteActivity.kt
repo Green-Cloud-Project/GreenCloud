@@ -8,46 +8,53 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.share.greencloud.R
+import com.share.greencloud.domain.interator.SwipeToDeleteCallback
 import com.share.greencloud.domain.model.RentalOffice
 import com.share.greencloud.presentation.adapter.UserFavoritePlaceAdapter
 import com.share.greencloud.presentation.viewmodel.UserFavoritePlaceViewModel
+import com.share.greencloud.utils.GreenCloudPreferences
 import kotlinx.android.synthetic.main.activity_user_favorite.*
+import java.util.*
 
 class UserFavoriteActivity : AppCompatActivity(R.layout.activity_user_favorite) {
 
     private val viewmodel: UserFavoritePlaceViewModel by lazy { ViewModelProviders.of(this)[UserFavoritePlaceViewModel::class.java] }
     private lateinit var adapter: UserFavoritePlaceAdapter
-    private var userDataFromRemote: List<RentalOffice> = emptyList()
-
+    private lateinit var userDataFromRemote: List<RentalOffice>
+    private var mutableUserData: MutableList<RentalOffice> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
         setupToolbar()
         setupViewModel()
+        registerDeleteDataItemAction()
     }
 
     private fun setupView() {
         user_favorite_recyclerView.setHasFixedSize(true)
         swipe_layout.setOnRefreshListener {
             Handler().postDelayed({
-                loadData(userDataFromRemote)
+                loadData(mutableUserData)
                 swipe_layout.isRefreshing = false
             }, 1000)
         }
         swipe_layout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light)
+
     }
 
     private fun setupViewModel() {
         viewmodel.getUserFavoriteData().observe(this, Observer { userData ->
-            userDataFromRemote = userData
-            loadData(userDataFromRemote)
+            //            userDataFromRemote = userData
+            mutableUserData = userData.toCollection(mutableListOf())
+            loadData(mutableUserData)
         })
     }
 
-    private fun loadData(newData: List<RentalOffice>) {
+    private fun loadData(newData: MutableList<RentalOffice>) {
         if (newData.isNotEmpty()) {
             adapter = UserFavoritePlaceAdapter(newData)
             user_favorite_recyclerView.adapter = adapter
@@ -69,6 +76,26 @@ class UserFavoriteActivity : AppCompatActivity(R.layout.activity_user_favorite) 
         val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
         recyclerView.layoutAnimation = controller
         recyclerView.scheduleLayoutAnimation()
+    }
+
+    private fun registerDeleteDataItemAction() {
+        val swipeHandler = object : SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val header = HashMap<String, String>()
+                header["token"] = GreenCloudPreferences.getToken(baseContext)
+                viewmodel.deleteUserFavorite(header, adapter.removeAt(viewHolder.adapterPosition).toString())
+                        .observe(this@UserFavoriteActivity, Observer {
+                            if (it == 0) {
+                                Toast.makeText(baseContext, getString(R.string.success_msg_delete_user_favorite_place), Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(baseContext, getString(R.string.fail_msg_delete_user_favorite_place), Toast.LENGTH_SHORT).show()
+                            }
+                        })
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(user_favorite_recyclerView)
     }
 
     override

@@ -10,8 +10,8 @@
             type="com.share.greencloud.presentation.fragment.MapFragment" />
 
         <variable
-            name="BottomNavActivity"
-            type="com.share.greencloud.presentation.activity.BottomNavActivity" />
+            name="MainActivity"
+            type="com.share.greencloud.presentation.activity.MainActivity" />
 
         <variable
             name="SearchActiviy"
@@ -61,7 +61,7 @@
             app:tint="#ff80cbc4"
             app:fabCustomSize="@dimen/fabCustomSize"
             android:src="@drawable/qr"
-            android:onClick="@{BottomNavActivity::scanQRcode}"
+            android:onClick="@{MainActivity::scanQRcode}"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -78,7 +78,7 @@
             app:backgroundTint="@android:color/white"
             app:tint="#ff80cbc4"
             app:fabSize="normal"
-            android:onClick="@{BottomNavActivity::search}"
+            android:onClick="@{MainActivity::search}"
             />
 
         <ProgressBar

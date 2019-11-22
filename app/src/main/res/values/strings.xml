@@ -26,4 +26,6 @@
     <string name="user_favorite_toolbar_title">즐겨찾기</string>
     <string name="success_msg_add_user_favorite_place">즐겨찾기 추가 성공!</string>
     <string name="fail_msg_add_user_favorite_place">즐겨찾기 추가 실패..</string>
+    <string name="success_msg_delete_user_favorite_place">즐겨찾기 삭제 성공!</string>
+    <string name="fail_msg_delete_user_favorite_place">즐겨찾기 삭제 실패...</string>
 </resources>
