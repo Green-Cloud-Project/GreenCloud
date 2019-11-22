@@ -116,5 +116,9 @@ public class ApiManager {
     public Single<GreenCloudRestResponse> addUserFavoritePlace(Map<String, String> headers, String office_id) {
         return getService().addUserFavoritePlace(headers,office_id);
     }
+
+    public Single<GreenCloudRestResponse> deleteUserFavoritePlace(Map<String, String> headers, String office_id) {
+        return getService().deleteUserFavoritePlace(headers,office_id);
+    }
 }
 

@@ -93,7 +93,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
                 vp.setCurrentItem(1);
                 break;
             case MYGREEN:
-                Intent myGreenIntent = new Intent(LayoutListActivity.this, BottomNavActivity.class);
+                Intent myGreenIntent = new Intent(LayoutListActivity.this, MainActivity.class);
                 startActivity(myGreenIntent);
                 break;
             case GREEN_CLOUD_INFO:

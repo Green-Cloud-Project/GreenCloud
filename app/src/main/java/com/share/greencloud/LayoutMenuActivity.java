@@ -10,7 +10,7 @@ import com.share.greencloud.presentation.activity.SplashActivity;
 
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class LayoutMenuActivity extends AppCompatActivity {
 
 
     @Override

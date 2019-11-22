@@ -48,7 +48,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBinding> implements
+public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
         MapFragment.OnFragmentInteractionListener,
@@ -101,7 +101,7 @@ public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBindi
                 sharedViewModel.setPosition((LatLng) o);
                 sharedViewModel.setMovedNewPosition(true);
             } else if (o != null && o instanceof String) {
-                Toast.makeText(BottomNavActivity.this, "현재 서버 접속에 실패하였습니다. 잠시 후 다시 실행해주시길 바랍니다.\n" + o, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "현재 서버 접속에 실패하였습니다. 잠시 후 다시 실행해주시길 바랍니다.\n" + o, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -173,7 +173,7 @@ public final class BottomNavActivity extends BaseActivity<ActivityBottomNavBindi
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlRentalInfo);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        binding.rentalInfo.setBottomNavActivity(this);
+        binding.rentalInfo.setMainActivity(this);
     }
 
     // 로그인 중에만 프로필 정보 불러오도록

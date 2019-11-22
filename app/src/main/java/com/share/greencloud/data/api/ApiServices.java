@@ -57,6 +57,10 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST("addFavority")
     Single<GreenCloudRestResponse> addUserFavoritePlace(@Header("Authorization") Map<String, String> headers, @Field("office_id") String office_id);
+
+    @FormUrlEncoded
+    @POST("deleteFavority")
+    Single<GreenCloudRestResponse> deleteUserFavoritePlace(@Header("Authorization") Map<String, String> headers, @Field("office_id") String office_id);
 }
 
 

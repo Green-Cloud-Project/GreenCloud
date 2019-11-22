@@ -28,7 +28,7 @@ import com.share.greencloud.domain.interator.CallbackListener;
 import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.domain.login.LoginType;
 import com.share.greencloud.domain.model.UserBody;
-import com.share.greencloud.presentation.activity.BottomNavActivity;
+import com.share.greencloud.presentation.activity.MainActivity;
 import com.share.greencloud.utils.GreenCloudPreferences;
 
 import timber.log.Timber;
@@ -107,7 +107,7 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.btn_no_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), BottomNavActivity.class);
+                Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 getActivity().startActivity(intent);
             }
@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment {
                 GreenCloudPreferences.setUserID(getContext(), Constants.userID);
                 GreenCloudPreferences.setUserProfileImage(getContext(), Constants.userProfileImage);
 
-                Intent intent = new Intent(getContext(), BottomNavActivity.class);
+                Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

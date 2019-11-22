@@ -8,7 +8,7 @@ import androidx.databinding.BaseObservable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.share.greencloud.domain.model.RentalOffice;
-import com.share.greencloud.presentation.activity.BottomNavActivity;
+import com.share.greencloud.presentation.activity.MainActivity;
 import com.share.greencloud.utils.RxBus;
 
 public class ItemSearchResultViewModel extends BaseObservable {
@@ -66,7 +66,7 @@ public class ItemSearchResultViewModel extends BaseObservable {
 
     public void onItemClick(View view) {
         RxBus.getInstance().sendBus(new LatLng(getLat(), getLon()));
-        Intent i = new Intent(view.getContext(), BottomNavActivity.class);
+        Intent i = new Intent(view.getContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         context.startActivity(i);
     }
