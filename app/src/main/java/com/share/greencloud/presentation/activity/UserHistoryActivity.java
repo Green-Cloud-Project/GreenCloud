@@ -4,25 +4,45 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.share.greencloud.R;
 import com.share.greencloud.common.BaseActivity;
-import com.share.greencloud.databinding.ActivityUserHistoryBinding;
+//import com.share.greencloud.databinding.ActivityUserHistoryBinding;
 import com.share.greencloud.presentation.adapter.AlarmRvAdt;
+import com.share.greencloud.presentation.adapter.UserHistoryPagerAdapter;
 
-public class UserHistoryActivity extends BaseActivity<ActivityUserHistoryBinding> {
-    private ActivityUserHistoryBinding binding;
-    private AlarmRvAdt adapter;
+//public class UserHistoryActivity extends BaseActivity<ActivityUserHistoryBinding> {
+
+public class UserHistoryActivity extends AppCompatActivity {
+
+    //private ActivityUserHistoryBinding binding;
+    //private AlarmRvAdt adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_history);
+
+        UserHistoryPagerAdapter sectionsPagerAdapter = new UserHistoryPagerAdapter(this, getSupportFragmentManager());
+
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+
+        /*
         binding = getBinding();
         setupToolbar();
         setuoView();
         loadData();
+         */
     }
 
+    /*
     @Override
     public int getLayoutResId() {
         return R.layout.activity_user_history;
@@ -69,4 +89,5 @@ public class UserHistoryActivity extends BaseActivity<ActivityUserHistoryBinding
         }
         return super.onOptionsItemSelected(item);
     }
+     */
 }
