@@ -4,7 +4,8 @@ import android.location.Location;
 
 public class Constants {
 
-    public static final String API_URL = "http://sarang628.iptime.org:9500/";
+//    public static final String API_URL = "http://sarang628.iptime.org:9500/";
+    public static final String API_URL = "http://greencloud.iptime.org:1218/";
     public static String token = "";
     public static String userID = "";
     public static String userProfileImage = "";
