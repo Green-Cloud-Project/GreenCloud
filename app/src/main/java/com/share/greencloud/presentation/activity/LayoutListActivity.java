@@ -37,8 +37,7 @@ public class LayoutListActivity extends AppCompatActivity implements LayoutListF
         LoginFragment.OnFragmentInteractionListener,
         GetUmbrellaCompleteFragment.OnFragmentInteractionListener,
         InputCodeFragment.OnFragmentInteractionListener,
-        JkAppFragment.OnFragmentInteractionListener,
-        MapFragment.OnFragmentInteractionListener {
+        JkAppFragment.OnFragmentInteractionListener {
 
     ViewPager vp;
 

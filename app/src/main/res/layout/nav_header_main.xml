@@ -29,23 +29,26 @@
             android:layout_height="@dimen/nav_header_iv_profile_size"
            tools:src="@drawable/account_circle"
             tools:profileImageUrl="@{viewModel.userProfileImage}"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/tv_user_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_tv_user_name_paddingTop"
             android:text="@{viewModel.userName}"
             tools:text="GreenCloud"
             android:textColor="@android:color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
             android:text="이용횟수: 15회" />
     </LinearLayout>
 </layout>

@@ -5,17 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.share.greencloud.R
 import com.share.greencloud.domain.login.LoginManager
 import com.share.greencloud.domain.network.NetworkState
-import com.share.greencloud.presentation.activity.MainActivity
 import com.share.greencloud.presentation.activity.LoginActivity
+import com.share.greencloud.presentation.activity.MainActivity
 import com.share.greencloud.presentation.activity.OnBoardingActivity
 import com.share.greencloud.utils.GreenCloudPreferences
-import kotlinx.android.synthetic.main.activity_splash_kotlin.*
 import timber.log.Timber
 
 class SplashActivityKotlin : AppCompatActivity(R.layout.activity_splash_kotlin), SpashView {
@@ -94,13 +92,14 @@ class SplashActivityKotlin : AppCompatActivity(R.layout.activity_splash_kotlin),
         this.finish()
     }
 
-    override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
-    }
-
-    override fun hideProgress() {
-        progressBar.visibility = View.INVISIBLE
-    }
+// progress bar 제거로 주석처리
+//    override fun showProgress() {
+//        progressBar.visibility = View.VISIBLE
+//    }
+//
+//    override fun hideProgress() {
+//        progressBar.visibility = View.INVISIBLE
+//    }
 
     override fun onError(throwable: Throwable) {
         Toast.makeText(this, "네트워크가 연결되지 않았습니다. $throwable", Toast.LENGTH_SHORT).show()

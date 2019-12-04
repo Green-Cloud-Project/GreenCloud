@@ -51,7 +51,6 @@ import timber.log.Timber;
 public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         WeatherFragment.OnFragmentInteractionListener,
-        MapFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityBottomNavBinding binding;
@@ -59,7 +58,6 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
     private SharedViewModel sharedViewModel;
     private BottomSheetBehavior bottomSheetBehavior;
     private MainActivityViewModel mainActivityViewModel;
-    //    private CompositeDisposable disposables = new CompositeDisposable();
     private AutoDisposable autoCloseable = new AutoDisposable();
 
     private final Fragment[] childFragment = new Fragment[]{
@@ -79,15 +77,16 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
         }
 
         parsingMessageFromRxBus();
+        addUserFavorite();
+    }
 
-
+    private void addUserFavorite() {
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         binding.rentalInfo.ivFavoriteMark.setOnClickListener(view -> {
             HashMap<String, String> header = new HashMap<>();
             header.put("token", GreenCloudPreferences.getToken(this));
             mainActivityViewModel.addUserFavorite(header, binding.rentalInfo.tvSpotId.getText().toString());
         });
-
     }
 
     private void parsingMessageFromRxBus() {
