@@ -2,9 +2,10 @@ package com.share.greencloud.presentation.splash
 
 interface SpashView {
 
-    fun showProgress()
-
-    fun hideProgress()
+    // progress bar 제거로 주석처리
+//    fun showProgress()
+//
+//    fun hideProgress()
 
     fun onError(throwable: Throwable)
 }

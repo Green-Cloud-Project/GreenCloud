@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private static final int DEFAULT_ZOOM = 15;
 
-    private MapFragment.OnFragmentInteractionListener mListener;
+//    private MapFragment.OnFragmentInteractionListener mListener;
 
     private FragmentMapBinding binding;
 
@@ -86,7 +85,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         MapsInitializer.initialize(getApplicationContext()); // 커스텀 마커에 아이콘 추가할때 필요
     }
 
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,7 +96,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         if (!checkPermissions()) {
             getLocationPermission();
         }
-
 
         return binding.getRoot();
     }
@@ -221,12 +218,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onAttach(context);
 
         Timber.d("onAttach is called");
-        if (context instanceof MapFragment.OnFragmentInteractionListener) {
-            mListener = (MapFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof MapFragment.OnFragmentInteractionListener) {
+//            mListener = (MapFragment.OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
@@ -234,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onDetach();
 
         Timber.d("onDetach is called");
-        mListener = null;
+//        mListener = null;
     }
 
     @Override
@@ -460,9 +457,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onAddressUpdate(Address address) {
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+//
+//    public interface OnFragmentInteractionListener {
+//        // TODO: Update argument type and name
+//        void onFragmentInteraction(Uri uri);
+//    }
 }

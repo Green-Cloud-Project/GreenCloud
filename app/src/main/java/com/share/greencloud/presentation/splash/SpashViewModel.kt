@@ -2,6 +2,7 @@ package com.share.greencloud.presentation.splash
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.share.greencloud.R
 import com.share.greencloud.domain.network.NetworkState
 import timber.log.Timber
 import kotlin.properties.Delegates
@@ -14,9 +15,10 @@ class SpashViewModel(val view: SpashView, var context: Context?) {
         { _: KProperty<*>, _: NetworkState<Boolean>, newState: NetworkState<Boolean> ->
 
             when (newState) {
-                is NetworkState.Init -> view.hideProgress()
-                is NetworkState.Loading -> view.showProgress()
-                is NetworkState.Success -> view.hideProgress()
+                // progress bar 제거로 주석처리
+//                is NetworkState.Init -> view.hideProgress()
+//                is NetworkState.Loading -> view.showProgress()
+//                is NetworkState.Success -> view.hideProgress()
                 is NetworkState.Error -> view.onError(newState.throwable)
             }
         })
@@ -43,7 +45,7 @@ class SpashViewModel(val view: SpashView, var context: Context?) {
         if (connectivityManager != null) {
             return true
         } else {
-            throw IllegalStateException("네트워크 연결 후 다시 실행해주세요")
+            throw IllegalStateException(getString(R.string.network_fail_mgs))
         }
     }
 }

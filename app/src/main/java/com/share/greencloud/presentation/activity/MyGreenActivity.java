@@ -26,7 +26,6 @@ import timber.log.Timber;
 
 public class MyGreenActivity extends AppCompatActivity implements
         WeatherFragment.OnFragmentInteractionListener,
-        MapFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener {
 
     private final String[] PAGE_TITLES = new String[]{
