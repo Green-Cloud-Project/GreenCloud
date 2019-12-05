@@ -1,4 +1,4 @@
-package com.share.greencloud.model;
+package com.share.greencloud.domain.interator;
 
 
 public interface WeatherCallbackListener {

@@ -21,9 +21,9 @@ import com.patloew.rxlocation.RxLocation;
 import com.share.greencloud.R;
 import com.share.greencloud.data.api.WeatherCondition;
 import com.share.greencloud.domain.interator.LocationInfoMVP;
+import com.share.greencloud.domain.interator.WeatherCallbackListener;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;
-import com.share.greencloud.model.WeatherCallbackListener;
 import com.share.greencloud.presentation.presenter.LocationPresenter;
 import com.share.greencloud.utils.BaseTime;
 import com.share.greencloud.utils.CustomDialog;
@@ -160,8 +160,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener, W
 
     public void initGettingWeatherData() {
 
-        new WeatherCondition().getHourlyForecastData(presenter.getUserLocation(), WeatherFragment.this);
-        new WeatherCondition().getCurrentWeatherData(presenter.getUserLocation(), WeatherFragment.this);
+        new WeatherCondition().getHourlyForecastData(presenter.getUserLocation(), this);
+        new WeatherCondition().getCurrentWeatherData(presenter.getUserLocation(), this);
 
     }
 
