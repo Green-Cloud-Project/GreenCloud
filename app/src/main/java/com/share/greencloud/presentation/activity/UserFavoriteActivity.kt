@@ -3,6 +3,7 @@ package com.share.greencloud.presentation.activity
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -51,6 +52,8 @@ class UserFavoriteActivity : AppCompatActivity(R.layout.activity_user_favorite) 
             //            userDataFromRemote = userData
             mutableUserData = userData.toCollection(mutableListOf())
             loadData(mutableUserData)
+            user_favorite_recyclerView.visibility = View.VISIBLE
+            progressBar.visibility = View.INVISIBLE
         })
     }
 

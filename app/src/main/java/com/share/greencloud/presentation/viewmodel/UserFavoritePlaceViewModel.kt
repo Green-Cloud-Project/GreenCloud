@@ -44,8 +44,10 @@ class UserFavoritePlaceViewModel(application: Application) : AndroidViewModel(ap
 
     override fun onCleared() {
         super.onCleared()
-        if(!disposable!!.isDisposed && disposable!= null) {
-            disposable?.dispose()
+        if (disposable != null) {
+            if (!disposable!!.isDisposed) {
+                disposable?.dispose()
+            }
         }
     }
 

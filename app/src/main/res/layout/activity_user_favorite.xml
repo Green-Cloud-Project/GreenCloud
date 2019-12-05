@@ -62,9 +62,17 @@
             android:layout_alignParentTop="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_user_favorite"
-            android:visibility="visible"/>
+            android:visibility="invisible"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:theme="@style/progressbar_color"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
