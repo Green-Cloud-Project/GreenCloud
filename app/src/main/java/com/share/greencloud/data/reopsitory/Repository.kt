@@ -16,4 +16,12 @@ class Repository {
                 if (t.isSuccessful) t.body()
                 else throw HttpException(t)
             }
+
+    fun deleteUserFavorite(header: Map<String, String>, office_id: String): Single<GreenCloudRestResponse<Any>> = ApiManager.getInstance().deleteUserFavoritePlace(header, office_id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map { t: Response<GreenCloudRestResponse<Any>> ->
+                if (t.isSuccessful) t.body()
+                else throw HttpException(t)
+            }
 }

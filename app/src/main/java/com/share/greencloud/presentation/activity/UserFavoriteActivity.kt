@@ -83,14 +83,13 @@ class UserFavoriteActivity : AppCompatActivity(R.layout.activity_user_favorite) 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val header = HashMap<String, String>()
                 header["token"] = GreenCloudPreferences.getToken(baseContext)
-                viewmodel.deleteUserFavorite(header, adapter.removeAt(viewHolder.adapterPosition).toString())
-                        .observe(this@UserFavoriteActivity, Observer {
+                viewmodel.deleteUserFavorite(header, adapter.removeAt(viewHolder.adapterPosition).toString());
+                viewmodel.result.observe(this@UserFavoriteActivity, Observer {
                             if (it == 0) {
                                 Toast.makeText(baseContext, getString(R.string.success_msg_delete_user_favorite_place), Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(baseContext, getString(R.string.fail_msg_delete_user_favorite_place), Toast.LENGTH_SHORT).show()
                             }
                         })
+                viewmodel.clearResult()
             }
         }
 
