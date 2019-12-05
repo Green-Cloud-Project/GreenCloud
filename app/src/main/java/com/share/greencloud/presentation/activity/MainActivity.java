@@ -82,11 +82,19 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
 
     private void addUserFavorite() {
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
         binding.rentalInfo.ivFavoriteMark.setOnClickListener(view -> {
             HashMap<String, String> header = new HashMap<>();
             header.put("token", GreenCloudPreferences.getToken(this));
             mainActivityViewModel.addUserFavorite(header, binding.rentalInfo.tvSpotId.getText().toString());
+            mainActivityViewModel.getResult().observe(this, result -> {
+                if (result == 0 )
+                    Toast.makeText(this, getString(R.string.success_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show();
+//                else
+//                    Toast.makeText(this, getString(R.string.fail_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show();
+            });
         });
+        mainActivityViewModel.clearResult();
     }
 
     private void parsingMessageFromRxBus() {

@@ -3,9 +3,9 @@ package com.share.greencloud.data.api;
 import android.location.Location;
 
 import com.share.greencloud.common.Constants;
+import com.share.greencloud.domain.interator.WeatherCallbackListener;
 import com.share.greencloud.domain.model.CurrentWeatherModel;
 import com.share.greencloud.domain.model.HourlyWeatherForecastModel;
-import com.share.greencloud.model.WeatherCallbackListener;
 import com.share.greencloud.utils.BaseTime;
 import com.share.greencloud.utils.GridxyConverter;
 

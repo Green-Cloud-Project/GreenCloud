@@ -12,6 +12,7 @@ import java.util.Map;
 
 import io.reactivex.Single;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -56,7 +57,7 @@ public interface ApiServices {
 
     @FormUrlEncoded
     @POST("addFavority")
-    Single<GreenCloudRestResponse> addUserFavoritePlace(@Header("Authorization") Map<String, String> headers, @Field("office_id") String office_id);
+    Single<Response<GreenCloudRestResponse>> addUserFavoritePlace(@Header("Authorization") Map<String, String> headers, @Field("office_id") String office_id);
 
     @FormUrlEncoded
     @POST("deleteFavority")
