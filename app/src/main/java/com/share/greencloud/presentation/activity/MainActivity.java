@@ -34,9 +34,9 @@ import com.share.greencloud.domain.login.LoginManager;
 import com.share.greencloud.domain.model.User;
 import com.share.greencloud.presentation.fragment.MapFragment;
 import com.share.greencloud.presentation.fragment.WeatherFragment;
-import com.share.greencloud.presentation.viewmodel.MainActivityViewModel;
 import com.share.greencloud.presentation.viewmodel.NavHeaderViewModel;
 import com.share.greencloud.presentation.viewmodel.SharedViewModel;
+import com.share.greencloud.presentation.viewmodel.UserFavoritePlaceViewModel;
 import com.share.greencloud.utils.AutoDisposable;
 import com.share.greencloud.utils.GreenCloudPreferences;
 import com.share.greencloud.utils.RxBus;
@@ -54,10 +54,10 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
         NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityBottomNavBinding binding;
-    private NavHeaderViewModel viewModel;
+//    private NavHeaderViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private BottomSheetBehavior bottomSheetBehavior;
-    private MainActivityViewModel mainActivityViewModel;
+    private UserFavoritePlaceViewModel viewModel;
     private AutoDisposable autoCloseable = new AutoDisposable();
 
     private final Fragment[] childFragment = new Fragment[]{
@@ -81,20 +81,19 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
     }
 
     private void addUserFavorite() {
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(UserFavoritePlaceViewModel.class);
 
         binding.rentalInfo.ivFavoriteMark.setOnClickListener(view -> {
             HashMap<String, String> header = new HashMap<>();
             header.put("token", GreenCloudPreferences.getToken(this));
-            mainActivityViewModel.addUserFavorite(header, binding.rentalInfo.tvSpotId.getText().toString());
-            mainActivityViewModel.getResult().observe(this, result -> {
+            viewModel.addUserFavorite(header, binding.rentalInfo.tvSpotId.getText().toString());
+            viewModel.getResult().observe(this, result -> {
                 if (result == 0 )
                     Toast.makeText(this, getString(R.string.success_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(this, getString(R.string.fail_msg_add_user_favorite_place), Toast.LENGTH_SHORT).show();
+
             });
         });
-        mainActivityViewModel.clearResult();
+        viewModel.clearResult();
     }
 
     private void parsingMessageFromRxBus() {
@@ -290,15 +289,15 @@ public final class MainActivity extends BaseActivity<ActivityBottomNavBinding> i
 //        return true;
 //    }
 
-    private void observeSearchMenu(Menu menu) {
-        viewModel.getHideSearchMenu().observe(this, (hideSearchMenu) -> {
-            if (hideSearchMenu) {
-                changeMenuItemVisible(menu, false);
-            } else {
-                changeMenuItemVisible(menu, true);
-            }
-        });
-    }
+//    private void observeSearchMenu(Menu menu) {
+//        viewModel.getHideSearchMenu().observe(this, (hideSearchMenu) -> {
+//            if (hideSearchMenu) {
+//                changeMenuItemVisible(menu, false);
+//            } else {
+//                changeMenuItemVisible(menu, true);
+//            }
+//        });
+//    }
 
     private void changeMenuItemVisible(Menu menu, Boolean visibility) {
         menu.findItem(R.id.menu_search).setVisible(visibility);

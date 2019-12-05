@@ -27,6 +27,15 @@ class UserFavoritePlaceViewModel(application: Application) : AndroidViewModel(ap
         _result.value = 1
     }
 
+    fun addUserFavorite(header: Map<String, String>, office_id: String) {
+        disposable = repository.addUserFavorite(header, office_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    _result.value = it.result
+                }, this::handleError)
+    }
+
     fun deleteUserFavorite(header: Map<String, String>, office_id: String) {
         disposable = repository.deleteUserFavorite(header, office_id)
                 .subscribeOn(Schedulers.io())
