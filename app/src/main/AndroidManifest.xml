@@ -20,16 +20,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".presentation.activity.UserFavoriteActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".presentation.activity.RentalOrderActivity" />
         <activity android:name=".presentation.activity.CustomScannerActivity" />
         <activity
@@ -69,12 +60,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentToolbar" />
-        <activity android:name=".presentation.activity.JkAppActivity" />
         <activity android:name=".presentation.activity.KakaoLoginActiviy" />
-        <activity android:name=".LayoutMenuActivity" />
-        <activity android:name=".presentation.activity.LayoutListActivity" />
         <activity android:name=".presentation.activity.GoogleLoginActivity" />
-        <activity android:name=".presentation.activity.MyGreenActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

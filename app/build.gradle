@@ -31,6 +31,8 @@ android {
         }
         debug {
             signingConfig signingConfigs.releaseWithSignedKey
+            versionNameSuffix '-DEBUG'
+
         }
     }
     dataBinding {
@@ -67,8 +69,6 @@ dependencies {
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
     implementation deps.room.runtime
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt deps.room.compiler
 
     // Android Testing Support Library's runner and rules
@@ -137,8 +137,4 @@ dependencies {
     // util
     implementation deps.map_utils
     implementation deps.zxing_android_embedded
-
-    // ETC
-    implementation 'com.github.andrefrsousa:SuperBottomSheet:1.4.0'
-    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
 }
