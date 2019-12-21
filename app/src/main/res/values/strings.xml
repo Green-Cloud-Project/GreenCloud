@@ -7,10 +7,7 @@
     <string name="loading">Loading…</string>
     <string name="server_client_id">981551544069-h5pganvjib52l178oriknhmvhuobgflb.apps.googleusercontent.com</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Facebook SNS Test</string>
     <string name="title_activity_map">MapActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_green_news">GreenNewsActivity</string>
