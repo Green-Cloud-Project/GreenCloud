@@ -53,7 +53,6 @@
         <activity
             android:name=".presentation.activity.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".presentation.activity.SplashActivity" />
         <activity android:name=".presentation.activity.WebViewActivity" />
         <activity
             android:name=".presentation.activity.MainActivity"
