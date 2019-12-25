@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2019. GreenCloud All rights reserved.
+  -->
+
 <resources>
     <dimen name="fab_margin">30dp</dimen>
     <dimen name="fab_location_margin_start">60dp</dimen>
@@ -19,5 +23,6 @@
     <dimen name="nav_header_tv_user_name_paddingTop">20dp</dimen>
     <dimen name="searview_marginStart_value">35dp</dimen>
     <dimen name="searview_marginTop_value">5dp</dimen>
+    <dimen name="layout_margin_start_user_profile">50dp</dimen>
 
 </resources>

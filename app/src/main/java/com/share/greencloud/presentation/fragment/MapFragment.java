@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2019. GreenCloud All rights reserved.
+ */
+
 package com.share.greencloud.presentation.fragment;
 
 import android.Manifest;
@@ -57,8 +61,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         GoogleMap.OnMarkerClickListener {
 
     private static final int DEFAULT_ZOOM = 15;
-
-//    private MapFragment.OnFragmentInteractionListener mListener;
 
     private FragmentMapBinding binding;
 
@@ -430,7 +432,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 tv_rental_spot_location.setText(rentalOffice.getOffice_location());
                 tv_um_count.setText(String.valueOf(rentalOffice.getUmbrella_count()));
                 tv_rental_spot_distance.setText("현재 위치에서 " + addDistanceSign(rentalOffice.getDistance()));
-                tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id())) ;
+                tv_rental_spot_id.setText(String.valueOf(rentalOffice.getOffice_id()));
 
                 ((MainActivity) getActivity()).showBottomSlide();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(rentalOffice.getLat(), rentalOffice.getLon()), DEFAULT_ZOOM));

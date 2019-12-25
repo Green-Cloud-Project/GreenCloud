@@ -1,12 +1,15 @@
+/*
+ * Copyright (c) 2019. GreenCloud All rights reserved.
+ */
+
 package com.share.greencloud.domain.login;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
