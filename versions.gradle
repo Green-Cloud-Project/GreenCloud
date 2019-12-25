@@ -1,0 +1,198 @@
+ext.deps = [:]
+def versions = [:]
+versions.android_gradle_plugin = "3.5.2"
+versions.archTesting = "2.0.0"
+versions.atsl_core = "1.2.0"
+versions.atsl_junit = "1.1.1"
+versions.atsl_rules = "1.2.0"
+versions.atsl_runner = "1.2.0"
+versions.auto_service = "1.0-rc4"
+versions.constraintlayout = "1.1.3"
+versions.core_ktx = "1.0.0"
+versions.conscrypt = "2.2.1"
+versions.crashlytics = "2.10.1"
+versions.espresso = "3.2.0"
+versions.fabric_tool_gradle_plugin = "1.31.2"
+versions.facebook_login = "5.9.0"
+versions.firebase = "17.2.1"
+versions.fragment = "1.2.0-alpha02"
+versions.google_services = "4.3.2"
+versions.glide = "4.10.0"
+versions.gson = "2.8.6"
+versions.junit = "4.12"
+versions.junit_jupiter = "5.3.2"
+versions.leakcanary = "1.5.4"
+versions.legacy_support = "1.0.0"
+versions.lifecycle = "2.1.0"
+versions.libraries_places = "2.1.0"
+versions.material = "1.0.0"
+versions.map_utils = "0.6.2"
+versions.mockito = "2.8.9"
+versions.mockito_kotlin = "2.2.0"
+versions.naveridlogin = "4.2.5"
+versions.navigation = "2.2.0-rc01"
+versions.kotlin = "1.3.60"
+versions.okhttp_logging_interceptor = "4.2.2"
+versions.play_service = "17.0.0"
+versions.play_service_vision = "19.0.0"
+versions.retrofit = "2.6.2"
+versions.robolectric = "4.3-beta-1"
+versions.room = "2.2.1"
+versions.rxandroid = "2.1.1"
+versions.rxjava = "2.2.14"
+versions.rxlocation = "1.0.5"
+versions.rxpermissions = "0.10.2"
+versions.stetho = "1.5.1"
+versions.support = "1.1.0"
+versions.timber = "4.7.1"
+versions.truth = "0.44"
+versions.zxing_android_embedded ="3.6.0"
+//versions.zxing = "1.1.3-androidx"
+
+def support = [:]
+support.annotations = "androidx.annotation:annotation:$versions.support"
+support.app_compat = "androidx.appcompat:appcompat:$versions.support"
+support.recyclerview = "androidx.recyclerview:recyclerview:$versions.support"
+support.cardview = "androidx.cardview:cardview:$versions.support"
+support.material = "com.google.android.material:material:$versions.material"
+support.core_utils = "androidx.legacy:legacy-support-core-utils:$versions.support"
+support.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+support.fragment_runtime = "androidx.fragment:fragment:${versions.fragment}"
+support.fragment_runtime_ktx = "androidx.fragment:fragment-ktx:${versions.fragment}"
+support.fragment_testing = "androidx.fragment:fragment-testing:${versions.fragment}"
+support.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+support.legacy_support = "androidx.legacy:legacy-support-v4:$versions.legacy_support"
+deps.support = support
+
+def atsl = [:]
+atsl.core = "androidx.test:core:$versions.atsl_core"
+atsl.junit = "junit:junit:$versions.junit"
+atsl.runner = "androidx.test:runner:$versions.atsl_runner"
+atsl.rules = "androidx.test:rules:$versions.atsl_rules"
+deps.atsl = atsl
+deps.junit_jupiter = "org.junit.jupiter:junit-jupiter-api:$versions.junit_jupiter"
+deps.truth = "com.google.truth:truth:$versions.truth"
+deps.mockito = "org.mockito:mockito-core:$versions.mockito"
+deps.mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
+deps.archTesting = "androidx.arch.core:core-testing:$versions.archTesting"
+deps.auto_service = "com.google.auto.service:auto-service:$versions.auto_service"
+
+def espresso = [:]
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.intents = "androidx.test.espresso:espresso-intents:$versions.espresso"
+deps.espresso = espresso
+
+def lifecycle = [:]
+lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+lifecycle.livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+deps.lifecycle = lifecycle
+
+def navigation = [:]
+navigation.fragment = "androidx.navigation:navigation-fragment:$versions.navigation"
+navigation.ui = "androidx.navigation:navigation-ui:$versions.navigation"
+deps.navigation = navigation
+
+def play_service = [:]
+play_service.location = "com.google.android.gms:play-services-location:$versions.play_service"
+play_service.maps = "com.google.android.gms:play-services-maps:$versions.play_service"
+play_service.auth = "com.google.android.gms:play-services-auth:$versions.play_service"
+play_service.vision = "com.google.android.gms:play-services-vision:$versions.play_service_vision"
+deps.play_service = play_service
+deps.libraries_places = "com.google.android.libraries.places:places:$versions.libraries_places"
+
+def room = [:]
+room.runtime = "androidx.room:room-runtime:$versions.room"
+room.compiler = "androidx.room:room-compiler:$versions.room"
+room.rxjava2 = "androidx.room:room-rxjava2:$versions.room"
+room.testing = "androidx.room:room-testing:$versions.room"
+deps.room = room
+
+
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
+
+deps.kotlin = kotlin
+
+def firebase = [:]
+firebase.core = "com.google.firebase:firebase-core:$versions.firebase"
+firebase.analytics = "com.google.firebase:firebase-analytics:$versions.firebase"
+deps.firebase = firebase
+deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
+deps.leakcanary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
+deps.map_utils = "com.google.maps.android:android-maps-utils:$versions.map_utils"
+
+def glide = [:]
+glide.core = "com.github.bumptech.glide:glide:$versions.glide"
+glide.compile = "com.github.bumptech.glide:compiler:$versions.glide"
+deps.glide = glide
+
+def retrofit = [:]
+retrofit.runtime = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+retrofit.mock = "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
+retrofit.adapter_rxjava = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+deps.retrofit = retrofit
+deps.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${versions.okhttp_logging_interceptor}"
+deps.google_gson = "com.google.code.gson:gson:$versions.gson"
+deps.conscrypt = "org.conscrypt:conscrypt-android:$versions.conscrypt"
+
+deps.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
+deps.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
+deps.rxlocation = "com.patloew.rxlocation:rxlocation:$versions.rxlocation"
+deps.rxpermissions = "com.github.tbruyelle:rxpermissions:$versions.rxpermissions"
+
+def stetho = [:]
+stetho.runtime = "com.facebook.stetho:stetho:$versions.stetho"
+stetho.okhttp3 = "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
+stetho.js_rhino = "com.facebook.stetho:stetho-js-rhino:$versions.stetho"
+deps.stetho = stetho
+deps.timber = "com.jakewharton.timber:timber:$versions.timber"
+//deps.zxing = "com.king.zxing:zxing-lite:$versions.zxing"
+deps.zxing_android_embedded = "com.journeyapps:zxing-android-embedded:$versions.zxing_android_embedded"
+
+deps.naveridlogin = "com.naver.nid:naveridlogin-android-sdk:$versions.naveridlogin"
+deps.facebook_login = "com.facebook.android:facebook-login:$versions.facebook_login"
+
+
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.fabric_tool_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_tool_gradle_plugin"
+deps.google_services = "com.google.gms:google-services:$versions.google_services"
+ext.deps = deps
+
+def build_versions = [:]
+build_versions.min_sdk = 23
+build_versions.target_sdk = 29
+ext.build_versions = build_versions
+
+def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.maven { url 'https://maven.fabric.io/public' }
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+ext.addRepos = this.&addRepos
+
+def addProjectRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    handler.maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+    handler.maven { url 'https://jitpack.io' }
+    handler.maven { url 'https://dl.bintray.com/jenly/maven' }
+    handler.maven { url 'https://maven.fabric.io/public' }
+    handler.maven { url 'https://s3.amazonaws.com/fabric-artifacts-private/internal-snapshots' }
+}
+
+ext.addProjectRepos = this.&addProjectRepos
+
+

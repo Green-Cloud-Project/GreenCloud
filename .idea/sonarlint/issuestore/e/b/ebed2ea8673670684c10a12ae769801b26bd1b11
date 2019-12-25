@@ -1,25 +1,0 @@
-
-{squid:S1450"^Remove the "locationRequest" field and declare it as a local variable in the relevant methods.(¢¢ B8û‰ãˆÏ-
-Rsquid:S1068"4Remove this unused "locationListener" private field.(íÂË”8ÊŠß‡Ï-
-nsquid:CommentedOutCodeLineL"<This block of commented-out lines of code should be removed.(Â™†úÿÿÿÿ8ú™ÆˆÏ-
-isquid:CommentedOutCodeLineG"<This block of commented-out lines of code should be removed.(ùÛúÐ8ú™ÆˆÏ-
-‚squid:S1450"_Remove the "locationCallback" field and declare it as a local variable in the relevant methods.(ÕÆ…Úúÿÿÿÿ8û‰ãˆÏ-
-isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(è¦Á‚8âÖÅˆÏ-
-gsquid:CommentedOutCodeLine5"<This block of commented-out lines of code should be removed.(Î›Á÷ýÿÿÿÿ
-isquid:CommentedOutCodeLine]"<This block of commented-out lines of code should be removed.(  Â­8ÊŠß‡Ï-
-Qsquid:S1068"3Remove this unused "locationManager" private field.(ô­âº8ÊŠß‡Ï-
-bsquid:CommentedOutCodeLineP"<This block of commented-out lines of code should be removed.(Ëì‡ö
-bsquid:CommentedOutCodeLineU"<This block of commented-out lines of code should be removed.(¢üœ›
-Isquid:S1135a"2Complete the task associated to this TODO comment.(×¿¦Ä
-squid:S1450"cRemove the "mFusedLocationClient" field and declare it as a local variable in the relevant methods.(Ð×°þ8û‰ãˆÏ-
-˜squid:S1186-"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(çÅðÙ
-Wsquid:S1068"4Remove this unused "locationCallback" private field.(ÕÆ…Úúÿÿÿÿ8õ¤ËˆÏ-
-Isquid:S11353"2Complete the task associated to this TODO comment.(Þ¸ð
-Ksquid:S1481R"-Remove this unused "location" local variable.(þâ¾Ù8ÊŠß‡Ï-
-Zsquid:S1854R"<Remove this useless assignment to local variable "location".(þâ¾Ù8ÊŠß‡Ï-
-nsquid:CommentedOutCodeLineB"<This block of commented-out lines of code should be removed.(ªŽÙ±ûÿÿÿÿ8ž…ÆˆÏ-
-nsquid:CommentedOutCodeLinec"<This block of commented-out lines of code should be removed.(ôþê¹úÿÿÿÿ8ÊŠß‡Ï-
-gsquid:CommentedOutCodeLineS"<This block of commented-out lines of code should be removed.(¤ÓÍ¤ÿÿÿÿÿ
-csquid:S2184i"FCast one of the operands of this multiplication operation to a "long".(÷Ã‘38û‰ãˆÏ-
-˜squid:S1186("€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÀÄÞ’
-Vsquid:S1068"8Remove this unused "mFusedLocationClient" private field.(Ð×°þ8âÖÅˆÏ-

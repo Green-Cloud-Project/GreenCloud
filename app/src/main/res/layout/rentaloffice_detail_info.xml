@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="mainActivity"
+            type="com.share.greencloud.presentation.activity.MainActivity"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/iv_um_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/tv_spot_name"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/tv_spot_name"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:srcCompat="@drawable/logo_small" />
+
+        <ImageView
+            android:id="@+id/iv_favorite_mark"
+            android:layout_width="32dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_star_yellow" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:onClick="@{mainActivity::hideBottomSlide}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_expand_more" />
+
+        <TextView
+            android:id="@+id/tv_um_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="5dp"
+            android:text="10"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/iv_um_img"
+            app:layout_constraintEnd_toEndOf="@+id/iv_um_img"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="@+id/iv_um_img" />
+
+        <TextView
+            android:id="@+id/tv_spot_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="대여소 위치"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_spot_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_spot_name" />
+
+        <ImageView
+            android:id="@+id/btn_rental"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="13dp"
+            android:onClick="@{mainActivity::scanQRcode}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_favorite_mark"
+            app:srcCompat="@drawable/qr"
+            app:tint="#ff80cbc4" />
+
+        <TextView
+            android:id="@+id/tv_spot_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="대여소 이름"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/iv_um_img"
+            app:layout_constraintTop_toBottomOf="@+id/iv_close" />
+
+        <TextView
+            android:id="@+id/tv_spot_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="대여소 거리"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/tv_spot_location"
+            app:layout_constraintTop_toBottomOf="@id/tv_spot_location" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="35dp" />
+
+        <ImageView
+            android:id="@+id/iv_um"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_um_count"
+            app:layout_constraintTop_toTopOf="@+id/tv_um_count"
+            app:srcCompat="@drawable/beach_access" />
+
+        <TextView
+            android:id="@+id/tv_spot_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이디"
+            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintEnd_toEndOf="@+id/iv_um_img"
+            app:layout_constraintStart_toStartOf="@+id/iv_um_img"
+            app:layout_constraintTop_toBottomOf="@+id/iv_um_img"
+            android:visibility="invisible"/>
+
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_place"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_marginEnd="3dp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/tv_spot_id"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/tv_spot_id"-->
+<!--            app:srcCompat="@drawable/ic_place" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

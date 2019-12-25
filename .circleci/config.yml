@@ -17,45 +17,47 @@ version: 2
 jobs:
   build:
     working_directory: ~/GreenCloud
+    setup_remote_docker:
+      version: 18.09.6
     docker:
-      - image: circleci/android:api-28
+      - image: circleci/android:api-29
     steps:
       - checkout
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
-      # - run:
-      #     name: Setup NDK
-      #     command: |
-      #       wget --quiet https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip
-      #       unzip -q android-ndk-r17b-linux-x86_64.zip -d /home/circleci
-      #       echo "ndk.dir=/home/circleci/android-ndk-r17b" >> /home/circleci/fresco/local.properties
-      # - run:
-      #     name: "NDK Fix: https://github.com/android-ndk/ndk/issues/188"
-      #     command: sudo apt-get install file
-      # - run:
-      #     name: Setup emulator
-      #     command: |
-      #       sdkmanager "system-images;android-19;default;armeabi-v7a"
-      #       echo "no" | avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a"
-      # - run:
-      #     name: Launch emulator
-      #     command: emulator -avd test -no-audio -no-window
-      #     background: true
-      # - run:
-      #     name: Wait for emulator
-      #     command: |
-      #       chmod +x android-wait-for-emulator
-      #       ./android-wait-for-emulator
-      # - run:
-      #     name: Remove lock screen
-      #     command: adb shell input keyevent 82
-      # - restore-cache: *restore-cache-gradle
-      # - run:
-      #     name: Run Lint Tests
-      #     command: ./gradlew lint test
-      # - run:
-      #       name: Run Tests
-      #       command: ./gradlew app:connectedAndroidTest
+          # - run:
+          #     name: Setup NDK
+          #     command: |
+          #       wget --quiet https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip
+          #       unzip -q android-ndk-r17b-linux-x86_64.zip -d /home/circleci
+          #       echo "ndk.dir=/home/circleci/android-ndk-r17b" >> /home/circleci/fresco/local.properties
+          # - run:
+          #     name: "NDK Fix: https://github.com/android-ndk/ndk/issues/188"
+          #     command: sudo apt-get install file
+          # - run:
+          #     name: Setup emulator
+          #     command: |
+          #       sdkmanager "system-images;android-19;default;armeabi-v7a"
+          #       echo "no" | avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a"
+          # - run:
+          #     name: Launch emulator
+          #     command: emulator -avd test -no-audio -no-window
+          #     background: true
+          # - run:
+          #     name: Wait for emulator
+          #     command: |
+          #       chmod +x android-wait-for-emulator
+          #       ./android-wait-for-emulator
+          # - run:
+          #     name: Remove lock screen
+          #     command: adb shell input keyevent 82
+      - restore-cache: *restore-cache-gradle
+      - run:
+          name: Run Lint Tests
+          command: ./gradlew lint test
+      - run:
+          name: Run Tests
+          command: ./gradlew app:test
       - run:
           name: Run DebugBuld
           command: ./gradlew assembleDebug -PdisablePreDex

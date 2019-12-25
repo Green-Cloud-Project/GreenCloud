@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.share.greencloud">
+<<<<<<< HEAD
     <!-- permission 외부로 만들기 -->
+=======
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+>>>>>>> master
     <application
         android:name=".common.BaseApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+<<<<<<< HEAD
         <activity
             android:name=".activity.NavigationDrawerActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -43,6 +55,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
+=======
+        <activity android:name=".presentation.activity.UserFavoriteActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".presentation.activity.RentalOrderActivity" />
+        <activity android:name=".presentation.activity.CustomScannerActivity" />
+        <activity
+            android:name=".presentation.splash.SplashActivityKotlin"
+            android:theme="@style/AppTheme.SplashScreen">
+>>>>>>> master
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -50,8 +72,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LayoutListActivity" />
-        <activity android:name=".googlelogin.GoogleLoginActivity" />
+        <activity
+            android:name=".presentation.activity.SearchResultActivity"
+            android:label="@string/title_activity_search_result"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.activity.UserHistoryActivity"
+            android:label="@string/title_activity_user_history"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.activity.GreenNewsActivity"
+            android:label="@string/title_activity_green_news"
+            android:parentActivityName=".presentation.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".presentation.activity.QRScanActivity" />
+        <activity android:name=".presentation.activity.OnBoardingActivity" />
+        <activity
+            android:name=".presentation.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".presentation.activity.SplashActivity" />
+        <activity android:name=".presentation.activity.WebViewActivity" />
+        <activity
+            android:name=".presentation.activity.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/TransparentToolbar" />
+        <activity android:name=".presentation.activity.KakaoLoginActiviy" />
+        <activity android:name=".presentation.activity.GoogleLoginActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -68,7 +117,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyGreenActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -76,12 +124,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -89,18 +131,16 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <provider
-            android:name=".common.location.SuggestionProvider"
-            android:authorities="com.share.greencloud.common.location.SuggestionProvider"
-            android:exported="false" />
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+=======
+>>>>>>> master
 
     <uses-permission android:name="android.permission.INTERNET" />
 

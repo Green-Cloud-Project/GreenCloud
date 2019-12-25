@@ -5,13 +5,11 @@
 
     <data>
 
-        <variable
-            name="BottomNav"
-            type="com.share.greencloud.activity.BottomNavActivity" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
+<<<<<<< HEAD
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -43,21 +41,17 @@
             android:id="@+id/frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+=======
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+>>>>>>> master
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
-            app:itemBackground="@color/colorPrimary"
-            app:itemIconTint="@android:color/white"
-            app:itemTextColor="@android:color/white"
-            app:menu="@menu/bottom_nav_menu"/>
-
-        <RelativeLayout
-            android:id="@+id/rl_rental_info"
-            android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="300dp"
             app:behavior_peekHeight="300dp"
             app:behavior_hideable="true"
@@ -65,13 +59,93 @@
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+=======
+            android:layout_height="match_parent"
+            tools:context=".presentation.activity.MainActivity">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/frame_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ></FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@android:color/transparent"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        android:elevation="@dimen/toolbar_elevation"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                        <TextView
+                            android:id="@+id/toolbar_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/app_name"
+                            android:textSize="@dimen/toolbar_title_size"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary"/>
+
+                    </androidx.appcompat.widget.Toolbar>
+                </LinearLayout>
+
+
+<!--                <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--                    android:id="@+id/bottom_nav_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    app:itemBackground="@color/colorPrimary"-->
+<!--                    app:itemIconTint="@android:color/white"-->
+<!--                    app:itemTextColor="@android:color/white"-->
+<!--                    app:menu="@menu/bottom_nav_menu" />-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_rental_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottomsheet_rental_info_height"
+                android:background="#FFFFFF"
+                app:behavior_hideable="true"
+                app:behavior_peekHeight="@dimen/bottomsheet_rental_info_height"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+                <include layout="@layout/rentaloffice_detail_info"
+                    android:id="@+id/rental_info"/>
+            </RelativeLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+<!--            <include layout="@layout/fragment_drawer" />-->
+>>>>>>> master
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+<<<<<<< HEAD
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_navigation_drawer"
             app:menu="@menu/activity_navigation_drawer_drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
+=======
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/drawer_menu"
+            android:fitsSystemWindows="true"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
+>>>>>>> master

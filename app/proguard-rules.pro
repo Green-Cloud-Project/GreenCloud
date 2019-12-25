@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.facebook.internal.FacebookInitProvider { <init>(); }
+# Referenced at /Users/bentley/Desktop/bentley/GreenCloud/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:210

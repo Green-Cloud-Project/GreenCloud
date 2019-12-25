@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_favorite_places"
+            android:icon="@drawable/menu_icon"
+            android:title="즐겨찾기" />
+
+        <item
+            android:id="@+id/navigation_green_news"
+            android:icon="@drawable/ic_dashboard_24dp"
+            android:title="그린뉴스" />
+
+        <item
+            android:id="@+id/navigation_usage_history"
+            android:icon="@drawable/ic_history"
+            android:title="대여 기록" />
+
+        <item
+            android:id="@+id/navigation_setting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="설정" />
+
+    </group>
+
+</menu>

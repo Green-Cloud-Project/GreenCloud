@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GreenCloud</string>
+    <string name="app_name">GREENCLOUD</string>
 
     <string name="facebook_app_id">464836024356605</string>
     <string name="fb_login_protocol_scheme">464836024356605</string>
@@ -7,9 +7,8 @@
     <string name="loading">Loading…</string>
     <string name="server_client_id">981551544069-h5pganvjib52l178oriknhmvhuobgflb.apps.googleusercontent.com</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Facebook SNS Test</string>
     <string name="title_activity_map">MapActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -24,4 +23,24 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+=======
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_green_news">GreenNewsActivity</string>
+    <string name="title_activity_user_history">UserHistoryActivity</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="APP_CLOSE_BACK_BUTTON">뒤로 버튼을 한번 더 누르시면 종료됩니다.</string>
+    <string name="finish_qr_code_scan_msg">QR코드 스캔을 종료합니다.</string>
+    <string name="reject_use_of_camera_access_msg">카메라 접근이 거부되었습니다</string>
+    <string name="guide_msg_for_qr_scan">대여소에 부착된 QR코드를 인식해주세요</string>
+    <string name="rental_order_activity_title">주문내역 확인</string>
+    <string name="no_data_msg_user_favorite_activity">즐겨찾기 내역이 없습니다.</string>
+    <string name="green_news_toolbar_title">GREEN NEWS</string>
+    <string name="user_favorite_toolbar_title">즐겨찾기</string>
+    <string name="success_msg_add_user_favorite_place">즐겨찾기 추가 성공!</string>
+    <string name="fail_msg_add_user_favorite_place">즐겨찾기 추가 실패..</string>
+    <string name="success_msg_delete_user_favorite_place">즐겨찾기 삭제 성공!</string>
+    <string name="fail_msg_delete_user_favorite_place">즐겨찾기 삭제 실패...</string>
+    <string name="network_fail_mgs">네트워크 연결 후 다시 실행해주세요</string>
+>>>>>>> master
 </resources>
