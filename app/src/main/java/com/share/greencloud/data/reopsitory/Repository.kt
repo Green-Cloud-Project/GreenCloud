@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2019. GreenCloud All rights reserved.
+ */
+
 package com.share.greencloud.data.reopsitory
 
 import com.share.greencloud.data.api.ApiManager

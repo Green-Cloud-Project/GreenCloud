@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2019. GreenCloud All rights reserved.
+ */
+
 package com.share.greencloud.domain.model;
 
 
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
