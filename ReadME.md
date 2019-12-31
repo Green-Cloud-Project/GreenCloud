@@ -1,6 +1,8 @@
 <center><img src="https://github.com/Green-Cloud-Project/GreenCloud/blob/master/Document/img/greencloud_logo.png" width="400" ></center>
  
-# GreenClou Project for Android [![CircleCI](https://circleci.com/gh/Green-Cloud-Project/GreenCloud.svg?style=svg)](https://circleci.com/gh/Green-Cloud-Project/GreenCloud) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/bentley/greencloud)
+# GreenClou Project for Android 
+
+[![CircleCI](https://circleci.com/gh/Green-Cloud-Project/GreenCloud.svg?style=svg)](https://circleci.com/gh/Green-Cloud-Project/GreenCloud) [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/bentley/greencloud)
  
 ## Introduction
 GreenCloud 는 갑자기 우산이 필요할 때 손쉽게 우산을 대여할 수 있는 공유우산 프로젝트입니다. 
