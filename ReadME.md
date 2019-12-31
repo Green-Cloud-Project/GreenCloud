@@ -33,4 +33,30 @@ android {
 
 ## Feature
 
-### [로그인 기능 개발](./develop_note/Login.md)
+#### [로그인 기능 개발](./develop_note/Login.md)
+
+## Library Version
+### Jetpack AAC
+* Data Binding
+* Lifecycles
+* LiveData
+* Room
+* ViewModel 
+### Network
+* Retrofit2
+* Okhttp3
+* Gson
+### Image Loading
+* Glide 
+### Log 
+* Timber
+### Debug 
+* Crashlytics
+* Leakcanary-Android
+* Okhttp_Logging_Interceptor
+### Asynchronous Processing
+* Rxjava
+### Runtime Permission
+* Rxpermissions
+### Location Service
+* RxLocation 
