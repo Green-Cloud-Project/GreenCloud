@@ -35,7 +35,7 @@ android {
 
 #### [로그인 기능 개발](./develop_note/Login.md)
 
-## Library Version
+## Library
 ### Jetpack AAC
 * Data Binding
 * Lifecycles
@@ -43,20 +43,21 @@ android {
 * Room
 * ViewModel 
 ### Network
-* Retrofit2
-* Okhttp3
-* Gson
+* [Retrofit2](https://github.com/square/retrofit)
+* [Okhttp3](https://github.com/square/okhttp)
+* [Gson](https://github.com/google/gson)
 ### Image Loading
-* Glide 
+* [Glide](https://github.com/bumptech/glide) 
 ### Log 
-* Timber
+* [Timber](https://github.com/JakeWharton/timber)
 ### Debug 
-* Crashlytics
-* Leakcanary-Android
+* [Crashlytics](https://firebase.google.com/docs/crashlytics/get-started-android?hl=ko)
+* [Leakcanary](https://github.com/square/leakcanary)
 * Okhttp_Logging_Interceptor
 ### Asynchronous Processing
-* Rxjava
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 ### Runtime Permission
-* Rxpermissions
+* [Rxpermissions](https://github.com/tbruyelle/RxPermissions)
 ### Location Service
-* RxLocation 
+* [RxLocation](https://github.com/patloew/RxLocation) 
