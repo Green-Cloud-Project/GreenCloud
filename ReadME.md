@@ -1,6 +1,6 @@
-<center><img src="https://github.com/Green-Cloud-Project/GreenCloud/blob/master/Document/img/greencloud_logo.png" width="450" height="300">
+<center><img src="https://github.com/Green-Cloud-Project/GreenCloud/blob/master/Document/img/greencloud_logo.png" width="400" ></center>
  
-# GreenCloud [![CircleCI](https://circleci.com/gh/Green-Cloud-Project/GreenCloud.svg?style=svg)](https://circleci.com/gh/Green-Cloud-Project/GreenCloud)
+# GreenCloud(Sharing Umbrella Project) [![CircleCI](https://circleci.com/gh/Green-Cloud-Project/GreenCloud.svg?style=svg)](https://circleci.com/gh/Green-Cloud-Project/GreenCloud)
  
 ## Introduction
 
