@@ -17,17 +17,16 @@ GreenCloud 는 갑자기 우산이 필요할 때 손쉽게 우산을 대여할 �
 ## SDK Prerequisites
 * Android 6.0 (API level 23) or later
 * Java 8 or later
-<div class="highlight"><pre class="codehilite"><code>// build.gradle(app)
+<div class="highlight"><pre class="codehilite"><code> //build.gradle(app)
 android {
     defaultConfig {
         minSdkVersion 23
     }
-    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-}</div>
+     }
+} </code></pre></div>
 ## Feature
 
 ### [로그인 기능 개발](./develop_note/Login.md)
