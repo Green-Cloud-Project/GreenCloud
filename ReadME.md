@@ -53,7 +53,7 @@ android {
 ### Debug 
 * [Crashlytics](https://firebase.google.com/docs/crashlytics/get-started-android?hl=ko)
 * [Leakcanary](https://github.com/square/leakcanary)
-* Okhttp_Logging_Interceptor
+* [Stetho](https://github.com/facebook/stetho)
 ### Asynchronous Processing
 * [RxJava](https://github.com/ReactiveX/RxJava)
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
