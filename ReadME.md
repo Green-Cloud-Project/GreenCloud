@@ -14,6 +14,21 @@ GreenCloud 는 갑자기 우산이 필요할 때 손쉽게 우산을 대여할 �
 아직 한국에서 제대로 자리잡은 공유경제 서비스는 많지 않지만,
 우리 나라에 현실에 적합한 공유우산 서비스를 개발하고자 합니다.
 
+## SDK Prerequisites
+* Android 6.0 (API level 23) or later
+* Java 8 or later
+<div class="highlight"><pre class="codehilite"><code>// build.gradle(app)
+android {
+    defaultConfig {
+        minSdkVersion 23
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+</div>
 ## Feature
 
 ### [로그인 기능 개발](./develop_note/Login.md)
