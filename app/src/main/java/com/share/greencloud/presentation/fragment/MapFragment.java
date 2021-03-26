@@ -56,6 +56,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.share.greencloud.common.Constants.CIRCLE_OPTION_COLOR;
 import static com.share.greencloud.common.Constants.REQEUST_TIME_INTERVAL;
+import static com.share.greencloud.common.RentalOfficeData.fetchOfficeInfo;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationInfoMVP.View,
         GoogleMap.OnMarkerClickListener {
@@ -118,10 +119,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private void getRentalOfficeData() {
         Timber.d("대여소 목록 가져오기: getRentalOfficeData()");
 
-        viewModel.getRentalOfficeData().observe(getViewLifecycleOwner(), rentalOffices -> {
-            Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
-            viewModel.makeRentalOfficeMarkers(rentalOffices);
-        });
+//        viewModel.getRentalOfficeData().observe(getViewLifecycleOwner(), rentalOffices -> {
+//            Timber.d("대여소 데이터 로딩완료: %s", rentalOffices.size());
+//            viewModel.makeRentalOfficeMarkers(rentalOffices);
+//        });
+        viewModel.makeRentalOfficeMarkers(fetchOfficeInfo());
+
     }
 
     private void setupInitialLocationInfo() {
