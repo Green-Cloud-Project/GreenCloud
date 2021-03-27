@@ -10,6 +10,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.share.greencloud.domain.model.RentalOffice
+import retrofit2.http.DELETE
 
 @Dao
 interface RentalOfficeDao {
@@ -20,7 +21,4 @@ interface RentalOfficeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(rentalOffice: RentalOffice)
-
-    @Query("DELETE FROM rentaloffices")
-    fun deleteAll()
 }
